@@ -1,0 +1,135 @@
+buildscript {
+    ext.kotlin_version = '1.2.40'
+    ext.vertx_version = '3.5.1'
+    ext.keycloak_version = '3.4.3.Final'
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+}
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+
+group 'com.basicsteps.multipos'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+apply plugin: 'war' //test
+
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+war.baseName = 'jcg-gradle-war-example' //test
+project.webAppDirName = 'WebContent' //test
+
+
+mainClassName = 'com.basicsteps.multipos.MainKt'
+def mainVerticleName = 'com.basicsteps.multipos.verticles.MainVerticle'
+
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    //vertx dependencies
+    compile "io.vertx:vertx-core:$vertx_version"
+    compile "io.vertx:vertx-config:$vertx_version"
+    compile "io.vertx:vertx-web:$vertx_version"
+    compile "io.vertx:vertx-mongo-client:$vertx_version"
+    compile "io.vertx:vertx-web-api-contract:$vertx_version"
+    compile "io.vertx:vertx-auth-oauth2:$vertx_version"
+    compile "io.vertx:vertx-codegen:$vertx_version"
+    compile "io.vertx:vertx-rx-java2:$vertx_version"
+
+    //slf4j logger
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.8.0-alpha2'
+
+    //Gson
+    compile 'com.google.code.gson:gson:2.8.2'
+
+
+    //KeyCloak
+    compile "org.keycloak:keycloak-core:$keycloak_version"
+    compile "org.keycloak:keycloak-adapter-core:$keycloak_version"
+    compile "org.keycloak:keycloak-admin-client:$keycloak_version"
+
+
+    compile group: 'org.jboss.resteasy', name: 'resteasy-client', version: '3.5.0.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.5.0.Final'
+
+    compile group: 'org.jboss.resteasy', name: 'resteasy-jackson2-provider', version: '3.5.0.Final'
+    // https://mvnrepository.com/artifact/org.jboss.spec.javax.ws.rs/jboss-jaxrs-api_2.0_spec
+    compile group: 'org.jboss.spec.javax.ws.rs', name: 'jboss-jaxrs-api_2.0_spec', version: '1.0.0.Final'
+
+
+    //Pojo mapper
+//    compile 'de.braintags:vertx-pojo-mapper-common:1.4.0-SNAPSHOT'
+//    compile 'de.braintags:vertx-pojongo:1.4.0-SNAPSHOT'
+
+    compile group: 'de.braintags', name: 'vertx-pojo-mapper-common', version: '1.3.1'
+    compile group: 'de.braintags', name: 'vertx-pojongo', version: '1.3.1'
+
+    //Snake YAML
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.19'
+
+    //Apache commons
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+
+    //smtp client
+    compile 'io.vertx:vertx-mail-client:3.5.1'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+//
+// Redeploy watcher.
+run {
+    args = ['run', mainVerticleName,
+            "--launcher-class=$mainClassName",
+            "--redeploy=src/**/*.*",
+            "--on-redeploy=./gradlew classes"
+    ]
+}
+
+// Naming and packaging settings for the "shadow jar".
+shadowJar {
+    baseName = 'app'
+    classifier = 'shadow'
+
+    manifest {
+        attributes 'Main-Verticle': mainVerticleName
+    }
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.0'
+}
+
+// Heroku relies on the 'stage' task to deploy.
+task stage {
+    dependsOn shadowJar
+}

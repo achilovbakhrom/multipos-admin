@@ -1,0 +1,21 @@
+currencies:
+  currency_001:
+    name: Dollar USA
+    abbr: $
+    isMain: true
+    active: true
+  currency_002:
+    name: Sum
+    abbr: UZS
+    isMain: false
+    active: true
+  currency_003:
+    name: Rouble
+    abbr: Rouble
+    isMain: false
+    active: true
+  currency_004:
+    name: Euro
+    abbr: Euro
+    isMain: false
+    active: true

@@ -1,0 +1,22 @@
+countries:
+  country1:
+    lang: uz
+    name: Uzbekistan
+  country2:
+    lang: tj
+    name: Tajikistan
+  country3:
+    lang: kz
+    name: Kazakhstan
+  country4:
+    lang: tkm
+    name: Turkmenistan
+  country5:
+    lang: kgz
+    name: Kyrgyzstan
+  country6:
+    lang: ru
+    name: Russian Federation
+  country7:
+    lang: ua
+    name: Ukraine

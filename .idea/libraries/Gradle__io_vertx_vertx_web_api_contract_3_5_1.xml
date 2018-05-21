@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.vertx:vertx-web-api-contract:3.5.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.vertx/vertx-web-api-contract/3.5.1/52352321d125338512739c23ffc116893f6e1f17/vertx-web-api-contract-3.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.vertx/vertx-web-api-contract/3.5.1/9ca7b78855cfd9e60e151d10f5c3cd3c4325eaa/vertx-web-api-contract-3.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

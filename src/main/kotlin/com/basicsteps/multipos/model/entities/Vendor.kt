@@ -1,0 +1,77 @@
+package com.basicsteps.multipos.model.entities
+
+import com.basicsteps.multipos.core.model.BaseModel
+import com.basicsteps.multipos.core.model.Instanceable
+import com.google.gson.annotations.SerializedName
+import de.braintags.io.vertx.pojomapper.annotation.Entity
+
+@Entity
+data class Vendor(@SerializedName("name") var firstName: String,
+                  @SerializedName("contacts") var lastName: List<Person>,
+                  @SerializedName("primary_phone") var primaryPhone: String,
+                  @SerializedName("primaryEmail") var primaryEmail: String,
+                  @SerializedName("address") var address: String,
+                  @SerializedName("address") var personList: List<Person>) : BaseModel() {
+
+    constructor(): this("", listOf(), "", "", "", listOf())
+
+    override fun instance(): Instanceable {
+        val result = Vendor()
+
+        //base
+        result.createdTime = createdTime
+        result.modifiedTime = modifiedTime
+        result.createdBy = createdBy
+        result.modifiedBy = modifiedBy
+        result.active = active
+        result.deleted = deleted
+        result.userId = userId
+        result.rootId = rootId
+        result.modifiedId = modifiedId
+        result.posId = posId
+        result.access = access
+
+        //spec
+        result.firstName = firstName
+        result.lastName = lastName
+        result.primaryEmail = primaryEmail
+        result.primaryPhone = primaryPhone
+        result.address = address
+        result.personList = personList
+
+        return result
+    }
+}
+
+@Entity
+data class Person(@SerializedName("first_name") var firstName: String,
+                  @SerializedName("last_name") var lastName: String,
+                  @SerializedName("email") var email: String,
+                  @SerializedName("phone_number") var phoneNumber: String) : BaseModel() {
+
+    constructor() : this("", "", "", "")
+    override fun instance(): Instanceable {
+        val result = Person()
+
+        //base
+        result.createdTime = createdTime
+        result.modifiedTime = modifiedTime
+        result.createdBy = createdBy
+        result.modifiedBy = modifiedBy
+        result.active = active
+        result.deleted = deleted
+        result.userId = userId
+        result.rootId = rootId
+        result.modifiedId = modifiedId
+        result.posId = posId
+        result.access = access
+
+        //specs
+        result.firstName = firstName
+        result.lastName = lastName
+        result.email = email
+        result.phoneNumber = phoneNumber
+
+        return result
+    }
+}

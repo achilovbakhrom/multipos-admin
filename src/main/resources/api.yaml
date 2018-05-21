@@ -1,0 +1,3155 @@
+openapi: '3.0.0'
+
+info:
+  version: v0.0.1 Alpha
+  title:  MULTIPOS API
+  contact:
+    name: API Support
+    url: http://www.multpos.io/api/support
+    email: wwwbasicstepsdevelopment@gmail.com
+  license:
+    name: BasicSteps MIT (multipos-free:26091981)
+
+servers:
+  - url: http://localhost:8081
+    description: main server address
+  - url: http://localhost:8080
+    description: keycloak server
+
+paths:
+  /api/v1/sign-up:
+    post:
+      summary: Sign Up for a new User
+      operationId: sign-up
+      tags:
+        - sign-up
+      requestBody:
+        description: Sign Up object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpObject'
+      responses:
+        '200':
+          description: Sign up response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SignUpObject'
+                  status:
+                    type: string
+                  code:
+                    type: integer
+        '409':
+          description: Username already exists
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+
+  #user controllers
+  /api/v1/sign-in:
+    post:
+      summary: Sign In and receive tokens
+      operationId: sign-in
+      tags:
+        - user
+      requestBody:
+        description: Sign In object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignInObject"
+      responses:
+        '200':
+          description: An paged array of pets
+        '400':
+          description: Wrong username or password
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/logout:
+    post:
+      summary: user logout
+      operationId: logout
+      tags:
+        - user
+      security:
+        - OAuth2: [read, write, profile]
+      responses:
+        '200':
+          description: Logout is successful
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+
+
+  /api/v1/confirm:
+    get:
+      summary: Confirm access code
+      operationId: confirm
+      tags:
+        - sign-up
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: true
+          description: confirming email address
+        - in: query
+          name: access_code
+          schema:
+            type: integer
+          required: true
+          description: access code
+
+      responses:
+        '200':
+          description: Multpos response with null data member
+        '400':
+          description: Bad request. Incorrect json file
+        '404':
+          description: Email not found
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+
+  /api/v1/mail/check:
+    get:
+      summary: Check email for uniqueness
+      operationId: check-email
+      tags:
+        - sign-up
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: An paged array of pets
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: object
+                    description: Check mail response object
+                    properties:
+                      email_unique:
+                        type: boolean
+                  status:
+                    type: string
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/upload-avatar:
+    post:
+      summary: Uploading avatar of sign up mapper object
+      operationId: upload-avatar
+      tags:
+        - sign-up
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+
+      responses:
+        '200':
+          description: Successfull uploaded
+          content:
+            json/application:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    format: uri
+                  message:
+                    type: string
+                    nullable: true
+                  status:
+                    type: string
+                    enum: [SUCCESS, ERROR]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong. Please contact with company!
+        default:
+          description: unexpected error
+
+  /api/v1/access-code:
+    get:
+      summary: checkEmail
+      operationId: access-code
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: true
+      tags:
+        - sign-up
+
+      responses:
+        '200':
+          description: Access code for requested mail
+        '400':
+          description: bad request
+
+        default:
+          description: unexpected error
+
+  /api/v1/verification:
+    get:
+      summary: checkEmail
+      operationId: verification
+      security:
+        - OAuth2: [read, write, profile]
+      tags:
+        - sign-up
+
+      responses:
+        '200':
+          description: An paged array of pets
+        '400':
+          description: bad request
+        default:
+          description: unexpected error
+
+  #config area
+  /api/v1/unit-list:
+    get:
+      summary: Returns array of units for the tenant
+      operationId: unit-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+
+      responses:
+        '200':
+          description: An array of units
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UnitCategory"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/unit/create:
+    post:
+      summary: Creates a unit
+      operationId: unit-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnitObject"
+      responses:
+        '200':
+          description: returns the created unit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/UnitObject"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/unit/update:
+    put:
+      summary: Updates the unit
+      operationId: unit-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnitObject"
+      responses:
+        '200':
+          description: Returns the updated Unit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/UnitObject"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/unit/{id}:
+    get:
+      summary: Get Unit by id given by the path
+      operationId: unit-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding unit id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns found unit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/UnitObject"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/unit/delete/{id}:
+    delete:
+      summary: Delete the unit by id given by the path
+      operationId: unit-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Delteing unit's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted unit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/UnitObject"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/currency-list:
+    get:
+      summary: Returns currency list for the company
+      operationId: currency-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+      responses:
+        '200':
+          description: An paged array of currency
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Currency"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+  /api/v1/currency/update:
+    put:
+      summary: Update currency
+      operationId: currency-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Currency"
+      responses:
+        '200':
+          description: Currency is updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Currency"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/currency/{id}:
+    get:
+      summary: Returns currency by given currency_id by path params
+      operationId: currency-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: currency id for finding currency
+
+      responses:
+        '200':
+          description: Get currency
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Currency"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Currency not found
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/account/create:
+    post:
+      summary: Create account
+      operationId: account-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account"
+      responses:
+        '200':
+          description: Created account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/account-list:
+    get:
+      summary: Returns array of account
+      operationId: account-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: [read, write, profile]
+      tags:
+        - config
+      responses:
+        '200':
+          description: Array of account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Account"
+        '500':
+          description: bad request
+
+        default:
+          description: unexpected error
+
+  /api/v1/account/delete/{id}:
+    delete:
+      summary: Delete an account
+      operationId: account-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Deleting account id
+
+      responses:
+        '200':
+          description: Deleted account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      deleted:
+                        type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Account not found by given account_id by path param
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+
+  /api/v1/account/update:
+    put:
+      summary: Update account
+      operationId: account-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account"
+      responses:
+        '200':
+          description: Updated Account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Account"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Updating account not have been found
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/account/{id}:
+    get:
+      summary: Get account by given account_id by path params
+      operationId: account-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: account_id for getting account
+      responses:
+        '200':
+          description: Return account by given account_id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Account"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: if account is not found by given account_id
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/payment-type/create:
+    post:
+      summary: Creating a payment type
+      operationId: payment-type-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentType"
+      responses:
+        '200':
+          description: Returns the created payment type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/PaymentType"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/payment-type-list:
+    get:
+      summary: Returns payment-type list
+      operationId: payment-type-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      responses:
+        '200':
+          description: An array of payment type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PaymentType"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/payment-type/update:
+    put:
+      summary: Updates payment type
+      operationId: payment-type-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentType"
+      responses:
+        '200':
+          description: Updated Account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/PaymentType"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/payment-type/{id}:
+    get:
+      summary: Returns a payment type by give payment_type_id
+      operationId: payment-type-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: payment_type_id for finding payment type
+      responses:
+        '200':
+          description: Found payment type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/PaymentType"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: payment type is not found by given account_id
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/payment-type/delete/{id}:
+    delete:
+      summary: Returns a payment type by give payment_type_id
+      operationId: payment-type-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: payment_type_id for finding payment type
+      responses:
+        '200':
+          description: true if deleted, otherwise false
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Payment type not found by given account_id by path param
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/vendor/create:
+    post:
+      summary: Creating a vendor
+      operationId: vendor-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Vendor"
+      responses:
+        '200':
+          description: Returns created Vendor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Vendor"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Payment type not found by given account_id by path param
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/vendor/update:
+    post:
+      summary: Update the vendor
+      operationId: vendor-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Vendor"
+      responses:
+        '200':
+          description: Returns updated Vendor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Vendor"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Payment type not found by given account_id by path param
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/vendor-list:
+    get:
+      summary: Return vendor list
+      operationId: vendor-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Returns vendor list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Vendor"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Payment type not found by given account_id by path param
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/vendor/{id}:
+    get:
+      summary: Returns Vendor by id given by the path
+      operationId: vendor-get
+      security:
+        - OAuth2: [write, read, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding vendor id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Return found vendor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Vendor"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Payment type not found by given account_id by path param
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/vendor/delete/{id}:
+    delete:
+      summary: Returns the deleted vendor
+      operationId: vendor-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: deleting vendor's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted vendr
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Vendor"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '404':
+          description: Payment type not found by given account_id by path param
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/company-list:
+    get:
+      summary: Returns list of company
+      operationId: company-list
+      security:
+        - OAuth2: [read, write, profile]
+      tags:
+        - company
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          description: Company list according to username
+          required: true
+
+      responses:
+        '200':
+          description: Array of company
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Company"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/company/{company_id}:
+    get:
+      summary: Returns company by company_id
+      operationId: company-get
+      security:
+        - OAuth2: [read, write, profile]
+      tags:
+        - company
+      parameters:
+        - in: path
+          name: company_id
+          schema:
+            type: string
+          required: true
+          description: company_id for getting the company
+      responses:
+        '200':
+          description: returns found company by company_id given by path
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Company"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/company/update:
+    put:
+      summary: Company update
+      operationId: company-update
+      security:
+        - OAuth2: [read, write, profile]
+      tags:
+        - company
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Company"
+      responses:
+        '200':
+          description: Returns the updated company
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Company"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/company/delete/{id}:
+    delete:
+      summary: Delete company
+      operationId: company-delete
+      security:
+        - OAuth2: [read, write, profile]
+      tags:
+        - company
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Deleting company id
+      responses:
+        '200':
+          description: true if company deleted, otherwise false
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/company/create:
+    post:
+      summary: Create a company
+      operationId: company-create
+      security:
+        - OAuth2: [read, write, profile]
+      tags:
+        - company
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Company"
+
+      responses:
+        '200':
+          description: Returns created company
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Company"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/pos/create:
+    post:
+      summary: create a POS
+      operationId: pos-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: [read, write, profile]
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock_ids:
+                  type: array
+                  items:
+                    type: string
+                pos:
+                  $ref: "#/components/schemas/POS"
+      responses:
+        '200':
+          description: An paged array of pets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pos:
+                        $ref: "#/components/schemas/POS"
+                      stockIds:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/pos/update:
+    put:
+      summary: update the pos
+      operationId: pos-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stockId:
+                  type: array
+                  items:
+                    type: string
+                pos:
+                  $ref: "#/components/schemas/POS"
+      responses:
+        '200':
+          description: Returns updated pos with stock ids
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pos:
+                        $ref: "#/components/schemas/POS"
+                      stockIds:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/pos/{id}:
+    get:
+      summary: Get pos by id
+      operationId: pos-get
+      security:
+        - OAuth2: [raed, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - name: id
+          in: path
+          description: getting pos id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Got POS
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pos:
+                        $ref: "#/components/schemas/POS"
+                      stockIds:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/pos-list:
+    get:
+      summary: pos list
+      operationId: pos-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      responses:
+        '200':
+          description: Got POS list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pos:
+                        $ref: "#/components/schemas/POS"
+                      stockIds:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/pos/delete/{id}:
+    delete:
+      summary: Deleting pos by id
+      operationId: pos-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting POS id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted pos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      items:
+                        type: object
+                        properties:
+                          pos:
+                            $ref: "#/components/schemas/POS"
+                          stockIds:
+                            type: array
+                            items:
+                              type: string
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/establishemnt/create:
+    post:
+      summary: Create an Establishment
+      operationId: establishment-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                establishment:
+                  $ref: "#/components/schemas/Establishment"
+                stock_ids:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Returns just created Establishment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      establishment:
+                        $ref: "#/components/schemas/Establishment"
+                      stock_ids:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/establishemnt/update:
+    put:
+      summary: Updates the Establishment
+      operationId: establishment-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                establishment:
+                  $ref: "#/components/schemas/Establishment"
+                stock_ids:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Returns just created Establishment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      establishment:
+                        $ref: "#/components/schemas/Establishment"
+                      stock_ids:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/establishment-list:
+    get:
+      summary: Returns Establishment list
+      operationId: establishment-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: Page of querying list
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          required: false
+          description: Page size of querying list
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns establishement list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        stock_ids:
+                          type: array
+                          items:
+                            type: string
+                        establishment:
+                          $ref: "#/components/schemas/Establishment"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/establishment/{id}:
+    get:
+      summary: Returns establishment by id
+      operationId: establishment-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding establishment id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns establishment list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      stock_ids:
+                        type: array
+                        items:
+                          type: string
+                      establishment:
+                        $ref: "#/components/schemas/Establishment"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/establishment/delete/{id}:
+    delete:
+      summary: Deleting the Establishment
+      operationId: establishment-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting establishment id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns deleted establishment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      stock_ids:
+                        type: array
+                        items:
+                          type: string
+                      establishment:
+                        $ref: "#/components/schemas/Establishment"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+
+
+  /api/v1/stock/create:
+    post:
+      summary: Creates a stock
+      operationId: stock-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: [read, write, profile]
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock:
+                  $ref: "#/components/schemas/Stock"
+                posIds:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Returns created stock
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      stock:
+                        $ref: "#/components/schemas/Stock"
+                      posIds:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/stock/update:
+    put:
+      summary: Update the stock
+      operationId: stock-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: [read, write, profile]
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock:
+                  $ref: "#/components/schemas/Stock"
+                posIds:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Returns the updated stock
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      stock:
+                        $ref: "#/components/schemas/Stock"
+                      posIds:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/stock-list:
+    get:
+      summary: Returns stock list
+      operationId: stock-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: required stock list page
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          required: false
+          description: required stock list page_size
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Got stock list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        posIds:
+                          type: array
+                          items:
+                            type: string
+                        stock:
+                          $ref: "#/components/schemas/Stock"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/stock/delete/{id}:
+    delete:
+      summary: Deleting the stock
+      operationId: stock-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting POS id
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Returns true or false according to deletion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/stock/{id}:
+    get:
+      summary: Returns stock according to id in path
+      operationId: stock-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns Stock according to id in path
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Stock"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/product-class/create:
+    post:
+      summary: Creates a product class
+      operationId: product-class-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductClass"
+      responses:
+        '200':
+          description: Returns created Product class
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ProductClass"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/product-class/update:
+    put:
+      summary: Updates a product class
+      operationId: product-class-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductClass"
+      responses:
+        '200':
+          description: Returns updated Product class
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ProductClass"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/product-class-list:
+    get:
+      summary: Retuns list of product class
+      operationId: product-class-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          description: Page for querying data
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          description: Page size for querying data
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns list of Product classes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ProductClass"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/product-class/{id}:
+    get:
+      summary: Returns Product class by id given by path
+      operationId: product-class-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Querying product class's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns Product Class by given id by the path
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ProductClass"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/product-class/delete/{id}:
+    delete:
+      summary: Deletes product class by given id in path
+      operationId: product-class-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          description: Deleting Product class's id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns false or true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ProductClass"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/discount/create:
+    post:
+      summary: Create a discount
+      operationId: discount-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Discount"
+      responses:
+        '200':
+          description: Returns the created Discount
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Discount"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/discount/{id}:
+    get:
+      summary: Get Discount by id given by the path
+      operationId: discount-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: finding discount's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns found discount
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Discount"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+  /api/v1/discount-list:
+    get:
+      summary: Returns list of discount
+      operationId: discount-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          description: page of querying list
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          description: page_size of querying list
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns list of discount
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Discount"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/discount/update:
+    put:
+      summary: Updates the discount
+      operationId: discount-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Discount"
+      responses:
+        '200':
+          description: Returns the updated Discount
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Discount"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/discount/delete/{id}:
+    delete:
+      summary: Deletes discount by id given by the path
+      operationId: discount-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          description: Deleting Discount's id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted Discount
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Discount"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/tax/create:
+    post:
+      summary: Create a tax
+      operationId: tax-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tax"
+      responses:
+        '200':
+          description: Returns the create Tax
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Tax"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/tax/update:
+    put:
+      summary: Updates the tax
+      operationId: tax-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tax"
+      responses:
+        '200':
+          description: Returns the updated Tax
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Tax"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/tax/{id}:
+    get:
+      summary: Returns tax by id given by the path
+      operationId: tax-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding Tax's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns found tax
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Tax"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/tax-list:
+    get:
+      summary: Returns Tax list
+      operationId: tax-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          description: Page of querying data
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          description: page_size of querying data
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns list of tax
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Tax"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/tax/delete/{id}:
+    delete:
+      summary: Deletes the tax by id given by the path
+      operationId: tax-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting tax's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns deleted tax
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    data:
+                      $ref: "#/components/schemas/Tax"
+                    status:
+                      type: string
+                      enum: [Success, Error]
+                    code:
+                      type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/service-fee/create:
+    post:
+      summary: Creates a Service Fee
+      operationId: service-fee-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the created service fee
+          content:
+            applicaitn/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ServiceFee"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/service-fee/update:
+    put:
+      summary: Updates the Service Fee
+      operationId: service-fee-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the updated service fee
+          content:
+            applicaitn/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ServiceFee"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/service-fee/{id}:
+    get:
+      summary: Returns finding service fee by given id by the path
+      operationId: service-fee-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding service fee's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns found service fee
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ServiceFee"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/service-fee/delete/{id}:
+    delete:
+      summary: Deleting service fee
+      operationId: service-fee-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting Service Fee's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted service fee
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ServiceFee"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/service-fee-list:
+    get:
+      summary: Get service fee list
+      operationId: service-fee-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          description: Getting list page
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          description: Getting list page_size
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns list of service fee
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ServiceFee"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+
+
+
+  /api/v1/product-list:
+    get:
+      summary: Get product list
+      operationId: product-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - name: page_size
+          in: query
+          description: product list pageSize
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Product list page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: returned product list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+
+        default:
+          description: unexpected error
+
+  /api/v1/product/{id}:
+    get:
+      summary: Get product by id
+      operationId: product-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns product by id given by the path
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Company"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/product/create:
+    post:
+      summary: Creating product
+      operationId: product-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        '200':
+          description: Returns created product as body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Product"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/product/update:
+    put:
+      summary: Update the product
+      operationId: product-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        '200':
+          description: Returns updated product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Product"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+
+  /api/v1/product/delete/{id}:
+    delete:
+      summary: Returns deleted element
+      operationId: product-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns deleted product
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+components:
+  securitySchemes:
+    TenantSecurity:
+      type: apiKey
+      in: header
+      name: X-TENANT-ID
+
+    OAuth2:
+      type: oauth2
+      description: See https://developers.getbase.com/docs/rest/articles/oauth2/requests
+      flows:
+        password:
+          tokenUrl:  http://localhost:8081/api/v1/sign-in
+          scopes:
+            simple: only for open endpoints
+            system: can request to endpoints secured by OAuth2
+            superuser: Grants access to all endpoints instead admin endpoints
+            admin: Grants access to all endpoints for admin
+
+  schemas:
+    ConfirmationObject:
+      type: object
+      properties:
+        mail:
+          type: string
+        access_code:
+          type: integer
+      required:
+        - mail
+        - access_code
+
+    SignInObject:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+        grant_type:
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+      required:
+        - username
+        - password
+    MultiposResponseSignIn:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+            expires_in:
+              type: integer
+            refresh_expires_in:
+              type: integer
+            refresh_token:
+              type: string
+            token_type:
+              type: string
+            not_before_policy:
+              type: string
+            session_state:
+              type: string
+            expires_at:
+              type: integer
+              format: int64
+            username:
+              type: string
+            image_url:
+              type: string
+              format: uri
+            mail:
+              type: string
+        message:
+          type: string
+        status:
+          type: string
+        code:
+          type: integer
+
+
+    SignUpObject:
+      type: object
+      properties:
+        mail:
+          type: string
+        password:
+          type: string
+          format: password
+      required:
+        - mail
+        - password
+
+    UnitObject:
+      type: object
+      properties:
+        name:
+          type: string
+        abbr:
+          type: string
+        factor:
+          type: number
+          format: double
+        unit_category_entity_id:
+          type: string
+
+    UnitCategory:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        active:
+          type: boolean
+        unit_list:
+          type: array
+          items:
+            $ref: "#/components/schemas/UnitObject"
+
+    Currency:
+      type: object
+      properties:
+        name:
+          type: string
+        abbr:
+          type: string
+        main:
+          type: boolean
+        id:
+          type: string
+        active:
+          type: boolean
+
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: integer
+          enum: [0, 1, 2]
+
+    PaymentType:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        currencyId:
+          type: string
+        accountId:
+          type: string
+        active:
+          type: boolean
+
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        primary_phone:
+          type: string
+        primary_email:
+          type: string
+        address:
+          type: string
+        active:
+          type: boolean
+
+    POS:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        phone_number:
+          type: string
+        password:
+          type: string
+
+
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        image_url:
+          type: string
+        address:
+          type: string
+        phone_number:
+          type: string
+        zip_coe:
+          type: integer
+        tenant_id:
+          type: string
+        type:
+          type: integer
+          enum: [0, 1, 2] #0: B2C, 1: B2B, 2: Both
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        subcategory_id:
+          type: string
+        name:
+          type: string
+        unit_category_id:
+          type: string
+        unit_id:
+          type: string
+        product_class_id:
+          type: string
+        description:
+          type: string
+        is_ingredient:
+          type: string
+        has_ingredient:
+          type: boolean
+        ingredients:
+          type: array
+          items:
+            type: string
+        country:
+          type: string
+        vendor_id:
+          type: string
+        price:
+          type: number
+        price_currency_id:
+          type: string
+
+    Stock:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        phone_number:
+          type: string
+
+    Establishment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        phone_number:
+          type: string
+        pos_ids:
+          type: array
+          items:
+            type: string
+
+    ProductClass:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        desciption:
+          type: string
+
+    Discount:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: integer
+        qualification_type:
+          type: integer
+        amount:
+          type: number
+          format: double
+        amount_currency_id:
+          type: string
+
+    Tax:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        rounding_type:
+          type: integer
+        tax_rate:
+          type: number
+          format: double
+        from:
+          type: integer
+        to:
+          type: integer
+
+    ServiceFee:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        amount:
+          type: integer
+        amount_currency:
+          type: string
+        type:
+          type: integer

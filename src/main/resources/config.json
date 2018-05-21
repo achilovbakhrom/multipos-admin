@@ -1,0 +1,9 @@
+{
+  "host" : "localhost",
+  "port" : 8081,
+  "mongoUri" : "mongodb://localhost:27017/",
+  "mongoSignUpDbName" : "mp-sign-up",
+  "mongoSignInDbName" : "mp-sign-in",
+  "keycloakAdmin" : "basicsteps",
+  "keycloakAdminPassword" : "26091981"
+}

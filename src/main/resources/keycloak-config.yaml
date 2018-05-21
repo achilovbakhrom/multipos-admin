@@ -1,0 +1,12 @@
+keycloak:
+  admin: basicsteps
+  password: 26091981
+  public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn9Xya697ZVZzQidld4uCwRoWmLyWBDQQhn+EL1e0WDUWq9v39OBpM+HadkYlOMvfU1A8ohGZZVBkKV4w35gkm3bFPluCPsWxdcqD1NNF6BnIC6bRicgP/4beeehff8nWI3mFAfH7Q7Ik8mm8BDQYhOPRx50JBkDiIQ7AlAjNJ+5/eIj6Pt/eZSmMSk+vM4Xu64E0mCZfHpN+VPQejNBz7h9nEdi3swIIo0ot2+5PZGELX/2Dek7cY4RMKGb+rvU6ug3UvZHQ985KuubKsWMCs8A80yWSoA6umw1DC5rAmc5jo/6giWawuFj5jFZRx69CcMSx1VaEJ5lS4LmAi5sXuQIDAQAB
+  bearer_client_id: vertx
+  bearer_client_secret: eda18747-3d11-456f-a553-d8e140cfaf58
+  token_client_id: token-client
+  token_client_secret: f95c67b3-95df-444d-98be-60513de51a0b
+  realm: master
+  auth_endpoint: http://localhost:8080/auth
+  access_token_endpoint: http://localhost:8080/auth/realms/master/protocol/openid-connect/token
+  user_info_endpoint: http://localhost:8080/auth/realms/master/protocol/openid-connect/userinfo

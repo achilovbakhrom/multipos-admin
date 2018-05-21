@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.eclipse.microprofile.rest.client:microprofile-rest-client-api:1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.microprofile.rest.client/microprofile-rest-client-api/1.0/3815215f94c559747243e0f6b83c50da2db0e66e/microprofile-rest-client-api-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.microprofile.rest.client/microprofile-rest-client-api/1.0/f0a8891dd3431e025cb3e422f0524138f6046fb4/microprofile-rest-client-api-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

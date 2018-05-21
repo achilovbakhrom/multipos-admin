@@ -1,0 +1,4 @@
+db:
+  uri: mongodb://localhost:27017/
+  common_db_name: common
+  sign_up_db_name: sign-up

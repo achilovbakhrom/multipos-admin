@@ -1,0 +1,8 @@
+server:
+  host: localhost
+  port: 8081
+  resource_host: localhost
+  resource_port: 9090
+  unit: /src/main/resources/unit.yaml
+  currency: /src/main/resources/currency.yaml
+  country: /src/main/resources/country.yaml

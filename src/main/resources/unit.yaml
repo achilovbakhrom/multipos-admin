@@ -1,0 +1,33 @@
+units:
+  weight:
+    gramm:
+      id: weight_001
+      name: gramm
+      abbr: g
+      factor: 1.0
+    kilogramm:
+      id: weight_002
+      name: kilogramm
+      abbr: kg
+      factor: 1.0E-3
+    tonn:
+      id: weight_003
+      name: tonn
+      abbr: t
+      factor: 1.0E-6
+  length:
+    millimeter:
+      id: length_001
+      name: millimeter
+      abbr: mm
+      factor: 1.0
+    cantimeter:
+      id: length_002
+      name: cantimeter
+      abbr: cm
+      factor: 1.0E-2
+    meter:
+      id: length_003
+      name: meter
+      abbr: m
+      factor: 1.0E-3
