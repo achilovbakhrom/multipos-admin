@@ -49,7 +49,7 @@ class VendorHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val jsonObject = JsonObject(message.body())
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-            trash(message, dbManager.vendorDao!!)
+            trashById(message, dbManager.vendorDao!!)
         }
     }
 

@@ -97,9 +97,9 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.PAYMENT_TYPE_DELETE.value(), { configHandler?.deletePaymentType(it) })
 
         //Vendor
-        registerHandler(ConfigHandlerChannel.VENDOR_CREATE.value(), { configHandler?.deletePaymentType(it) })
-        registerHandler(ConfigHandlerChannel.VENDOR_LIST.value(), { configHandler?.deletePaymentType(it) })
-        registerHandler(ConfigHandlerChannel.VENDOR_UPDATE.value(), { configHandler?.deletePaymentType(it) })
+        registerHandler(ConfigHandlerChannel.VENDOR_CREATE.value(), { configHandler?.createVendor(it) })
+        registerHandler(ConfigHandlerChannel.VENDOR_LIST.value(), { configHandler?.getVendors(it) })
+        registerHandler(ConfigHandlerChannel.VENDOR_UPDATE.value(), { configHandler?.updateVendor(it) })
         registerHandler(ConfigHandlerChannel.VENDOR_GET.value(), { configHandler?.getVendorById(it) })
         registerHandler(ConfigHandlerChannel.VENDOR_DELETE.value(), { configHandler?.deleteVendor(it) })
 

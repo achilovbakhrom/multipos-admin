@@ -4,14 +4,15 @@ import com.basicsteps.multipos.core.model.BaseModel
 import com.basicsteps.multipos.core.model.Instanceable
 import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
+import de.braintags.io.vertx.pojomapper.annotation.field.Embedded
 
 @Entity
 data class Vendor(@SerializedName("vendor_id") var vendorId: String,
                   @SerializedName("first_name") var firstName: String,
                   @SerializedName("last_name") var lastName: String,
-                  @SerializedName("contacts") var contacts: List<Person>,
+                  @Embedded @SerializedName("contacts") var contacts: List<Person>,
                   @SerializedName("primary_phone") var primaryPhone: String,
-                  @SerializedName("primaryEmail") var primaryEmail: String,
+                  @SerializedName("primary_email") var primaryEmail: String,
                   @SerializedName("address") var address: String) : BaseModel() {
 
     constructor(): this("","", "", listOf(), "", "", "")
