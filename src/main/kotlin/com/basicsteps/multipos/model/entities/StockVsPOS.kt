@@ -6,7 +6,8 @@ import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
 
 @Entity
-data class StockVsPOS(@SerializedName("stock_id") var stockId: String) : BaseModel() {
+data class
+StockVsPOS(@SerializedName("stock_id") var stockId: String) : BaseModel() {
 
     constructor() : this("")
 

@@ -79,6 +79,7 @@ data class PersonalIdentityInformation(@SerializedName("passport_number") var pa
                                        @SerializedName("passport_issue_date") var passportIssueDate: String?,
                                        @SerializedName("passport_expire_date") var passportExpireDate: String?,
                                        @SerializedName("insurance_number") var insuranceNumber: String?,
+                                       @SerializedName("SSN") var ssn: String?,
                                        @SerializedName("insurance_expire_date") var insuranceExpireDate: String?,
                                        @SerializedName("visaNumber") var visaNumber: String?,
                                        @SerializedName("visaIssueDate") var visaIssueDate: String?,

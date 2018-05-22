@@ -156,19 +156,4 @@ class SignUpDao(dbManager: DbManager, mongoDataStore: MongoDataStore?) :
         })
     }
 
-    fun isTenantIdUnique(tenantId: String): Boolean {
-        val users = dbManager?.keycloak?.realm(KeycloakConfig.model.realm)?.users()?.list()
-        if (users == null || users.isEmpty()) return true
-        var result = true
-        for (user in users) {
-            val attrs = user.attributes?.get("X-TENANT-ID")
-            if (attrs != null && !attrs.isEmpty() && attrs.get(0).equals(tenantId)) {
-                result = false
-                break
-            }
-        }
-        return result
-    }
-
-
 }

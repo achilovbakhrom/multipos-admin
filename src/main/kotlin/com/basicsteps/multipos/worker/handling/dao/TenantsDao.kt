@@ -90,7 +90,8 @@ class TenantsDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDao<Ten
                         }
                     }
                     result
-                }).flatMap({ tenants -> trash(tenants) })
+                }).flatMap({ tenants ->
+            trash(tenants!!) })
     }
 
 }

@@ -20,6 +20,7 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
                    @SerializedName("price") var price: Double,
                    @SerializedName("price_currency_id") var priceCurrencyId: String) : BaseModel() {
 
+    //TODO attach list of vendors posible?
     constructor(): this(
             "",
             "",
