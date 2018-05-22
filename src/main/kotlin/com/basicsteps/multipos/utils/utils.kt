@@ -6,7 +6,8 @@ import io.vertx.ext.mail.MailClient
 import io.vertx.ext.mail.StartTLSOptions
 import io.vertx.kotlin.ext.mail.MailConfig
 import io.vertx.kotlin.ext.mail.MailMessage
-
+import org.apache.commons.io.IOUtils
+import java.io.BufferedInputStream
 
 
 val logger = LoggerFactory.getLogger("com.basicsteps.multipos")
@@ -33,4 +34,16 @@ fun sendEmail(to: String, text: String, html: String, successHandler: () -> Unit
             errorHandler()
         }
     })
+}
+
+fun getFromUrl(resourceName: String) : String {
+    val stream = SystemConfig::class.java.classLoader.getResourceAsStream(resourceName)
+    val reader = BufferedInputStream(stream)
+    var result = ""
+    val list = IOUtils.readLines(stream)
+    for (text in list) {
+        val temp = text as String
+        result += temp + "\n"
+    }
+    return result
 }

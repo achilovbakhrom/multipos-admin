@@ -95,8 +95,19 @@ fun OpenAPIV3Parser.readInfo(content: String, auth: List<AuthorizationValue>): S
 
 interface CustomOpenApiRouting: OpenAPI3RouterFactory {
     companion object {
-        fun create(vertx: Vertx, content: String, handler: Handler<AsyncResult<OpenAPI3RouterFactory>>) {
+        fun create(vertx: Vertx, content: String, handler: (handler: AsyncResult<OpenAPI3RouterFactory>) -> Unit) {
+            vertx.executeBlocking<OpenAPI3RouterFactory>({ future ->
 
+                val swaggerParseResult = OpenAPIV3Parser().readContent(content, ArrayList(), OpenApi3Utils.getParseOptions())
+                if (swaggerParseResult.messages.isEmpty()) {
+                    future.complete(OpenAPI3RouterFactoryImpl(vertx, swaggerParseResult.openAPI))
+                } else {
+                    if (swaggerParseResult.messages.size == 1 && swaggerParseResult.messages[0].matches("unable to read location `?\\Q$content\\E`?".toRegex()))
+                        future.fail(RouterFactoryException.createSpecNotExistsException(content))
+                    else
+                        future.fail(RouterFactoryException.createSpecInvalidException(StringUtils.join(swaggerParseResult.messages, ", ")))
+                }
+            }, handler)
 
 
 
