@@ -7,6 +7,8 @@ import de.braintags.io.vertx.pojomapper.annotation.Entity
 
 @Entity
 data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
+                   @SerializedName("barcode") var barCode: String,
+                   @SerializedName("sku") var sku: String,
                    @SerializedName("name") var name: String,
                    @SerializedName("unit_category_id") var unitCategoryId: String,
                    @SerializedName("unit_id") var unitId: String,
@@ -16,12 +18,15 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
                    @SerializedName("has_ingredient") var hasIngredient: Boolean,
                    @SerializedName("ingredients") var ingredients: List<String>,
                    @SerializedName("country") var country: String,
-                   @SerializedName("vendor_id") var vendorId: String,
                    @SerializedName("price") var price: Double,
-                   @SerializedName("price_currency_id") var priceCurrencyId: String) : BaseModel() {
+                   @SerializedName("price_currency_id") var priceCurrencyId: String,
+                   @SerializedName("product_as_ingridient") var productAsIngridient: ProductAsIngridient?,
+                   @SerializedName("product_has_ingridient") var productHasIngridient: List<ProductHasIngridient>?) : BaseModel() {
 
     //TODO attach list of vendors posible?
     constructor(): this(
+            "",
+            "",
             "",
             "",
             "",
@@ -32,9 +37,10 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
             false,
             listOf(),
             "",
-            "",
             0.0,
-            "")
+            "",
+            null,
+            null)
 
     override fun instance(): Instanceable {
         val result = Product()
@@ -53,6 +59,8 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
 
         //specs
         result.subcategoryId = subcategoryId
+        result.barCode = barCode
+        result.sku = sku
         result.name = name
         result.unitCategoryId = unitCategoryId
         result.unitId = unitId
@@ -62,10 +70,21 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
         result.hasIngredient = hasIngredient
         result.ingredients = ingredients
         result.country = country
-        result.vendorId = vendorId
         result.price = price
         result.priceCurrencyId = priceCurrencyId
+        result.productAsIngridient = productAsIngridient
+        result.productHasIngridient = productHasIngridient
 
         return result
     }
 }
+
+data class ProductAsIngridient(@SerializedName("name") var name: String?,
+                               @SerializedName("quantity") var quantity: Double?,
+                               @SerializedName("unit_id") var unitId: String
+)
+
+data class ProductHasIngridient(@SerializedName("ingridient") var name: String?,
+                                @SerializedName("quantity") var quantity: Double?,
+                                @SerializedName("unit_id") var unitId: String
+)

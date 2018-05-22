@@ -4,23 +4,19 @@ import com.basicsteps.multipos.core.model.BaseModel
 import com.basicsteps.multipos.core.model.Instanceable
 import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
-import kotlin.math.round
+import java.io.Serializable
 
-enum class TaxRoundingType(val type: Int) {
-    MATH(0),
-    CEILING(1);
-    fun value() = type
-}
-
+/**
+ * Created by Ikrom Mirzayev on 22-May-18.
+ */
 @Entity
-data class Tax(@SerializedName("name") var name: String,
-               @SerializedName("rounding_type") var roundingType: Int,
-               @SerializedName("tax_rate") var taxRate: Double) : BaseModel() {
+data class ProductToTax(@SerializedName("product_id") var productId: String,
+                        @SerializedName("tax_id") var taxId: String) : BaseModel(), Serializable {
 
-    constructor() : this("", TaxRoundingType.MATH.value(), 0.0)
+    constructor() : this("", "")
 
     override fun instance(): Instanceable {
-        val result = Tax()
+        val result = ProductToTax()
 
         //base
         result.createdTime = createdTime
@@ -35,14 +31,11 @@ data class Tax(@SerializedName("name") var name: String,
         result.posId = posId
         result.access = access
 
-        //specs
-        result.name = name
-        result.roundingType = roundingType
-        result.taxRate = taxRate
+        //spec
+        result.productId = productId
+        result.taxId = taxId
 
         return result
-
     }
-
 
 }

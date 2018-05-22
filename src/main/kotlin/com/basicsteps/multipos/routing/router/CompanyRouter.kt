@@ -16,22 +16,26 @@ class CompanyRouter (vertx: Vertx) : BaseRouter(vertx) {
     }
 
     fun createCompany(routingContext: RoutingContext) {
-        val request = RoutingUtils.requestFromBody<Company>(routingContext)
-        RoutingUtils.route<PaymentType>(vertx, routingContext, CompanyHandlerChannel.COMPANY_CREATE.value(), request.toJson())
+//        val request = RoutingUtils.requestFromBody<Company>(routingContext)
+        RouteBuilder().post().handle(vertx, routingContext, CompanyHandlerChannel.COMPANY_CREATE.value())
+//        RoutingUtils.route<PaymentType>(vertx, routingContext, , request.toJson())
     }
 
     fun updateCompany(routingContext: RoutingContext) {
-        val request = RoutingUtils.requestFromBody<Company>(routingContext)
-        RoutingUtils.route<PaymentType>(vertx, routingContext, CompanyHandlerChannel.COMPANY_UPDATE.value(), request.toJson())
+        RouteBuilder().put().handle(vertx, routingContext, CompanyHandlerChannel.COMPANY_UPDATE.value())
+//        val request = RoutingUtils.requestFromBody<Company>(routingContext)
+//        RoutingUtils.route<PaymentType>(vertx, routingContext, CompanyHandlerChannel.COMPANY_UPDATE.value(), request.toJson())
     }
 
     fun getCompanyById(routingContext: RoutingContext) {
-        val request = RoutingUtils.requestFromPathParams<String>(routingContext, "company_id")
-        RoutingUtils.route<PaymentType>(vertx, routingContext, CompanyHandlerChannel.COMPANY_GET.value(), request.toJson())
+        RouteBuilder().get().handle(vertx, routingContext, CompanyHandlerChannel.COMPANY_GET.value())
+//        val request = RoutingUtils.requestFromPathParams<String>(routingContext, "company_id")
+//        RoutingUtils.route<PaymentType>(vertx, routingContext, CompanyHandlerChannel.COMPANY_GET.value(), request.toJson())
     }
     fun deleteCompany(routingContext: RoutingContext) {
-        val request = RoutingUtils.requestFromPathParams<String>(routingContext, "company_id")
-        RoutingUtils.route<PaymentType>(vertx, routingContext, CompanyHandlerChannel.COMPANY_DELETE.value(), request.toJson())
+        RouteBuilder().delete().handle(vertx, routingContext, CompanyHandlerChannel.COMPANY_DELETE.value())
+//        val request = RoutingUtils.requestFromPathParams<String>(routingContext, "company_id")
+//        RoutingUtils.route<PaymentType>(vertx, routingContext, CompanyHandlerChannel.COMPANY_DELETE.value(), request.toJson())
     }
 
 }

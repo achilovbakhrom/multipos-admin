@@ -6,14 +6,15 @@ import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
 
 @Entity
-data class Vendor(@SerializedName("name") var firstName: String,
-                  @SerializedName("contacts") var lastName: List<Person>,
+data class Vendor(@SerializedName("vendor_id") var vendorId: String,
+                  @SerializedName("first_name") var firstName: String,
+                  @SerializedName("last_name") var lastName: String,
+                  @SerializedName("contacts") var contacts: List<Person>,
                   @SerializedName("primary_phone") var primaryPhone: String,
                   @SerializedName("primaryEmail") var primaryEmail: String,
-                  @SerializedName("address") var address: String,
-                  @SerializedName("address") var personList: List<Person>) : BaseModel() {
+                  @SerializedName("address") var address: String) : BaseModel() {
 
-    constructor(): this("", listOf(), "", "", "", listOf())
+    constructor(): this("","", "", listOf(), "", "", "")
 
     override fun instance(): Instanceable {
         val result = Vendor()
@@ -32,12 +33,13 @@ data class Vendor(@SerializedName("name") var firstName: String,
         result.access = access
 
         //spec
+        result.vendorId = vendorId
         result.firstName = firstName
         result.lastName = lastName
+        result.contacts = contacts
         result.primaryEmail = primaryEmail
         result.primaryPhone = primaryPhone
         result.address = address
-        result.personList = personList
 
         return result
     }

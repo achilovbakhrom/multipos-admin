@@ -48,7 +48,7 @@ class PostRoute {
 
         val jsonObject = JsonObject()
         if (routingContext.user() != null)
-            jsonObject.put("userId", (routingContext.user() as OAuth2TokenImpl).accessToken().getString("email"))
+            jsonObject.put("userId", (routingContext.user() as? OAuth2TokenImpl)?.accessToken()?.getString("email"))
 
         val tenantId: String? = routingContext.request().headers().get(CommonConstants.HEADER_TENANT)
         if (tenantId != null) {
