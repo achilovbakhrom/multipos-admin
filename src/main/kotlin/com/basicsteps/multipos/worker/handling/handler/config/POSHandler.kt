@@ -24,45 +24,52 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
 
         if (message.body() != null) {
             val jsonObject = JsonObject(message.body())
-
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-            val dao = dbManager.posDao!!
-
-            val pos = JsonUtils.toPojo<POS>(jsonObject.getJsonObject("data").getJsonObject("pos").toString())
-            pos.userId = jsonObject.getString("userId")
-            val stockIds = JsonUtils.toPojo<List<String>>(jsonObject.getJsonObject("data").getJsonArray("stock_ids").toString())
-            var tempPOS: POS? = null
-            val count = stockIds.count()
-            var counter = 0
-
-            dao
-                    .save(pos)
-                    .map({
-                        tempPOS = it
-                        stockIds
-                    }).flatMapIterable({ it })
-                    .flatMap({
-                        val result = StockVsPOS()
-                        result.posId = tempPOS?.id!!
-                        result.stockId = it
-                        dbManager.stockVsPOSDao?.save(result)
-                    })
-                    .subscribe({
-                        counter++
-                        if (count == counter) {
-                            val result = JsonObject()
-                            result.put("stock_ids", stockIds)
-                            result.put("pos", JsonUtils.toJsonObject(tempPOS))
-                            message.reply(MultiPosResponse(result, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
-                        }
-                    }, {
-                        when(it) {
-                            is WriteDbFailedException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
-                            is DataStoreException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
-                        }
-                    })
+            save(message, dbManager.posDao!!)
         }
+
+//        if (message.body() != null) {
+//            val jsonObject = JsonObject(message.body())
+//
+//            val tenantId = jsonObject.getString("tenantId")
+//            val dbManager = getDbManagerByTenantId(tenantId = tenantId)
+//            val dao = dbManager.posDao!!
+//
+//            val pos = JsonUtils.toPojo<POS>(jsonObject.getJsonObject("data").getJsonObject("pos").toString())
+//            pos.userId = jsonObject.getString("userId")
+//            val stockIds = JsonUtils.toPojo<List<String>>(jsonObject.getJsonObject("data").getJsonArray("stock_ids").toString())
+//            var tempPOS: POS? = null
+//            val count = stockIds.count()
+//            var counter = 0
+//
+//            dao
+//                    .save(pos)
+//                    .map({
+//                        tempPOS = it
+//                        stockIds
+//                    }).flatMapIterable({ it })
+//                    .flatMap({
+//                        val result = StockVsPOS()
+//                        result.posId = tempPOS?.id!!
+//                        result.stockId = it
+//                        dbManager.stockVsPOSDao?.save(result)
+//                    })
+//                    .subscribe({
+//                        counter++
+//                        if (count == counter) {
+//                            val result = JsonObject()
+//                            result.put("stock_ids", stockIds)
+//                            result.put("pos", JsonUtils.toJsonObject(tempPOS))
+//                            message.reply(MultiPosResponse(result, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
+//                        }
+//                    }, {
+//                        when(it) {
+//                            is WriteDbFailedException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
+//                            is DataStoreException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
+//                        }
+//                    })
+//        }
     }
 
     fun getPOSList(message: Message<String>) {
@@ -70,46 +77,52 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val jsonObject = JsonObject(message.body())
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-
-            val dao = dbManager.posDao
-            var requestModel = RequestModel()
-            if (jsonObject.getJsonObject("params") != null)
-                requestModel = JsonUtils.toPojo(json = jsonObject.getJsonObject("params").toString())
-            val result = mutableListOf<POSResponse>()
-            var count = 0
-            var counter = 0
-            var tempPos: POS? = null
-            dao
-                    ?.findAll(requestModel.page, requestModel.pageSize)
-                    ?.flatMapIterable({
-                        if (it.isEmpty()) {
-                            message.reply(MultiPosResponse(listOf<Any>(), null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
-                        }
-                        count = it.count()
-                        it
-                    })
-                    ?.flatMap({
-                        tempPos = it
-                        dbManager.stockVsPOSDao?.findStockIdsByPOSId(it.id!!)
-                    })
-                    ?.subscribe({
-                        val tempRes = mutableListOf<String>()
-                        for (element in it) {
-                            tempRes.add(element.stockId)
-                        }
-                        val res = POSResponse(tempPos!!, tempRes)
-                        result.add(res)
-                        counter++
-                        if (count == counter) {
-                            message.reply(MultiPosResponse(result, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
-                        }
-                    }, {
-                        when (it) {
-                            is ReadDbFailedException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
-                            is DataStoreException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
-                        }
-                    })
+            findAll(message, dbManager.establishmentDao!!)
         }
+//        if (message.body() != null) {
+//            val jsonObject = JsonObject(message.body())
+//            val tenantId = jsonObject.getString("tenantId")
+//            val dbManager = getDbManagerByTenantId(tenantId = tenantId)
+//
+//            val dao = dbManager.posDao
+//            var requestModel = RequestModel()
+//            if (jsonObject.getJsonObject("params") != null)
+//                requestModel = JsonUtils.toPojo(json = jsonObject.getJsonObject("params").toString())
+//            val result = mutableListOf<POSResponse>()
+//            var count = 0
+//            var counter = 0
+//            var tempPos: POS? = null
+//            dao
+//                    ?.findAll(requestModel.page, requestModel.pageSize)
+//                    ?.flatMapIterable({
+//                        if (it.isEmpty()) {
+//                            message.reply(MultiPosResponse(listOf<Any>(), null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
+//                        }
+//                        count = it.count()
+//                        it
+//                    })
+//                    ?.flatMap({
+//                        tempPos = it
+//                        dbManager.stockVsPOSDao?.findStockIdsByPOSId(it.id!!)
+//                    })
+//                    ?.subscribe({
+//                        val tempRes = mutableListOf<String>()
+//                        for (element in it) {
+//                            tempRes.add(element.stockId)
+//                        }
+//                        val res = POSResponse(tempPos!!, tempRes)
+//                        result.add(res)
+//                        counter++
+//                        if (count == counter) {
+//                            message.reply(MultiPosResponse(result, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
+//                        }
+//                    }, {
+//                        when (it) {
+//                            is ReadDbFailedException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
+//                            is DataStoreException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
+//                        }
+//                    })
+//        }
 
 
     }

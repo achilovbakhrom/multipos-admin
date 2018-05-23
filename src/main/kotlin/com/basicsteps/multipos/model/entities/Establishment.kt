@@ -5,13 +5,15 @@ import com.basicsteps.multipos.core.model.Instanceable
 import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
 
+
 @Entity
 data class Establishment(@SerializedName("name") var name: String,
                          @SerializedName("address") var address: String?,
                          @SerializedName("phone") var phone: String?,
                          @SerializedName("pos_ids") var posIds: List<String>,
-                         @SerializedName("stock_ids") var stockIds: List<String>,
+                         @SerializedName("pos_list") var posList: List<POS>?,
                          @SerializedName("image_url") var imageUrl: String?) : BaseModel() {
+
 
 
 
@@ -35,8 +37,8 @@ data class Establishment(@SerializedName("name") var name: String,
         result.address = address
         result.phone = phone
         result.posIds = posIds
-        result.stockIds = stockIds
         result.imageUrl = imageUrl
+        result.posList = posList
 
         return result
     }
