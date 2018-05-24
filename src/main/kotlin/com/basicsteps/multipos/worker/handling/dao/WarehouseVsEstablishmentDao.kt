@@ -129,4 +129,87 @@ class WarehouseVsEstablishmentDao(dbManager: DbManager, dataStore: MongoDataStor
         })
     }
 
+    fun updateEstablishmentListForWarehouse(warehouseId: String, ids: List<String>, userId: String) : Observable<List<String>> {
+        return Observable.create({event ->
+            if (dataStore != null) {
+                val findQuery = dataStore?.createQuery(clazz)
+                findQuery?.field("warehouseId")?.`is`(warehouseId)
+                findQuery?.field("deleted")?.`is`(false)
+                findQuery?.execute({ result ->
+                    if (result.succeeded()) {
+                        val iterator = result.result().iterator()
+
+                        val dbIds = mutableListOf<String>()
+                        val cameIds = ids.toMutableList()
+
+                        while (iterator.hasNext()) {
+                            iterator.next { item ->
+                                dbIds.add(item.result().id!!)
+                            }
+                        }
+
+
+                        var isDelete = false
+                        var count = dbIds.count()
+                        var counter = 0
+                        Observable
+                                .fromArray(dbIds)
+                                .flatMapIterable ({
+                                    if (it.isEmpty()) {
+                                        event.onNext(ids)
+                                    }
+                                    it
+
+                                })
+                                .map ({
+                                    if (cameIds.contains(it)) {
+                                        isDelete = false
+                                        cameIds.remove(it)
+                                    } else {
+                                        isDelete = true
+                                    }
+                                    it
+                                })
+                                .flatMap({
+                                    if (isDelete) {
+                                        trash(it, userId)
+                                    } else {
+                                        Observable.just("")
+                                    }
+                                })
+                                .flatMap({
+                                    counter++
+                                    if (counter == count && !cameIds.isEmpty()) {
+                                        val savingList = mutableListOf<WarehouseVsEstablishment>()
+                                        for (tempId in cameIds) {
+                                            val item = WarehouseVsEstablishment()
+                                            item.establishmentId = warehouseId
+                                            item.warehouseId = tempId
+                                            savingList.add(item)
+                                        }
+                                        saveAll(savingList, userId)
+                                    } else {
+                                        Observable.just("")
+                                    }
+                                })
+                                .subscribe({
+                                    if (counter == count) {
+                                        event.onNext(ids)
+                                    }
+                                }, {
+                                    event.onError(it)
+                                })
+
+                    }
+                    else {
+                        result.cause().printStackTrace()
+                        event.onError(ReadDbFailedException())
+                    }
+                })
+            } else {
+                event.onError(DataStoreException("${this::class.java.name}: DataStore is not set yet..."))
+            }
+        })
+    }
+
 }

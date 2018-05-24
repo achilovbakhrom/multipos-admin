@@ -21,7 +21,8 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
                    @SerializedName("price") var price: Double,
                    @SerializedName("price_currency_id") var priceCurrencyId: String,
                    @SerializedName("product_as_ingridient") var productAsIngridient: ProductAsIngridient?,
-                   @SerializedName("product_has_ingridient") var productHasIngridient: List<ProductHasIngridient>?) : BaseModel() {
+                   @SerializedName("product_has_ingridient") var productHasIngridient: List<ProductHasIngridient>?,
+                   @SerializedName("tax_ids") var taxIds: List<Tax>?) : BaseModel() {
 
     //TODO attach list of vendors posible?
     constructor(): this(
@@ -40,7 +41,8 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
             0.0,
             "",
             null,
-            null)
+            listOf(),
+            listOf())
 
     override fun instance(): Instanceable {
         val result = Product()
@@ -74,6 +76,7 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
         result.priceCurrencyId = priceCurrencyId
         result.productAsIngridient = productAsIngridient
         result.productHasIngridient = productHasIngridient
+        result.taxIds = taxIds
 
         return result
     }

@@ -115,11 +115,11 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.POS_DELETE.value(), { configHandler?.deletePOS(it) })
         registerHandler(ConfigHandlerChannel.POS_GET.value(), { configHandler?.getPOSById(it) })
 
-        registerHandler(ConfigHandlerChannel.WAREHOUSE_CREATE.value(), { configHandler?.createStock(it) })
-        registerHandler(ConfigHandlerChannel.WAREHOUSE_LIST.value(), { configHandler?.getStockList(it) })
-        registerHandler(ConfigHandlerChannel.WAREHOUSE_UPDATE.value(), { configHandler?.updateStock(it) })
-        registerHandler(ConfigHandlerChannel.WAREHOUSE_DELETE.value(), { configHandler?.deleteStock(it) })
-        registerHandler(ConfigHandlerChannel.WAREHOUSE_GET.value(), { configHandler?.getStockById(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_CREATE.value(), { configHandler?.createWarehouse(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_LIST.value(), { configHandler?.getWarehouseList(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_UPDATE.value(), { configHandler?.updateWarehouse(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_DELETE.value(), { configHandler?.deleteWarehouse(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_GET.value(), { configHandler?.getWarehouseById(it) })
 
         //Establishment
         registerHandler(ConfigHandlerChannel.ESTABLISHMENT_CREATE.value(), { configHandler?.createEstablishment(it) })

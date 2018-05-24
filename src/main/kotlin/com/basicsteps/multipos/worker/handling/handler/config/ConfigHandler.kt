@@ -44,6 +44,7 @@ class ConfigHandler(vertx: Vertx) {
     var discountHandler: DiscountHandler? = null
     var taxHandler: TaxHandler? = null
     var serviceFeeHandler: ServiceFeeHandler? = null
+    var warehouseHandler: WarehouseHandler? = null
     /**
      *  init of all handlers
      */
@@ -64,6 +65,7 @@ class ConfigHandler(vertx: Vertx) {
         discountHandler = DiscountHandler(vertx)
         taxHandler = TaxHandler(vertx)
         serviceFeeHandler = ServiceFeeHandler(vertx)
+        warehouseHandler = WarehouseHandler(vertx)
     }
 
     /**
@@ -135,11 +137,11 @@ class ConfigHandler(vertx: Vertx) {
     /**
      *  Warehouse handlers
      */
-    fun createStock(message: Message<String>) { posHandler?.createStock(message)}
-    fun updateStock(message: Message<String>) { posHandler?.updateStock(message)}
-    fun getStockList(message: Message<String>) { posHandler?.getStockList(message)}
-    fun getStockById(message: Message<String>) { posHandler?.getStockById(message) }
-    fun deleteStock(message: Message<String>) { posHandler?.trashStock(message) }
+    fun createWarehouse(message: Message<String>) { warehouseHandler?.createWarehouse(message)}
+    fun updateWarehouse(message: Message<String>) { warehouseHandler?.updateWarehouse(message)}
+    fun getWarehouseList(message: Message<String>) { warehouseHandler?.getWarehouseList(message)}
+    fun getWarehouseById(message: Message<String>) { warehouseHandler?.getWarehouseById(message) }
+    fun deleteWarehouse(message: Message<String>) { warehouseHandler?.trashWarehouse(message) }
 
     /**
      *  Establishment handlers
