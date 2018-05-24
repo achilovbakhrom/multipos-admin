@@ -22,7 +22,8 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
                    @SerializedName("price_currency_id") var priceCurrencyId: String,
                    @SerializedName("product_as_ingridient") var productAsIngridient: ProductAsIngridient?,
                    @SerializedName("product_has_ingridient") var productHasIngridient: List<ProductHasIngridient>?,
-                   @SerializedName("tax_ids") var taxIds: List<Tax>?) : BaseModel() {
+                   @SerializedName("tax_ids") var taxIds: List<String>?,
+                   @SerializedName("taxes") var taxes: List<Tax>?) : BaseModel() {
 
     //TODO attach list of vendors posible?
     constructor(): this(
@@ -41,6 +42,7 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
             0.0,
             "",
             null,
+            listOf(),
             listOf(),
             listOf())
 
@@ -77,6 +79,7 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
         result.productAsIngridient = productAsIngridient
         result.productHasIngridient = productHasIngridient
         result.taxIds = taxIds
+        result.taxes = taxes
 
         return result
     }

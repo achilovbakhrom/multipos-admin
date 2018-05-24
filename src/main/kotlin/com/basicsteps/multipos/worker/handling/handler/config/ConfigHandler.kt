@@ -162,6 +162,15 @@ class ConfigHandler(vertx: Vertx) {
     fun deleteProductClass(message: Message<String>) { productClassHandler?.trashProductClassById(message) }
 
     /**
+     *  Category handlers
+     */
+    fun createCategory(message: Message<String>) { categoryHandler?.createCategory(message) }
+    fun updateCategory(message: Message<String>) { categoryHandler?.updateCategory(message) }
+    fun getCategory(message: Message<String>) { categoryHandler?.getCategoryList(message) }
+    fun getCategoryById(message: Message<String>) { categoryHandler?.getCategoryById(message) }
+    fun deleteCategory(message: Message<String>) { categoryHandler?.trashCategoryById(message) }
+
+    /**
      *  Discount
      */
     fun createDiscount(message: Message<String>) { discountHandler?.createDiscount(message) }

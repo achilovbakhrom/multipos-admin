@@ -42,6 +42,7 @@ class DbManager(vertx: Vertx) {
     var taxDao: TaxDao? = null
     var serviceFeeDao: ServiceFeeDao? = null
     var mpUserDao: MPUserDao? = null
+    var productToTaxDao: ProdoctToTaxDao? = null
 
     private var vertx: Vertx? = vertx
 
@@ -79,8 +80,9 @@ class DbManager(vertx: Vertx) {
         subCategoryDao                  = SubCategoryDao(this, null)
         posDao                          = POSDao(this, null)
         establishmentDao                = EstablishmentDao(this, null)
-        warehouseDao                        = WarehouseDao(this, null)
-        warehouseVsEstablishmentDao                   = WarehouseVsEstablishmentDao(this, null)
+        warehouseDao                    = WarehouseDao(this, null)
+        warehouseVsEstablishmentDao     = WarehouseVsEstablishmentDao(this, null)
+        productToTaxDao                 = ProdoctToTaxDao(this, null)
         productClassDao                 = ProductClassDao(this, null)
         discountDao                     = DiscountDao(this, null)
         taxDao                          = TaxDao(this, null)
@@ -129,12 +131,13 @@ class DbManager(vertx: Vertx) {
             productDao?.dataStore                   = temp
             posDao?.dataStore                       = temp
             establishmentDao?.dataStore             = temp
-            warehouseDao?.dataStore                     = temp
-            warehouseVsEstablishmentDao?.dataStore                = temp
+            warehouseDao?.dataStore                 = temp
+            warehouseVsEstablishmentDao?.dataStore  = temp
             productClassDao?.dataStore              = temp
             discountDao?.dataStore                  = temp
             taxDao?.dataStore                       = temp
             serviceFeeDao?.dataStore                = temp
+            categoryDao?.dataStore                  = temp
         }
     }
     fun close() { keycloak?.close() }

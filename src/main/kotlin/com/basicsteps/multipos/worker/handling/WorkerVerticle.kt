@@ -69,6 +69,13 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.PRODUCT_CLASS_GET.value(), { configHandler?.getProductClassById(it) })
         registerHandler(ConfigHandlerChannel.PRODUCT_CLASS_DELETE.value(), { configHandler?.deleteProductClass(it) })
 
+        //Category
+        registerHandler(ConfigHandlerChannel.CATEGORY_CREATE.value(), {configHandler?.createCategory(it)})
+        registerHandler(ConfigHandlerChannel.CATEGORY_UPDATE.value(), {configHandler?.updateCategory(it)})
+        registerHandler(ConfigHandlerChannel.CATEGORY_LIST.value(), {configHandler?.getCategory(it)})
+        registerHandler(ConfigHandlerChannel.CATEGORY_GET.value(), {configHandler?.getCategoryById(it)})
+        registerHandler(ConfigHandlerChannel.CATEGORY_DELETE.value(), {configHandler?.deleteCategory(it)})
+
 
         //Currency
         registerHandler(ConfigHandlerChannel.CURRENCY_LIST.value(), { configHandler?.getCurrencies(it) })

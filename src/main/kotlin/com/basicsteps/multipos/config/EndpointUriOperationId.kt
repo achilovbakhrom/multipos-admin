@@ -75,6 +75,13 @@ enum class EndpointUriOperationId(val endpoint: String) {
     COMPANY_GET("company-get"),
     COMPANY_DELETE("company-delete"),
 
+    //Category
+    CATEGORY_CREATE("category-create"),
+    CATEGORY_UPDATE("category-update"),
+    CATEGORY_LIST("category-list"),
+    CATEGORY_GET("category-get"),
+    CATEGORY_DELETE("category-delete"),
+
     PRODUCT_LIST("product-list"),
     PRODUCT_GET("product-get"),
     PRODUCT_CREATE("product-create"),

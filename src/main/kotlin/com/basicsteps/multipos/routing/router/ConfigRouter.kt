@@ -228,6 +228,29 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
     }
 
     /**
+     *  Product class routes
+     */
+    fun createCategory(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.CATEGORY_CREATE.value())
+    }
+
+    fun getCategoryList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.CATEGORY_LIST.value())
+    }
+
+    fun updateCategory(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.CATEGORY_UPDATE.value())
+    }
+
+    fun getCategoryById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.CATEGORY_GET.value())
+    }
+
+    fun deleteCategory(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.CATEGORY_DELETE.value())
+    }
+
+    /**
      *  Discount routes
      */
     fun createDiscount(routingContext: RoutingContext) {

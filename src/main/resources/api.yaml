@@ -1455,6 +1455,232 @@ paths:
         default:
           description: unexpected error
 
+  /api/v1/category/create:
+    post:
+      summary: Create Category
+      operationId: category-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Returns just created category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/category/update:
+    put:
+      summary: Updates Category
+      operationId: category-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                id:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: Returns updated Category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      id:
+                        type: string
+                      active:
+                        type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/category-list:
+    get:
+      summary: Returns Category list
+      operationId: category-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: Page of querying list
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          required: false
+          description: Page size of querying list
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns category list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        id:
+                          type: string
+                        active:
+                          type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/category/{id}:
+    get:
+      summary: Returns category by id
+      operationId: category-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding category id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns category list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      id:
+                        type: string
+                      active:
+                        type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/category/delete/{id}:
+    delete:
+      summary: Deleting the Category
+      operationId: category-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting category id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns deleted category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      id:
+                        type: string
+                      active:
+                        type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
   /api/v1/establishment/create:
     post:
       summary: Create an Establishment
