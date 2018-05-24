@@ -3,11 +3,8 @@ package com.basicsteps.multipos.routing.router
 import com.basicsteps.multipos.core.router.BaseRouter
 import com.basicsteps.multipos.core.router.RouteBuilder
 import com.basicsteps.multipos.event_bus_channels.ConfigHandlerChannel
-import com.basicsteps.multipos.model.entities.*
-import com.basicsteps.multipos.utils.RoutingUtils
 import io.vertx.core.Vertx
 import io.vertx.ext.web.RoutingContext
-import io.vertx.reactivex.ext.web.Route
 
 /**
  * Configuration:
@@ -46,22 +43,42 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
     }
 
     /**
-     *  Stock CRUD routes
+     *  Warehouse CRUD routes
      */
     fun createStock(routingContext: RoutingContext) {
-        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.STOCK_CREATE.value())
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.WAREHOUSE_CREATE.value())
     }
     fun stockList(routingContext: RoutingContext) {
-        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.STOCK_LIST.value())
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.WAREHOUSE_LIST.value())
     }
     fun getStockById(routingContext: RoutingContext) {
-        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.STOCK_GET.value())
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.WAREHOUSE_GET.value())
     }
     fun updateStock(routingContext: RoutingContext) {
-        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.STOCK_UPDATE.value())
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.WAREHOUSE_UPDATE.value())
     }
     fun deleteStock(routingContext: RoutingContext) {
-        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.STOCK_DELETE.value())
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.WAREHOUSE_DELETE.value())
+    }
+
+    /**
+     *  Establishment routes
+     */
+
+    fun createEstablishment(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.ESTABLISHMENT_CREATE.value())
+    }
+    fun updateEstablishment(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.ESTABLISHMENT_UPDATE.value())
+    }
+    fun establishmentList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.ESTABLISHMENT_LIST.value())
+    }
+    fun getEstablishmentById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.ESTABLISHMENT_GET.value())
+    }
+    fun deleteEstablishment(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.ESTABLISHMENT_DELETE.value())
     }
 
     /**

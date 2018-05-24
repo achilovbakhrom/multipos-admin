@@ -83,3 +83,4 @@ enum class CompanyType(val type: Int) {
     BOTH(2);
     fun value(): Int = type
 }
+

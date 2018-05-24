@@ -1,11 +1,7 @@
 package com.basicsteps.multipos.worker.handling.handler.config
 
-import com.basicsteps.multipos.core.DbManager
 import com.basicsteps.multipos.core.dao.DataStoreException
 import com.basicsteps.multipos.core.handler.BaseCRUDHandler
-import com.basicsteps.multipos.core.model.RequestModel
-import com.basicsteps.multipos.core.model.exceptions.NotExistsException
-import com.basicsteps.multipos.core.model.exceptions.ReadDbFailedException
 import com.basicsteps.multipos.core.model.exceptions.WriteDbFailedException
 import com.basicsteps.multipos.core.response.MultiPosResponse
 import com.basicsteps.multipos.core.response.MultiposRequest
@@ -50,10 +46,10 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
 //                        stockIds
 //                    }).flatMapIterable({ it })
 //                    .flatMap({
-//                        val result = StockVsPOS()
+//                        val result = WarehouseVsEstablishment()
 //                        result.posId = tempPOS?.id!!
 //                        result.stockId = it
-//                        dbManager.stockVsPOSDao?.save(result)
+//                        dbManager.warehouseVsEstablishmentDao?.save(result)
 //                    })
 //                    .subscribe({
 //                        counter++
@@ -77,7 +73,7 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val jsonObject = JsonObject(message.body())
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-            findAll(message, dbManager.establishmentDao!!)
+            findAll(message, dbManager.posDao!!)
         }
 //        if (message.body() != null) {
 //            val jsonObject = JsonObject(message.body())
@@ -103,7 +99,7 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
 //                    })
 //                    ?.flatMap({
 //                        tempPos = it
-//                        dbManager.stockVsPOSDao?.findStockIdsByPOSId(it.id!!)
+//                        dbManager.warehouseVsEstablishmentDao?.findStockIdsByPOSId(it.id!!)
 //                    })
 //                    ?.subscribe({
 //                        val tempRes = mutableListOf<String>()
@@ -128,37 +124,45 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
     }
 
     fun getPOSById(message: Message<String>) {
+
         if (message.body() != null) {
             val jsonObject = JsonObject(message.body())
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-
-            val dao = dbManager.posDao
-            var request = RequestModel()
-            if (jsonObject.getJsonObject("params") != null)
-                request = JsonUtils.toPojo(json = jsonObject.getJsonObject("params").toString())
-            var tempPOS: POS? = null
-            dao
-                    ?.findById(request.id)
-                    ?.flatMap({
-                        tempPOS = it
-                        dbManager.stockVsPOSDao?.findStockIdsByPOSId(it.id!!)
-                    })
-                    ?.subscribe({
-                        val tempRes = mutableListOf<String>()
-                        for (element in it) {
-                            tempRes.add(element.stockId)
-                        }
-                        val result = POSResponse(tempPOS!!, tempRes)
-                        message.reply(MultiPosResponse(result, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
-                    }, {
-                        when (it) {
-                            is NotExistsException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.NOT_FOUND.code()).toJson())
-                            is ReadDbFailedException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
-                            is DataStoreException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
-                        }
-                    })
+            findById(message, dbManager.posDao!!)
         }
+//
+//        if (message.body() != null) {
+//            val jsonObject = JsonObject(message.body())
+//            val tenantId = jsonObject.getString("tenantId")
+//            val dbManager = getDbManagerByTenantId(tenantId = tenantId)
+//
+//            val dao = dbManager.posDao
+//            var request = RequestModel()
+//            if (jsonObject.getJsonObject("params") != null)
+//                request = JsonUtils.toPojo(json = jsonObject.getJsonObject("params").toString())
+//            var tempPOS: POS? = null
+//            dao
+//                    ?.findById(request.id)
+//                    ?.flatMap({
+//                        tempPOS = it
+//                        dbManager.warehouseVsEstablishmentDao?.findStockIdsByPOSId(it.id!!)
+//                    })
+//                    ?.subscribe({
+//                        val tempRes = mutableListOf<String>()
+//                        for (element in it) {
+//                            tempRes.add(element.stockId)
+//                        }
+//                        val result = POSResponse(tempPOS!!, tempRes)
+//                        message.reply(MultiPosResponse(result, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
+//                    }, {
+//                        when (it) {
+//                            is NotExistsException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.NOT_FOUND.code()).toJson())
+//                            is ReadDbFailedException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
+//                            is DataStoreException -> message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
+//                        }
+//                    })
+//        }
 
     }
 
@@ -180,76 +184,18 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
         }
     }
 
-    fun createEstablishment(message: Message<String>) {
-        if (message.body() != null) {
-            val jsonObject = JsonObject(message.body())
-            val tenantId = jsonObject.getString("tenantId")
-            val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-            val request = JsonUtils.toPojo<MultiposRequest<Establishment>>(message.body().toString())
-            dbManager
-                    .establishmentDao
-                    ?.save(request.data!!)
-                    ?.subscribe({ result ->
-                        message.reply(MultiPosResponse<Any>(null, null, "OK", HttpResponseStatus.OK.code()))
-                    }, { error ->
-
-                    })
-        }
-    }
-
-    fun trashEstablishment(message: Message<String>) {
-        if (message.body() != null) {
-            val jsonObject = JsonObject(message.body())
-            val tenantId = jsonObject.getString("tenantId")
-            val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-
-            val request = JsonUtils.toPojo<MultiposRequest<Establishment>>(message.body().toString())
-            dbManager
-                    .establishmentDao
-                    ?.trash(request.data!!)
-                    ?.subscribe({ result ->
-                        message.reply(MultiPosResponse<Any>(null, null, "OK", HttpResponseStatus.OK.code()))
-                    }, { error ->
-
-                    })
-        }
-    }
-
-    fun updateEstablishment(message: Message<String>) {
-        if (message.body() != null) {
-            val jsonObject = JsonObject(message.body())
-            val tenantId = jsonObject.getString("tenantId")
-            val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-
-            val request = JsonUtils.toPojo<MultiposRequest<Establishment>>(message.body().toString())
-            dbManager
-                    .establishmentDao
-                    ?.update(request.data!!)
-                    ?.subscribe({ result ->
-                        message.reply(MultiPosResponse<Any>(null, null, "OK", HttpResponseStatus.OK.code()))
-                    }, { error ->
-
-                    })
-        }
-    }
-
-    fun getEstablishmentList(message: Message<String>) {
-
-    }
-
-
     fun createStock(message: Message<String>) {
         if (message.body() != null) {
             val jsonObject = JsonObject(message.body())
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
 
-            val request = JsonUtils.toPojo<MultiposRequest<Stock>>(message.body().toString())
+            val request = JsonUtils.toPojo<MultiposRequest<Warehouse>>(message.body().toString())
             dbManager
-                    .stockDao
+                    .warehouseDao
                     ?.save(request.data!!)
                     ?.subscribe({ result ->
-                        message.reply(MultiPosResponse<Any>(result, null, "OK", HttpResponseStatus.OK.code()))
+                        message.reply(MultiPosResponse<Any>(result, null, "OK", HttpResponseStatus.OK.code()).toJson())
                     }, { error ->
                         when (error) {
                             is WriteDbFailedException -> message.reply(MultiPosResponse(null, error.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
@@ -266,12 +212,12 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
 
-            val request = JsonUtils.toPojo<MultiposRequest<Stock>>(message.body().toString())
+            val request = JsonUtils.toPojo<MultiposRequest<Warehouse>>(message.body().toString())
             dbManager
-                    .stockDao
+                    .warehouseDao
                     ?.trash(request.data!!)
                     ?.subscribe({ result ->
-                        message.reply(MultiPosResponse<Any>(null, null, "OK", HttpResponseStatus.OK.code()))
+                        message.reply(MultiPosResponse<Any>(null, null, "OK", HttpResponseStatus.OK.code()).toJson())
                     }, { error ->
 
                     })
@@ -284,12 +230,12 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
 
-            val request = JsonUtils.toPojo<MultiposRequest<Stock>>(message.body().toString())
+            val request = JsonUtils.toPojo<MultiposRequest<Warehouse>>(message.body().toString())
             dbManager
-                    .stockDao
+                    .warehouseDao
                     ?.update(request.data!!)
                     ?.subscribe({ result ->
-                        message.reply(MultiPosResponse<Any>(null, null, "OK", HttpResponseStatus.OK.code()))
+                        message.reply(MultiPosResponse<Any>(null, null, "OK", HttpResponseStatus.OK.code()).toJson())
                     }, { error ->
 
                     })
@@ -313,12 +259,12 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val request = JsonUtils.toPojo<MultiposRequest<String>>(message.body().toString())
             val posId = request.data
             dbManager
-                    .stockDao
+                    .warehouseDao
                     ?.findAll()
                     ?.subscribe({ result ->
-                        val res = mutableListOf<Stock>()
+                        val res = mutableListOf<Warehouse>()
 
-                        message.reply(MultiPosResponse<List<Stock>>(res, null, "OK", HttpResponseStatus.OK.code()))
+                        message.reply(MultiPosResponse<List<Warehouse>>(res, null, "OK", HttpResponseStatus.OK.code()).toJson())
                     }, { error ->
 
                     })
@@ -334,12 +280,12 @@ class POSHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val request = JsonUtils.toPojo<MultiposRequest<String>>(message.body().toString())
             val establishmentId = request.data
             dbManager
-                    .stockDao
+                    .warehouseDao
                     ?.findAll()
                     ?.subscribe({ result ->
-                        val res = mutableListOf<Stock>()
+                        val res = mutableListOf<Warehouse>()
 
-                        message.reply(MultiPosResponse<List<Stock>>(res, null, "OK", HttpResponseStatus.OK.code()))
+                        message.reply(MultiPosResponse<List<Warehouse>>(res, null, "OK", HttpResponseStatus.OK.code()).toJson())
                     }, { error ->
 
                     })

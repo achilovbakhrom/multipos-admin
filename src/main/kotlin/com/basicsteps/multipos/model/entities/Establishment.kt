@@ -11,13 +11,14 @@ data class Establishment(@SerializedName("name") var name: String,
                          @SerializedName("address") var address: String?,
                          @SerializedName("phone") var phone: String?,
                          @SerializedName("pos_ids") var posIds: List<String>,
+                         @SerializedName("warehouse_id") var warehouseId: List<String>,
                          @SerializedName("pos_list") var posList: List<POS>?,
                          @SerializedName("image_url") var imageUrl: String?) : BaseModel() {
 
 
 
 
-    constructor() : this("", "", "", listOf(), listOf(), "")
+    constructor() : this("", "", "", listOf(), listOf(), listOf(), "")
 
     override fun instance(): Instanceable {
 
@@ -39,6 +40,7 @@ data class Establishment(@SerializedName("name") var name: String,
         result.posIds = posIds
         result.imageUrl = imageUrl
         result.posList = posList
+        result.warehouseId = warehouseId
 
         return result
     }

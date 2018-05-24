@@ -32,11 +32,11 @@ class DbManager(vertx: Vertx) {
     var companyDao: CompanyDao? = null
     var posDao: POSDao? = null
     var establishmentDao: EstablishmentDao? = null
-    var stockDao: StockDao? = null
+    var warehouseDao: WarehouseDao? = null
     var tenantsDao: TenantsDao? = null
     var userDao: UserDao? = null
     var userCompanyRelDao: UserCompanyRelDao? = null
-    var stockVsPOSDao: StockVsPOSDao? = null
+    var warehouseVsEstablishmentDao: WarehouseVsEstablishmentDao? = null
     var productClassDao: ProductClassDao? = null
     var discountDao: DiscountDao? = null
     var taxDao: TaxDao? = null
@@ -79,8 +79,8 @@ class DbManager(vertx: Vertx) {
         subCategoryDao                  = SubCategoryDao(this, null)
         posDao                          = POSDao(this, null)
         establishmentDao                = EstablishmentDao(this, null)
-        stockDao                        = StockDao(this, null)
-        stockVsPOSDao                   = StockVsPOSDao(this, null)
+        warehouseDao                        = WarehouseDao(this, null)
+        warehouseVsEstablishmentDao                   = WarehouseVsEstablishmentDao(this, null)
         productClassDao                 = ProductClassDao(this, null)
         discountDao                     = DiscountDao(this, null)
         taxDao                          = TaxDao(this, null)
@@ -129,8 +129,8 @@ class DbManager(vertx: Vertx) {
             productDao?.dataStore                   = temp
             posDao?.dataStore                       = temp
             establishmentDao?.dataStore             = temp
-            stockDao?.dataStore                     = temp
-            stockVsPOSDao?.dataStore                = temp
+            warehouseDao?.dataStore                     = temp
+            warehouseVsEstablishmentDao?.dataStore                = temp
             productClassDao?.dataStore              = temp
             discountDao?.dataStore                  = temp
             taxDao?.dataStore                       = temp

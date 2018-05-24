@@ -133,7 +133,7 @@ class ConfigHandler(vertx: Vertx) {
     fun deletePOS(message: Message<String>) { posHandler?.trashPOS(message) }
 
     /**
-     *  Stock handlers
+     *  Warehouse handlers
      */
     fun createStock(message: Message<String>) { posHandler?.createStock(message)}
     fun updateStock(message: Message<String>) { posHandler?.updateStock(message)}

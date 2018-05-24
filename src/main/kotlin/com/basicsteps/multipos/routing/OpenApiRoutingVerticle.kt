@@ -15,8 +15,6 @@ import com.basicsteps.multipos.routing.router.SignInRouter
 import com.basicsteps.multipos.routing.router.SignUpRouter
 import com.basicsteps.multipos.utils.getFromUrl
 import io.vertx.core.AbstractVerticle
-import io.vertx.core.AsyncResult
-import io.vertx.core.Handler
 import io.vertx.core.http.HttpServer
 import io.vertx.core.http.HttpServerOptions
 import io.vertx.core.json.JsonObject
@@ -124,19 +122,25 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 registerHandler(routerFactory, EndpointUriOperationId.PRODUCT_DELETE, { configRouter?.removeProduct(it) })
 
 
-                //POS & Stock
+                //POS & Warehouse
                 registerHandler(routerFactory, EndpointUriOperationId.POS_CREATE, { configRouter?.createPOS(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.POS_LIST, { configRouter?.getPOSList(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.POS_UPDATE, { configRouter?.updatePOS(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.POS_GET, { configRouter?.getPOSById(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.POS_DELETE, { configRouter?.deletePOS(it) })
 
-                registerHandler(routerFactory, EndpointUriOperationId.STOCK_CREATE, { configRouter?.createStock(it) })
-                registerHandler(routerFactory, EndpointUriOperationId.STOCK_LIST, { configRouter?.stockList(it) })
-                registerHandler(routerFactory, EndpointUriOperationId.STOCK_UPDATE, { configRouter?.updateStock(it) })
-                registerHandler(routerFactory, EndpointUriOperationId.STOCK_GET, { configRouter?.getStockById(it) })
-                registerHandler(routerFactory, EndpointUriOperationId.STOCK_DELETE, { configRouter?.deleteStock(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_CREATE, { configRouter?.createStock(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_LIST, { configRouter?.stockList(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_UPDATE, { configRouter?.updateStock(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_GET, { configRouter?.getStockById(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_DELETE, { configRouter?.deleteStock(it) })
 
+                // establishment
+                registerHandler(routerFactory, EndpointUriOperationId.ESTABLISHMENT_CREATE, { configRouter?.createEstablishment(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.ESTABLISHMENT_UPDATE, { configRouter?.updateEstablishment(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.ESTABLISHMENT_LIST, { configRouter?.establishmentList(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.ESTABLISHMENT_GET, { configRouter?.getEstablishmentById(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.ESTABLISHMENT_DELETE, { configRouter?.deleteEstablishment(it) })
 
                 //units
                 registerHandler(routerFactory, EndpointUriOperationId.UNIT_LIST, { configRouter?.getUnitList(it) })
@@ -266,18 +270,18 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
 //                registerHandler(routerFactory, EndpointUriOperationId.PRODUCT_DELETE, { configRouter?.removeProduct(it) })
 //
 //
-//                //POS & Stock
+//                //POS & Warehouse
 //                registerHandler(routerFactory, EndpointUriOperationId.POS_CREATE, { configRouter?.createPOS(it) })
 //                registerHandler(routerFactory, EndpointUriOperationId.POS_LIST, { configRouter?.getPOSList(it) })
 //                registerHandler(routerFactory, EndpointUriOperationId.POS_UPDATE, { configRouter?.updatePOS(it) })
 //                registerHandler(routerFactory, EndpointUriOperationId.POS_GET, { configRouter?.getPOSById(it) })
 //                registerHandler(routerFactory, EndpointUriOperationId.POS_DELETE, { configRouter?.deletePOS(it) })
 //
-//                registerHandler(routerFactory, EndpointUriOperationId.STOCK_CREATE, { configRouter?.createStock(it) })
-//                registerHandler(routerFactory, EndpointUriOperationId.STOCK_LIST, { configRouter?.stockList(it) })
-//                registerHandler(routerFactory, EndpointUriOperationId.STOCK_UPDATE, { configRouter?.updateStock(it) })
-//                registerHandler(routerFactory, EndpointUriOperationId.STOCK_GET, { configRouter?.getStockById(it) })
-//                registerHandler(routerFactory, EndpointUriOperationId.STOCK_DELETE, { configRouter?.deleteStock(it) })
+//                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_CREATE, { configRouter?.createStock(it) })
+//                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_LIST, { configRouter?.stockList(it) })
+//                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_UPDATE, { configRouter?.updateStock(it) })
+//                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_GET, { configRouter?.getStockById(it) })
+//                registerHandler(routerFactory, EndpointUriOperationId.WAREHOUSE_DELETE, { configRouter?.deleteStock(it) })
 //
 //
 //                //units

@@ -54,12 +54,19 @@ enum class EndpointUriOperationId(val endpoint: String) {
     POS_GET("pos-get"),
     POS_DELETE("pos-delete"),
 
-    //stock
-    STOCK_CREATE("stock-create"),
-    STOCK_LIST("stock-list"),
-    STOCK_UPDATE("stock-update"),
-    STOCK_GET("stock-get"),
-    STOCK_DELETE("stock-delete"),
+    //warehouse
+    WAREHOUSE_CREATE("warehouse-create"),
+    WAREHOUSE_LIST("warehouse-list"),
+    WAREHOUSE_UPDATE("warehouse-update"),
+    WAREHOUSE_GET("warehouse-get"),
+    WAREHOUSE_DELETE("warehouse-delete"),
+
+    //establishment
+    ESTABLISHMENT_CREATE("establishment-create"),
+    ESTABLISHMENT_LIST("establishment-list"),
+    ESTABLISHMENT_UPDATE("establishment-update"),
+    ESTABLISHMENT_GET("establishment-get"),
+    ESTABLISHMENT_DELETE("establishment-delete"),
 
     //company
     COMPANY_CREATE("company-create"),

@@ -1,7 +1,5 @@
 package com.basicsteps.multipos.worker.handling
 
-import com.basicsteps.multipos.config.CommonConstants
-import com.basicsteps.multipos.core.DbManager
 import com.basicsteps.multipos.event_bus_channels.CompanyHandlerChannel
 import com.basicsteps.multipos.event_bus_channels.ConfigHandlerChannel
 import com.basicsteps.multipos.event_bus_channels.SignInHandlerChannel
@@ -110,18 +108,18 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.PRODUCT_UPDATE.value(), { configHandler?.updateProduct(it) })
         registerHandler(ConfigHandlerChannel.PRODUCT_TRASH.value(), {configHandler?.trashCompany(it) })
 
-        //POS & Stock
+        //POS & Warehouse
         registerHandler(ConfigHandlerChannel.POS_CREATE.value(), { configHandler?.createPOS(it) })
         registerHandler(ConfigHandlerChannel.POS_LIST.value(), { configHandler?.getPOSList(it) })
         registerHandler(ConfigHandlerChannel.POS_UPDATE.value(), { configHandler?.updatePOS(it) })
         registerHandler(ConfigHandlerChannel.POS_DELETE.value(), { configHandler?.deletePOS(it) })
         registerHandler(ConfigHandlerChannel.POS_GET.value(), { configHandler?.getPOSById(it) })
 
-        registerHandler(ConfigHandlerChannel.STOCK_CREATE.value(), { configHandler?.createStock(it) })
-        registerHandler(ConfigHandlerChannel.STOCK_LIST.value(), { configHandler?.getStockList(it) })
-        registerHandler(ConfigHandlerChannel.STOCK_UPDATE.value(), { configHandler?.updateStock(it) })
-        registerHandler(ConfigHandlerChannel.STOCK_DELETE.value(), { configHandler?.deleteStock(it) })
-        registerHandler(ConfigHandlerChannel.STOCK_GET.value(), { configHandler?.getStockById(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_CREATE.value(), { configHandler?.createStock(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_LIST.value(), { configHandler?.getStockList(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_UPDATE.value(), { configHandler?.updateStock(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_DELETE.value(), { configHandler?.deleteStock(it) })
+        registerHandler(ConfigHandlerChannel.WAREHOUSE_GET.value(), { configHandler?.getStockById(it) })
 
         //Establishment
         registerHandler(ConfigHandlerChannel.ESTABLISHMENT_CREATE.value(), { configHandler?.createEstablishment(it) })
