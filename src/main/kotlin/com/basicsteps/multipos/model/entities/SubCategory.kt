@@ -7,11 +7,7 @@ import de.braintags.io.vertx.pojomapper.annotation.Entity
 
 @Entity
 data class SubCategory(@SerializedName("name") var name: String,
-                       @Transient @SerializedName("category_id") var categoryId: String) : BaseModel() {
-
-    @SerializedName("category")
-    lateinit var category: Category
-
+                       @SerializedName("category_id") var categoryId: String) : BaseModel() {
 
     constructor() : this("", "")
 
@@ -34,7 +30,6 @@ data class SubCategory(@SerializedName("name") var name: String,
         //specification
         result.name = name
         result.categoryId = categoryId
-        result.category = category
 
         return result
     }

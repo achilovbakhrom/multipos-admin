@@ -121,6 +121,13 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 registerHandler(routerFactory, EndpointUriOperationId.CATEGORY_GET, { configRouter?.getCategoryById(it)})
                 registerHandler(routerFactory, EndpointUriOperationId.CATEGORY_DELETE, { configRouter?.deleteCategory(it)})
 
+                //SubCategory
+                registerHandler(routerFactory, EndpointUriOperationId.SUBCATEGORY_CREATE, { configRouter?.createSubCategory(it)})
+                registerHandler(routerFactory, EndpointUriOperationId.SUBCATEGORY_LIST, { configRouter?.getSubCategoryList(it)})
+                registerHandler(routerFactory, EndpointUriOperationId.SUBCATEGORY_UPDATE, { configRouter?.updateSubCategory(it)})
+                registerHandler(routerFactory, EndpointUriOperationId.SUBCATEGORY_GET, { configRouter?.getSubCategoryById(it)})
+                registerHandler(routerFactory, EndpointUriOperationId.SUBCATEGORY_DELETE, { configRouter?.deleteSubCategory(it)})
+
                 //Product
                 registerHandler(routerFactory, EndpointUriOperationId.PRODUCT_LIST, { configRouter?.getProductList(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.PRODUCT_GET, { configRouter?.getProductById(it) })

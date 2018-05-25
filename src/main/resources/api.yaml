@@ -1681,6 +1681,246 @@ paths:
         default:
           description: unexpected error
 
+  /api/v1/subcategory/create:
+    post:
+      summary: Create SubCategory
+      operationId: subcategory-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                category_id:
+                  type: string
+      responses:
+        '200':
+          description: Returns just created subcategory
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      category_id:
+                        type: string
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/subcategory/update:
+    put:
+      summary: Updates SubCategory
+      operationId: subcategory-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                id:
+                  type: string
+                category_id:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: Returns updated subcategory
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      id:
+                        type: string
+                      category_id:
+                        type: string
+                      active:
+                        type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/subcategory-list:
+    get:
+      summary: Returns subcategory list
+      operationId: subcategory-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: Page of querying list
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          required: false
+          description: Page size of querying list
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns subcategory list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        id:
+                          type: string
+                        category_id:
+                          type: string
+                        active:
+                          type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/subcategory/{id}:
+    get:
+      summary: Returns subcategory by id
+      operationId: subcategory-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding subcategory id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns subcategory list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      id:
+                        type: string
+                      category_id:
+                        type: string
+                      active:
+                        type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/subcategory/delete/{id}:
+    delete:
+      summary: Deleting the SubCategory
+      operationId: subcategory-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting subcategory id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns deleted subcategory
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      id:
+                        type: string
+                      category_id:
+                        type: string
+                      active:
+                        type: boolean
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
   /api/v1/establishment/create:
     post:
       summary: Create an Establishment
@@ -3274,8 +3514,8 @@ components:
           type: string
         description:
           type: string
-        is_ingredient:
-          type: string
+        ingredient:
+          type: boolean
         has_ingredient:
           type: boolean
         ingredients:

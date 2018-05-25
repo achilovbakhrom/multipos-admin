@@ -82,6 +82,13 @@ enum class EndpointUriOperationId(val endpoint: String) {
     CATEGORY_GET("category-get"),
     CATEGORY_DELETE("category-delete"),
 
+    //Category
+    SUBCATEGORY_CREATE("subcategory-create"),
+    SUBCATEGORY_UPDATE("subcategory-update"),
+    SUBCATEGORY_LIST("subcategory-list"),
+    SUBCATEGORY_GET("subcategory-get"),
+    SUBCATEGORY_DELETE("subcategory-delete"),
+
     PRODUCT_LIST("product-list"),
     PRODUCT_GET("product-get"),
     PRODUCT_CREATE("product-create"),

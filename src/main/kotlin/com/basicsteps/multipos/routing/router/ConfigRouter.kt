@@ -228,7 +228,7 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
     }
 
     /**
-     *  Product class routes
+     *  Category routes
      */
     fun createCategory(routingContext: RoutingContext) {
         RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.CATEGORY_CREATE.value())
@@ -248,6 +248,29 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
 
     fun deleteCategory(routingContext: RoutingContext) {
         RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.CATEGORY_DELETE.value())
+    }
+
+    /**
+     *  SubCategory routes
+     */
+    fun createSubCategory(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.SUBCATEGORY_CREATE.value())
+    }
+
+    fun getSubCategoryList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.SUBCATEGORY_LIST.value())
+    }
+
+    fun updateSubCategory(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.SUBCATEGORY_UPDATE.value())
+    }
+
+    fun getSubCategoryById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.SUBCATEGORY_GET.value())
+    }
+
+    fun deleteSubCategory(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.SUBCATEGORY_DELETE.value())
     }
 
     /**

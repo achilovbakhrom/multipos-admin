@@ -16,7 +16,7 @@ enum class TaxRoundingType(val type: Int) {
 data class Tax(@SerializedName("name") var name: String,
                @SerializedName("rounding_type") var roundingType: Int,
                @SerializedName("tax_rate") var taxRate: Double,
-               @SerializedName("is_excise") var isExcise: Boolean) : BaseModel() {
+               @SerializedName("excise") var excise: Boolean) : BaseModel() {
 
     constructor() : this("", TaxRoundingType.MATH.value(), 0.0, false)
 
@@ -40,7 +40,7 @@ data class Tax(@SerializedName("name") var name: String,
         result.name = name
         result.roundingType = roundingType
         result.taxRate = taxRate
-        result.isExcise = isExcise
+        result.excise = excise
 
         return result
 

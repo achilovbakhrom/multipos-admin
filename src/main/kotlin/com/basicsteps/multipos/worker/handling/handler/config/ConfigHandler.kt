@@ -85,12 +85,6 @@ class ConfigHandler(vertx: Vertx) {
     fun getUnitById(message: Message<String>) {unitHandler?.getUnitById(message)}
     fun updateUnit(message: Message<String>) { unitHandler?.updateUnit(message) }
 
-
-    /**
-     *  Subcategory handlers
-     */
-    fun getSubcategories(message: Message<String>) {  }
-
     /**
      *  Currency handlers
      */
@@ -171,6 +165,15 @@ class ConfigHandler(vertx: Vertx) {
     fun deleteCategory(message: Message<String>) { categoryHandler?.trashCategoryById(message) }
 
     /**
+     *  SubCategory handlers
+     */
+    fun createSubCategory(message: Message<String>) { subCategoryHandler?.createSubCategory(message) }
+    fun updateSubCategory(message: Message<String>) { subCategoryHandler?.updateSubCategory(message) }
+    fun getSubCategory(message: Message<String>) { subCategoryHandler?.getSubCategoryList(message) }
+    fun getSubCategoryById(message: Message<String>) { subCategoryHandler?.getSubCategoryById(message) }
+    fun deleteSubCategory(message: Message<String>) { subCategoryHandler?.trashSubCategoryById(message) }
+
+    /**
      *  Discount
      */
     fun createDiscount(message: Message<String>) { discountHandler?.createDiscount(message) }
@@ -230,16 +233,16 @@ class ConfigHandler(vertx: Vertx) {
      */
     fun getProductList(message: Message<String>) { productHandler?.getProductList(message) }
     fun getProductById(message: Message<String>) {
-
+        productHandler?.getProductById(message)
     }
     fun createProduct(message: Message<String>) {
-
+        productHandler?.createProduct(message)
     }
     fun updateProduct(message: Message<String>) {
-
+        productHandler?.updateProduct(message)
     }
     fun deleteProduct(message: Message<String>) {
-
+        productHandler?.trashProductById(message)
     }
 
     /**

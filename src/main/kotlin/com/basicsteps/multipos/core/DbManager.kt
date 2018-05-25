@@ -138,6 +138,8 @@ class DbManager(vertx: Vertx) {
             taxDao?.dataStore                       = temp
             serviceFeeDao?.dataStore                = temp
             categoryDao?.dataStore                  = temp
+            subCategoryDao?.dataStore               = temp
+            productToTaxDao?.dataStore              = temp
         }
     }
     fun close() { keycloak?.close() }

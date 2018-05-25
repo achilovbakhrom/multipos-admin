@@ -2,6 +2,7 @@ package com.basicsteps.multipos.worker.handling.handler.config
 
 import com.basicsteps.multipos.core.dao.DataStoreException
 import com.basicsteps.multipos.core.handler.BaseCRUDHandler
+import com.basicsteps.multipos.core.model.RequestModel
 import com.basicsteps.multipos.core.model.exceptions.UpdateDbFailedException
 import com.basicsteps.multipos.core.model.exceptions.WriteDbFailedException
 import com.basicsteps.multipos.core.response.MultiPosResponse
@@ -38,6 +39,7 @@ class ProductHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             product.userId = jsonObject.getString("userId")
 
             val request = JsonUtils.toPojo<MultiposRequest<Product>>(message.body().toString())
+            request.userId = jsonObject.getString("userId")
             dbManager
                     .productDao
                     ?.save(request.data!!)
@@ -55,7 +57,7 @@ class ProductHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
                         dbManager.productToTaxDao?.saveAll(it, product.userId!!)
                     })
                     ?.subscribe({ result ->
-                        message.reply(MultiPosResponse<Any>(result, null, "OK", HttpResponseStatus.OK.code()).toJson())
+                        message.reply(MultiPosResponse<Any>(product, null, "OK", HttpResponseStatus.OK.code()).toJson())
                     }, { error ->
                         when (error) {
                             is WriteDbFailedException -> message.reply(MultiPosResponse(null, error.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson())
@@ -63,7 +65,7 @@ class ProductHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
                         }
                     })
 
-            save(message, dao = dbManager.productDao!!)
+//            save(message, dao = dbManager.productDao!!)
         }
     }
 
@@ -104,10 +106,27 @@ class ProductHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
 
     fun getProductById(message: Message<String>) {
         if (message.body() != null) {
+
             val jsonObject = JsonObject(message.body())
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
-            findById(message, dao = dbManager.productDao!!)
+            var requestModel = RequestModel()
+            if (jsonObject.getJsonObject("params") != null)
+                requestModel = JsonUtils.toPojo(json = jsonObject.getJsonObject("params").toString())
+
+            var result = Product()
+            dbManager
+                    .productDao
+                    ?.findById(requestModel.id)
+                    ?.flatMap({
+                        result = it
+                        dbManager.taxDao?.getTaxListByIds(it.taxIds!!)
+                    })
+                    ?.subscribe({
+                        result.taxes = it
+                        message.reply(MultiPosResponse(result, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
+                    })
+
         }
     }
 

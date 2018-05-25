@@ -14,7 +14,7 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
                    @SerializedName("unit_id") var unitId: String,
                    @SerializedName("product_class_id") var productClassId: String,
                    @SerializedName("description") var description: String,
-                   @SerializedName("is_ingredient") var isIngredient: Boolean,
+                   @SerializedName("ingredient") var ingredient: Boolean,
                    @SerializedName("has_ingredient") var hasIngredient: Boolean,
                    @SerializedName("ingredients") var ingredients: List<String>,
                    @SerializedName("country") var country: String,
@@ -70,7 +70,7 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
         result.unitId = unitId
         result.productClassId = productClassId
         result.description = description
-        result.isIngredient = isIngredient
+        result.ingredient = ingredient
         result.hasIngredient = hasIngredient
         result.ingredients = ingredients
         result.country = country

@@ -2,6 +2,7 @@ package com.basicsteps.multipos.model.entities
 
 import com.basicsteps.multipos.core.model.BaseModel
 import com.basicsteps.multipos.core.model.Instanceable
+import com.basicsteps.multipos.model.Contact
 import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
 import de.braintags.io.vertx.pojomapper.annotation.field.Embedded
@@ -49,10 +50,9 @@ data class Vendor(@SerializedName("vendor_id") var vendorId: String,
 @Entity
 data class Person(@SerializedName("first_name") var firstName: String,
                   @SerializedName("last_name") var lastName: String,
-                  @SerializedName("email") var email: String,
-                  @SerializedName("phone_number") var phoneNumber: String) : BaseModel() {
+                  @SerializedName("contact_list") var contactList: List<Contact>) : BaseModel() {
 
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", listOf())
     override fun instance(): Instanceable {
         val result = Person()
 
@@ -72,8 +72,7 @@ data class Person(@SerializedName("first_name") var firstName: String,
         //specs
         result.firstName = firstName
         result.lastName = lastName
-        result.email = email
-        result.phoneNumber = phoneNumber
+        result.contactList = contactList
 
         return result
     }
