@@ -3106,7 +3106,382 @@ paths:
         default:
           description: unexpected error
 
+  # /api/v1/test:
+  #   delete:
+  #     summary: test summary
+  #     operationId: test-operation
+  #     responses:
+  #       '200':
+  #         description: test description
 
+
+  /api/v1/customer/create:
+    post:
+      summary: Creates a Customer
+      operationId: customer-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the created customer
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer/update:
+    put:
+      summary: Updates customer
+      operationId: customer-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the updated customer
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer/{id}:
+    get:
+      summary: Returns finding customer by given id by the path
+      operationId: customer-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          description: Finding customer's id
+#          schema:
+#            type: string
+      responses:
+        '200':
+          description: Returns found customer
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer/delete/{id}:
+    delete:
+      summary: Deleting customer
+      operationId: customer-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          description: Deleting customer's id
+#          schema:
+#            type: string
+      responses:
+        '200':
+          description: Returns the deleted customer
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer-list:
+    get:
+      summary: Get customer list
+      operationId: customer-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: query
+#          name: page
+#          description: Getting list page
+#          required: false
+#          schema:
+#            type: integer
+#        - in: query
+#          name: page_size
+#          description: Getting list page_size
+#          required: false
+#          schema:
+#            type: integer
+      responses:
+        '200':
+          description: Returns list of customer
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    type: array
+#                    items:
+#                      $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/employee/create:
+    post:
+      summary: Creates Employee
+      operationId: employee-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the created employee
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/employee/update:
+    put:
+      summary: Updates employee
+      operationId: employee-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the updated employee
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/employee/{id}:
+    get:
+      summary: Returns finding employee by given id by the path
+      operationId: employee-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          description: Finding customer's id
+#          schema:
+#            type: string
+      responses:
+        '200':
+          description: Returns found customer
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/employee/delete/{id}:
+    delete:
+      summary: Deleting employee
+      operationId: employee-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          description: Deleting customer's id
+#          schema:
+#            type: string
+      responses:
+        '200':
+          description: Returns the deleted employee
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/employee-list:
+    get:
+      summary: Get employee list
+      operationId: employee-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: query
+#          name: page
+#          description: Getting list page
+#          required: false
+#          schema:
+#            type: integer
+#        - in: query
+#          name: page_size
+#          description: Getting list page_size
+#          required: false
+#          schema:
+#            type: integer
+      responses:
+        '200':
+          description: Returns list of employee
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    type: array
+#                    items:
+#                      $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
 
 
   /api/v1/product-list:

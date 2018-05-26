@@ -342,6 +342,52 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
         RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.SERVICE_FEE_DELETE.value())
     }
 
+    /**
+     *  Customer
+     */
+    fun createCustomer(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.CUSTOMER_CREATE.value())
+    }
+
+    fun updateCustomer(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.CUSTOMER_UPDATE.value())
+    }
+
+    fun getCustomerList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.CUSTOMER_LIST.value())
+    }
+
+    fun getCustomerById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.CUSTOMER_GET.value())
+    }
+
+    fun deleteCustomer(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.CUSTOMER_DELETE.value())
+    }
+
+    /**
+     *  Employee
+     */
+    fun createEmployee(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.EMPLOYEE_CREATE.value())
+    }
+
+    fun updateEmployee(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.EMPLOYEE_UPDATE.value())
+    }
+
+    fun getEmployeeList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.EMPLOYEE_LIST.value())
+    }
+
+    fun getEmployeeById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.EMPLOYEE_GET.value())
+    }
+
+    fun deleteEmployee(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.EMPLOYEE_DELETE.value())
+    }
+
 
     // ---------------- Combo routes --------------------
     fun createComboProduct(routingContext: RoutingContext) {

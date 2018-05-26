@@ -161,6 +161,20 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.SERVICE_FEE_GET.value(), { configHandler?.getServiceFeeById(it)})
         registerHandler(ConfigHandlerChannel.SERVICE_FEE_LIST.value(), { configHandler?.getServiceFeeList(it)})
         registerHandler(ConfigHandlerChannel.SERVICE_FEE_DELETE.value(), { configHandler?.deleteServiceFee(it)})
+
+        //Customer
+        registerHandler(ConfigHandlerChannel.CUSTOMER_CREATE.value(), { configHandler?.createCustomer(it)})
+        registerHandler(ConfigHandlerChannel.CUSTOMER_UPDATE.value(), { configHandler?.updateCustomer(it)})
+        registerHandler(ConfigHandlerChannel.CUSTOMER_GET.value(), { configHandler?.getCustomerById(it)})
+        registerHandler(ConfigHandlerChannel.CUSTOMER_LIST.value(), { configHandler?.getCustomerList(it)})
+        registerHandler(ConfigHandlerChannel.CUSTOMER_DELETE.value(), { configHandler?.deleteCustomer(it)})
+
+        //Customer
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_CREATE.value(), { configHandler?.createEmployee(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_UPDATE.value(), { configHandler?.updateEmployee(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_GET.value(), { configHandler?.getEmployeeById(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_LIST.value(), { configHandler?.getEmployeeList(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_DELETE.value(), { configHandler?.deleteEmployee(it)})
     }
 
     private fun registerHandler(channelName: String, handler: (Message<String>) -> Unit) {

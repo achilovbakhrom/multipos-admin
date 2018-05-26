@@ -13,6 +13,20 @@ enum class AccountType(val type: Int) { // Account types
     fun value() : Int = type
 }
 
+enum class DocumentType(val type: Int) { // Account types
+    SALE(0),
+    PURCHASE(1),
+    VENDOR_DEBT_PAYMENTS(2);
+    fun value() : Int = type
+}
+
+enum class OrderStatus(val type: Int) { // Account types
+    OPEN(0),
+    CLOSED(1),
+    PENDING(2);
+    fun value() : Int = type
+}
+
 enum class ContactType(val type: Int) {
     PHONE(0),
     EMAIL(1),

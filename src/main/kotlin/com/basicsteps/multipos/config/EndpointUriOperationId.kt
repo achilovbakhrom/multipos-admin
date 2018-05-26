@@ -121,11 +121,26 @@ enum class EndpointUriOperationId(val endpoint: String) {
     TAX_GET("tax-get"),
     TAX_DELETE("tax-delete"),
 
+    //Service Fee
     SERVICE_FEE_CREATE("service-fee-create"),
     SERVICE_FEE_UPDATE("service-fee-update"),
     SERVICE_FEE_LIST("service-fee-list"),
     SERVICE_FEE_GET("service-fee-get"),
     SERVICE_FEE_DELETE("service-fee-delete"),
+
+    //Customer
+    CUSTOMER_CREATE("customer-create"),
+    CUSTOMER_UPDATE("customer-update"),
+    CUSTOMER_LIST("customer-list"),
+    CUSTOMER_GET("customer-get"),
+    CUSTOMER_DELETE("customer-delete"),
+
+    //Employee
+    EMPLOYEE_CREATE("employee-create"),
+    EMPLOYEE_UPDATE("employee-update"),
+    EMPLOYEE_LIST("employee-list"),
+    EMPLOYEE_GET("employee-get"),
+    EMPLOYEE_DELETE("employee-delete"),
 
 
 }

@@ -203,6 +203,20 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 registerHandler(routerFactory, EndpointUriOperationId.SERVICE_FEE_GET, { configRouter?.getServiceFeeById(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.SERVICE_FEE_DELETE, { configRouter?.deleteServiceFee(it) })
 
+                //Customer
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_CREATE, { configRouter?.createCustomer(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_UPDATE, { configRouter?.updateCustomer(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_LIST, { configRouter?.getCustomerList(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GET, { configRouter?.getCustomerById(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_DELETE, { configRouter?.deleteCustomer(it) })
+
+                //Employee
+                registerHandler(routerFactory, EndpointUriOperationId.EMPLOYEE_CREATE, { configRouter?.createEmployee(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EMPLOYEE_UPDATE, { configRouter?.updateEmployee(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EMPLOYEE_LIST, { configRouter?.getEmployeeList(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EMPLOYEE_GET, { configRouter?.getEmployeeById(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EMPLOYEE_DELETE, { configRouter?.deleteEmployee(it) })
+
                 //CORS accesses
                 val router = routerFactory.router
                 router.route().handler(CorsHandler.create("*").putCorsAccesses())

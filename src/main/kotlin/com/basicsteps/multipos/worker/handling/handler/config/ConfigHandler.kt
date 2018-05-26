@@ -45,6 +45,8 @@ class ConfigHandler(vertx: Vertx) {
     var taxHandler: TaxHandler? = null
     var serviceFeeHandler: ServiceFeeHandler? = null
     var warehouseHandler: WarehouseHandler? = null
+    var customerHandler: CustomerHandler? = null
+    var employeeHandler: EmployeeHandler? = null
     /**
      *  init of all handlers
      */
@@ -66,6 +68,8 @@ class ConfigHandler(vertx: Vertx) {
         taxHandler = TaxHandler(vertx)
         serviceFeeHandler = ServiceFeeHandler(vertx)
         warehouseHandler = WarehouseHandler(vertx)
+        customerHandler = CustomerHandler(vertx)
+        employeeHandler = EmployeeHandler(vertx)
     }
 
     /**
@@ -226,6 +230,52 @@ class ConfigHandler(vertx: Vertx) {
 
     fun deleteServiceFee(message: Message<String>) {
         serviceFeeHandler?.deleteServiceFee(message)
+    }
+
+    /**
+     *  Customer
+     */
+    fun createCustomer(message: Message<String>) {
+        customerHandler?.createCustomer(message)
+    }
+
+    fun updateCustomer(message: Message<String>) {
+        customerHandler?.updateCustomer(message)
+    }
+
+    fun getCustomerList(message: Message<String>) {
+        customerHandler?.getCustomerList(message)
+    }
+
+    fun getCustomerById(message: Message<String>) {
+        customerHandler?.getCustomerById(message)
+    }
+
+    fun deleteCustomer(message: Message<String>) {
+        customerHandler?.deleteCustomer(message)
+    }
+
+    /**
+     *  Employee
+     */
+    fun createEmployee(message: Message<String>) {
+        employeeHandler?.createEmployee(message)
+    }
+
+    fun updateEmployee(message: Message<String>) {
+        employeeHandler?.updateEmployee(message)
+    }
+
+    fun getEmployeeList(message: Message<String>) {
+        employeeHandler?.getEmployeeList(message)
+    }
+
+    fun getEmployeeById(message: Message<String>) {
+        employeeHandler?.getEmployeeById(message)
+    }
+
+    fun deleteEmployee(message: Message<String>) {
+        employeeHandler?.deleteEmployee(message)
     }
 
     /**
