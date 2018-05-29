@@ -6,6 +6,7 @@ import com.basicsteps.multipos.core.model.exceptions.*
 import com.basicsteps.multipos.core.response.MultiPosResponse
 import com.basicsteps.multipos.core.response.MultiposRequest
 import com.basicsteps.multipos.model.*
+import com.basicsteps.multipos.model.entities.Account
 import com.basicsteps.multipos.utils.JsonUtils
 import com.basicsteps.multipos.utils.SystemConfig
 import io.netty.handler.codec.http.HttpResponseStatus
@@ -118,20 +119,29 @@ class CompanyHandler(vertx: Vertx): BaseCRUDHandler(vertx) {
             .flatMap({ unitCategories -> dbManager.unitCategoryEntityDao?.saveAll(unitCategories, userId) })
             .flatMap({ SystemConfig.getCurrencies(vertx) })
             .flatMap({ currencies -> dbManager.currencyDao?.saveAll(currencies, userId) })
+            .flatMap({
+                val coinAccount = Account()
+                coinAccount.name = "Coin Account"
+                coinAccount.type = AccountType.CASH.value()
+                dbManager.accountDao?.save(coinAccount)
+            })
             .map({
                 val tenantsObject = Tenants()
                 tenantsObject.tenant = tenantId
                 tenantsObject.companyIdentifier = companyId
                 tenantsObject
             })
-            .flatMap({ tenant -> dbManager.tenantsDao?.save(tenant)})
+            .flatMap({
+                tenant -> dbManager.tenantsDao?.save(tenant)})
             .map({
                 val userCompanyRel = UserCompanyRel()
                 userCompanyRel.userName = userId
                 userCompanyRel.tenantId= tenantId
                 userCompanyRel
             })
-            .flatMap({ item -> dbManager.userCompanyRelDao?.save(item) })
+            .flatMap({
+                item -> dbManager.userCompanyRelDao?.save(item)
+            })
             .subscribe()
     }
 
