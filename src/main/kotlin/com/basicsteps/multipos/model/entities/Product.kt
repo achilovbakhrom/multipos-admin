@@ -4,6 +4,7 @@ import com.basicsteps.multipos.core.model.BaseModel
 import com.basicsteps.multipos.core.model.Instanceable
 import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
+import de.braintags.io.vertx.pojomapper.annotation.field.Embedded
 
 @Entity
 data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
@@ -20,8 +21,8 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
                    @SerializedName("country") var country: String,
                    @SerializedName("price") var price: Double,
                    @SerializedName("price_currency_id") var priceCurrencyId: String,
-                   @SerializedName("product_as_ingridient") var productAsIngridient: ProductAsIngridient?,
-                   @SerializedName("product_has_ingridient") var productHasIngridient: List<ProductHasIngridient>?,
+                   @Embedded @SerializedName("product_as_ingridient") var productAsIngredient: ProductAsIngridient?,
+                   @Embedded @SerializedName("product_has_ingridient") var productHasIngredient: List<ProductHasIngridient>?,
                    @SerializedName("tax_ids") var taxIds: List<String>?,
                    @SerializedName("taxes") var taxes: List<Tax>?) : BaseModel() {
 
@@ -76,8 +77,8 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
         result.country = country
         result.price = price
         result.priceCurrencyId = priceCurrencyId
-        result.productAsIngridient = productAsIngridient
-        result.productHasIngridient = productHasIngridient
+        result.productAsIngredient = productAsIngredient
+        result.productHasIngredient = productHasIngredient
         result.taxIds = taxIds
         result.taxes = taxes
 
@@ -85,12 +86,74 @@ data class Product(@SerializedName("subcategory_id") var subcategoryId: String,
     }
 }
 
+@Entity
 data class ProductAsIngridient(@SerializedName("name") var name: String?,
                                @SerializedName("quantity") var quantity: Double?,
                                @SerializedName("unit_id") var unitId: String
-)
+) :BaseModel(){
+    constructor(): this(
+        "",
+        0.0,
+        ""
+    )
 
-data class ProductHasIngridient(@SerializedName("ingridient") var name: String?,
+    override fun instance(): Instanceable {
+
+        val result = ProductAsIngridient()
+        //base
+        result.createdTime = createdTime
+        result.modifiedTime = modifiedTime
+        result.createdBy = createdBy
+        result.modifiedBy = modifiedBy
+        result.active = active
+        result.deleted = deleted
+        result.userId = userId
+        result.rootId = rootId
+        result.modifiedId = modifiedId
+        result.posId = posId
+        result.access = access
+
+        //specs
+        result.name = name
+        result.quantity = quantity
+        result.unitId = unitId
+
+        return result
+    }
+}
+
+@Entity
+data class ProductHasIngridient(@SerializedName("ingridient") var ingridient: String?,
                                 @SerializedName("quantity") var quantity: Double?,
                                 @SerializedName("unit_id") var unitId: String
-)
+) : BaseModel() {
+
+    constructor() :this (
+            "",
+            0.0,
+            ""
+    )
+
+    override fun instance(): Instanceable {
+        val result = ProductHasIngridient()
+        //base
+        result.createdTime = createdTime
+        result.modifiedTime = modifiedTime
+        result.createdBy = createdBy
+        result.modifiedBy = modifiedBy
+        result.active = active
+        result.deleted = deleted
+        result.userId = userId
+        result.rootId = rootId
+        result.modifiedId = modifiedId
+        result.posId = posId
+        result.access = access
+
+        //specs
+        result.ingridient = ingridient
+        result.quantity = quantity
+        result.unitId = unitId
+
+        return result
+    }
+}

@@ -26,7 +26,7 @@
     <facet type="web" name="Web Gradle : jcg-gradle-war-example-1.0-SNAPSHOT.war">
       <configuration>
         <webroots>
-          <root url="file://$MODULE_DIR$/../../WebContent" relative="/" />
+          <root url="file://C:\MyFolder\Multi-Pos\multipos-admin\WebContent" relative="/" />
         </webroots>
       </configuration>
     </facet>
@@ -35,7 +35,6 @@
     <output url="file://$MODULE_DIR$/../../out/production/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/main">
-      <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/kotlin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
     </content>
