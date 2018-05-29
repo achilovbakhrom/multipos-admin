@@ -1,11 +1,11 @@
 keycloak:
   admin: basicsteps
   password: 26091981
-  public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn9Xya697ZVZzQidld4uCwRoWmLyWBDQQhn+EL1e0WDUWq9v39OBpM+HadkYlOMvfU1A8ohGZZVBkKV4w35gkm3bFPluCPsWxdcqD1NNF6BnIC6bRicgP/4beeehff8nWI3mFAfH7Q7Ik8mm8BDQYhOPRx50JBkDiIQ7AlAjNJ+5/eIj6Pt/eZSmMSk+vM4Xu64E0mCZfHpN+VPQejNBz7h9nEdi3swIIo0ot2+5PZGELX/2Dek7cY4RMKGb+rvU6ug3UvZHQ985KuubKsWMCs8A80yWSoA6umw1DC5rAmc5jo/6giWawuFj5jFZRx69CcMSx1VaEJ5lS4LmAi5sXuQIDAQAB
+  public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhnbcCfb3FHQ6YfPIWaRjtnyVW2UYxuw+mkp8mPSxCFFBqIHjsojsnwVPcbkBTvEcmp+3bHH9cEfARlCcp58sMZjeZGnGNT3k/x7gHE9U3sq+CLsXawuX4B7mOiHlqazrVFOfaDW/Jt60+byLNEqQ8M7M95WAmaejQZxthxTAUaCJYA5ImRkx7sCudtnQIcQlA7LYlvvFHMX+bi021P5Nk/cd9VgmfLy8dxlnTwJMSvVUIUUcgfrBFhrk71gII/vhUaE5OEXM+KYtRdV6A+ycYPhnOe003LrTyQEbksSZtWyt0jyKxEon755OB1gpXk8fC5T1N/AgFX2PQ3svVlsstwIDAQAB
   bearer_client_id: vertx
-  bearer_client_secret: eda18747-3d11-456f-a553-d8e140cfaf58
+  bearer_client_secret: 0899ea60-9b28-4054-9030-2a56d03890bf
   token_client_id: token-client
-  token_client_secret: f95c67b3-95df-444d-98be-60513de51a0b
+  token_client_secret: 7bf9f3da-8357-40b9-a2a9-ef9c875394a0
   realm: master
   auth_endpoint: http://localhost:8080/auth
   access_token_endpoint: http://localhost:8080/auth/realms/master/protocol/openid-connect/token
