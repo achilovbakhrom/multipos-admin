@@ -14,7 +14,7 @@ import java.util.*
  */
 
 @Entity
-data class Order(@SerializedName("list_of_products") var listOfProducts: List<String>?,
+data class Order(@Embedded @SerializedName("list_of_products") var listOfProducts: List<ListItem>?,
                  @Embedded @SerializedName("list_of_payments") var listOfPayments: List<Payment>?,
                  @SerializedName("assigned_discount") var assignedDiscount: String?,
                  @SerializedName("assigned_service_fee") var assignedServiceFee: String?,
@@ -99,6 +99,41 @@ data class OrderHistory(@SerializedName("status") var status: String?,
         result.reason = reason
         result.description = description
         result.status = status
+
+        return result
+    }
+}
+
+@Entity
+data class ListItem(@SerializedName("product_id") var productId: String?,
+                    @SerializedName("quantity") var quantity: Double?,
+                    @SerializedName("unit_id") var unitId: String?) : BaseModel(), Serializable {
+
+    //TODO Order History
+
+    constructor() : this("", 0.0, "")
+
+    override fun instance() : Instanceable {
+        val result = ListItem()
+
+        //base
+        result.createdTime = createdTime
+        result.modifiedTime = modifiedTime
+        result.createdBy = createdBy
+        result.modifiedBy = modifiedBy
+        result.active = active
+        result.deleted = deleted
+        result.userId = userId
+        result.rootId = rootId
+        result.modifiedId = modifiedId
+        result.posId = posId
+        result.access = access
+
+        //spec
+
+        result.productId = productId
+        result.quantity = quantity
+        result.unitId = unitId
 
         return result
     }

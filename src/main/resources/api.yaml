@@ -3192,13 +3192,13 @@ paths:
         - TenantSecurity: []
       tags:
         - config
-#      parameters:
-#        - in: path
-#          name: id
-#          required: true
-#          description: Finding customer's id
-#          schema:
-#            type: string
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding customer's id
+          schema:
+            type: string
       responses:
         '200':
           description: Returns found customer
@@ -3228,13 +3228,13 @@ paths:
         - TenantSecurity: []
       tags:
         - config
-#      parameters:
-#        - in: path
-#          name: id
-#          required: true
-#          description: Deleting customer's id
-#          schema:
-#            type: string
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting customer's id
+          schema:
+            type: string
       responses:
         '200':
           description: Returns the deleted customer
@@ -3376,13 +3376,13 @@ paths:
         - TenantSecurity: []
       tags:
         - config
-#      parameters:
-#        - in: path
-#          name: id
-#          required: true
-#          description: Finding customer's id
-#          schema:
-#            type: string
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding customer's id
+          schema:
+            type: string
       responses:
         '200':
           description: Returns found customer
@@ -3412,13 +3412,13 @@ paths:
         - TenantSecurity: []
       tags:
         - config
-#      parameters:
-#        - in: path
-#          name: id
-#          required: true
-#          description: Deleting customer's id
-#          schema:
-#            type: string
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting customer's id
+          schema:
+            type: string
       responses:
         '200':
           description: Returns the deleted employee
@@ -3517,7 +3517,7 @@ paths:
           default:
             description: unexpected error
 
-    /api/v1/order/update:
+  /api/v1/order/update:
       put:
         summary: Updates order
         operationId: order-update
@@ -3551,7 +3551,7 @@ paths:
           default:
             description: unexpected error
 
-    /api/v1/order/{id}:
+  /api/v1/order/{id}:
       get:
         summary: Returns finding order by given id by the path
         operationId: order-get
@@ -3560,13 +3560,13 @@ paths:
           - TenantSecurity: []
         tags:
           - config
-  #      parameters:
-  #        - in: path
-  #          name: id
-  #          required: true
-  #          description: Finding customer's id
-  #          schema:
-  #            type: string
+        parameters:
+          - in: path
+            name: id
+            required: true
+            description: Finding customer's id
+            schema:
+              type: string
         responses:
           '200':
             description: Returns found order
@@ -3587,7 +3587,7 @@ paths:
           default:
             description: unexpected error
 
-    /api/v1/order/delete/{id}:
+  /api/v1/order/delete/{id}:
       delete:
         summary: Deleting order
         operationId: order-delete
@@ -3596,13 +3596,13 @@ paths:
           - TenantSecurity: []
         tags:
           - config
-  #      parameters:
-  #        - in: path
-  #          name: id
-  #          required: true
-  #          description: Deleting customer's id
-  #          schema:
-  #            type: string
+        parameters:
+          - in: path
+            name: id
+            required: true
+            description: Deleting customer's id
+            schema:
+              type: string
         responses:
           '200':
             description: Returns the deleted order
@@ -3623,7 +3623,7 @@ paths:
           default:
             description: unexpected error
 
-    /api/v1/order-list:
+  /api/v1/order-list:
       get:
         summary: Get order list
         operationId: order-list
