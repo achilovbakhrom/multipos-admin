@@ -3483,6 +3483,190 @@ paths:
         default:
           description: unexpected error
 
+  /api/v1/order/create:
+      post:
+        summary: Creates Order
+        operationId: order-create
+        security:
+          - OAuth2: [read, write, profile]
+          - TenantSecurity: []
+        tags:
+          - config
+  #      requestBody:
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: "#/components/schemas/ServiceFee"
+        responses:
+          '200':
+            description: Returns the created order
+  #          content:
+  #            applicaitn/json:
+  #              schema:
+  #                type: object
+  #                properties:
+  #                  data:
+  #                    $ref: "#/components/schemas/ServiceFee"
+  #                  status:
+  #                    type: string
+  #                    enum: [Success, Error]
+  #                  code:
+  #                    type: integer
+          '500':
+            description: Something went wrong on server side. Please contact with company.
+          default:
+            description: unexpected error
+
+    /api/v1/order/update:
+      put:
+        summary: Updates order
+        operationId: order-update
+        security:
+          - OAuth2: [read, write, profile]
+          - TenantSecurity: []
+        tags:
+          - config
+  #      requestBody:
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: "#/components/schemas/ServiceFee"
+        responses:
+          '200':
+            description: Returns the updated order
+  #          content:
+  #            applicaitn/json:
+  #              schema:
+  #                type: object
+  #                properties:
+  #                  data:
+  #                    $ref: "#/components/schemas/ServiceFee"
+  #                  status:
+  #                    type: string
+  #                    enum: [Success, Error]
+  #                  code:
+  #                    type: integer
+          '500':
+            description: Something went wrong on server side. Please contact with company.
+          default:
+            description: unexpected error
+
+    /api/v1/order/{id}:
+      get:
+        summary: Returns finding order by given id by the path
+        operationId: order-get
+        security:
+          - OAuth2: [read, write, profile]
+          - TenantSecurity: []
+        tags:
+          - config
+  #      parameters:
+  #        - in: path
+  #          name: id
+  #          required: true
+  #          description: Finding customer's id
+  #          schema:
+  #            type: string
+        responses:
+          '200':
+            description: Returns found order
+  #          content:
+  #            application/json:
+  #              schema:
+  #                type: object
+  #                properties:
+  #                  data:
+  #                    $ref: "#/components/schemas/ServiceFee"
+  #                  status:
+  #                    type: string
+  #                    enum: [Success, Error]
+  #                  code:
+  #                    type: integer
+          '500':
+            description: Something went wrong on server side. Please contact with company.
+          default:
+            description: unexpected error
+
+    /api/v1/order/delete/{id}:
+      delete:
+        summary: Deleting order
+        operationId: order-delete
+        security:
+          - OAuth2: [read, write, profile]
+          - TenantSecurity: []
+        tags:
+          - config
+  #      parameters:
+  #        - in: path
+  #          name: id
+  #          required: true
+  #          description: Deleting customer's id
+  #          schema:
+  #            type: string
+        responses:
+          '200':
+            description: Returns the deleted order
+  #          content:
+  #            application/json:
+  #              schema:
+  #                type: object
+  #                properties:
+  #                  data:
+  #                    $ref: "#/components/schemas/ServiceFee"
+  #                  status:
+  #                    type: string
+  #                    enum: [Success, Error]
+  #                  code:
+  #                    type: integer
+          '500':
+            description: Something went wrong on server side. Please contact with company.
+          default:
+            description: unexpected error
+
+    /api/v1/order-list:
+      get:
+        summary: Get order list
+        operationId: order-list
+        security:
+          - OAuth2: [read, write, profile]
+          - TenantSecurity: []
+        tags:
+          - config
+  #      parameters:
+  #        - in: query
+  #          name: page
+  #          description: Getting list page
+  #          required: false
+  #          schema:
+  #            type: integer
+  #        - in: query
+  #          name: page_size
+  #          description: Getting list page_size
+  #          required: false
+  #          schema:
+  #            type: integer
+        responses:
+          '200':
+            description: Returns list of order
+  #          content:
+  #            application/json:
+  #              schema:
+  #                type: object
+  #                properties:
+  #                  data:
+  #                    type: array
+  #                    items:
+  #                      $ref: "#/components/schemas/ServiceFee"
+  #                  status:
+  #                    type: string
+  #                    enum: [Success, Error]
+  #                  code:
+  #                    type: integer
+          '500':
+            description: Something went wrong on server side. Please contact with company.
+          default:
+            description: unexpected error
+
 
   /api/v1/product-list:
     get:

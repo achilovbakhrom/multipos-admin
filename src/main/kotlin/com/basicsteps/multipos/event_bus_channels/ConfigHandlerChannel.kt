@@ -116,6 +116,13 @@ enum class ConfigHandlerChannel(val channel: String) {
     EMPLOYEE_GET("EMPLOYEE_GET"),
     EMPLOYEE_DELETE("EMPLOYEE_DELETE"),
 
+    //Order
+    ORDER_CREATE("ORDER_CREATE"),
+    ORDER_UPDATE("ORDER_UPDATE"),
+    ORDER_LIST("ORDER_LIST"),
+    ORDER_GET("ORDER_GET"),
+    ORDER_DELETE("ORDER_DELETE"),
+
     ;
 
 

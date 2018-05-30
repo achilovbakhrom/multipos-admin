@@ -388,6 +388,29 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
         RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.EMPLOYEE_DELETE.value())
     }
 
+    /**
+     *  Order
+     */
+    fun createOrder(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.ORDER_CREATE.value())
+    }
+
+    fun updateOrder(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.ORDER_UPDATE.value())
+    }
+
+    fun getOrderList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.ORDER_LIST.value())
+    }
+
+    fun getOrderById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.ORDER_GET.value())
+    }
+
+    fun deleteOrder(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.ORDER_DELETE.value())
+    }
+
 
     // ---------------- Combo routes --------------------
     fun createComboProduct(routingContext: RoutingContext) {

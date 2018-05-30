@@ -47,6 +47,7 @@ class ConfigHandler(vertx: Vertx) {
     var warehouseHandler: WarehouseHandler? = null
     var customerHandler: CustomerHandler? = null
     var employeeHandler: EmployeeHandler? = null
+    var orderHandler: OrderHandler? = null
     /**
      *  init of all handlers
      */
@@ -70,6 +71,7 @@ class ConfigHandler(vertx: Vertx) {
         warehouseHandler = WarehouseHandler(vertx)
         customerHandler = CustomerHandler(vertx)
         employeeHandler = EmployeeHandler(vertx)
+        orderHandler = OrderHandler(vertx)
     }
 
     /**
@@ -276,6 +278,29 @@ class ConfigHandler(vertx: Vertx) {
 
     fun deleteEmployee(message: Message<String>) {
         employeeHandler?.deleteEmployee(message)
+    }
+
+    /**
+     *  Order
+     */
+    fun createOrder(message: Message<String>) {
+        orderHandler?.createOrder(message)
+    }
+
+    fun updateOrder(message: Message<String>) {
+        orderHandler?.updateOrder(message)
+    }
+
+    fun getOrderList(message: Message<String>) {
+        orderHandler?.getOrderList(message)
+    }
+
+    fun getOrderById(message: Message<String>) {
+        orderHandler?.getOrderById(message)
+    }
+
+    fun deleteOrder(message: Message<String>) {
+        orderHandler?.deleteOrder(message)
     }
 
     /**

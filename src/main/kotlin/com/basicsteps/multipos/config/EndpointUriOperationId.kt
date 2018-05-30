@@ -142,5 +142,12 @@ enum class EndpointUriOperationId(val endpoint: String) {
     EMPLOYEE_GET("employee-get"),
     EMPLOYEE_DELETE("employee-delete"),
 
+    //Order
+    ORDER_CREATE("order-create"),
+    ORDER_UPDATE("order-update"),
+    ORDER_LIST("order-list"),
+    ORDER_GET("order-get"),
+    ORDER_DELETE("order-delete"),
+
 
 }

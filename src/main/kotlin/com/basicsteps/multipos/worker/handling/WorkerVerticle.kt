@@ -175,6 +175,13 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.EMPLOYEE_GET.value(), { configHandler?.getEmployeeById(it)})
         registerHandler(ConfigHandlerChannel.EMPLOYEE_LIST.value(), { configHandler?.getEmployeeList(it)})
         registerHandler(ConfigHandlerChannel.EMPLOYEE_DELETE.value(), { configHandler?.deleteEmployee(it)})
+
+        //Order
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_CREATE.value(), { configHandler?.createOrder(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_UPDATE.value(), { configHandler?.updateOrder(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_GET.value(), { configHandler?.getOrderById(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_LIST.value(), { configHandler?.getOrderList(it)})
+        registerHandler(ConfigHandlerChannel.EMPLOYEE_DELETE.value(), { configHandler?.deleteOrder(it)})
     }
 
     private fun registerHandler(channelName: String, handler: (Message<String>) -> Unit) {
