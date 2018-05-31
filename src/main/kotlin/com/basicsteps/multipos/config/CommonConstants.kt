@@ -15,6 +15,6 @@ object CommonConstants {
 }
 
 fun imageURL(imageName: String) : String {
-    return "http://localhost:9090/avatars/$imageName"
+    return "http://0.0.0.0:9090/avatars/$imageName"
 }
 

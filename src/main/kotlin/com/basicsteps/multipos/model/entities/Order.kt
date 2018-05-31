@@ -20,14 +20,14 @@ data class Order(@Embedded @SerializedName("list_of_products") var listOfProduct
                  @SerializedName("assigned_service_fee") var assignedServiceFee: String?,
                  @SerializedName("sales_person") var salesPerson: String?,
                  @SerializedName("customer") var customer: String?,
-                 @SerializedName("status") var status: String?,
+                 @SerializedName("status") var status: Int?,
                  @Embedded @SerializedName("list_of_coin") var listOfCoin: List<Coin>?,
                  @SerializedName("total_to_pay") var totalToPay: Double?,
                  @Embedded @SerializedName("order_history") var orderHistory: List<OrderHistory>?) : BaseModel(), Serializable {
 
     //TODO Order History
 
-    constructor() : this(listOf(), listOf(), "", "", "", "", "", listOf(), 0.0, listOf())
+    constructor() : this(listOf(), listOf(), "", "", "", "", 0, listOf(), 0.0, listOf())
 
     override fun instance() : Instanceable {
         val result = Order()
@@ -107,11 +107,12 @@ data class OrderHistory(@SerializedName("status") var status: String?,
 @Entity
 data class ListItem(@SerializedName("product_id") var productId: String?,
                     @SerializedName("quantity") var quantity: Double?,
-                    @SerializedName("unit_id") var unitId: String?) : BaseModel(), Serializable {
+                    @SerializedName("unit_id") var unitId: String?,
+                    @SerializedName("cost") var cost: Double?) : BaseModel(), Serializable {
 
     //TODO Order History
 
-    constructor() : this("", 0.0, "")
+    constructor() : this("", 0.0, "", 0.0)
 
     override fun instance() : Instanceable {
         val result = ListItem()
@@ -134,6 +135,7 @@ data class ListItem(@SerializedName("product_id") var productId: String?,
         result.productId = productId
         result.quantity = quantity
         result.unitId = unitId
+        result.cost = cost
 
         return result
     }

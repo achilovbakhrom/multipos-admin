@@ -81,7 +81,7 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 routerFactory.router.route().handler(BodyHandler.create())
 
                 //Sign In and Sign Up handlers
-                registerHandler(routerFactory, EndpointUriOperationId.SIGN_UP, { signUpRouter?.routeSave(it, SignUpHandlerChannel.SIGN_UP.value()) })
+                registerHandler(routerFactory, EndpointUriOperationId.SIGN_UP, { signUpRouter?.signUp(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.SIGN_IN, { signInRouter?.signIn(it) })
 
                 registerHandler(routerFactory, EndpointUriOperationId.CONFIRM_ACCESS_CODE, { signUpRouter?.confirmAccessCode(it) })
@@ -223,6 +223,13 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 registerHandler(routerFactory, EndpointUriOperationId.ORDER_LIST, { configRouter?.getOrderList(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.ORDER_GET, { configRouter?.getOrderById(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.ORDER_DELETE, { configRouter?.deleteOrder(it) })
+
+                //Customer Group
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GROUP_CREATE, { configRouter?.createCustomerGroup(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GROUP_UPDATE, { configRouter?.updateCustomerGroup(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GROUP_LIST, { configRouter?.getCustomerGroupList(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GROUP_GET, { configRouter?.getCustomerGroupById(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GROUP_DELETE, { configRouter?.deleteCustomerGroup(it) })
 
                 //CORS accesses
                 val router = routerFactory.router

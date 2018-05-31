@@ -4,6 +4,7 @@ import com.basicsteps.multipos.core.router.BaseRouter
 import com.basicsteps.multipos.core.response.MultiposRequest
 import com.basicsteps.multipos.core.router.RouteBuilder
 import com.basicsteps.multipos.event_bus_channels.SignInHandlerChannel
+import com.basicsteps.multipos.event_bus_channels.SignUpHandlerChannel
 import com.basicsteps.multipos.model.sign_in.SignInMapper
 import com.basicsteps.multipos.model.sign_in.SignInResponseMapper
 import com.basicsteps.multipos.model.sign_in.VerificationMapper
@@ -45,5 +46,4 @@ class SignInRouter(vertx: Vertx) : BaseRouter(vertx) {
 //            processResult<VerificationMapper>(reply, routingContext)
         })
     }
-
 }

@@ -48,6 +48,7 @@ class ConfigHandler(vertx: Vertx) {
     var customerHandler: CustomerHandler? = null
     var employeeHandler: EmployeeHandler? = null
     var orderHandler: OrderHandler? = null
+    var customerGroupHandler: CustomerGroupHandler? = null
     /**
      *  init of all handlers
      */
@@ -72,6 +73,7 @@ class ConfigHandler(vertx: Vertx) {
         customerHandler = CustomerHandler(vertx)
         employeeHandler = EmployeeHandler(vertx)
         orderHandler = OrderHandler(vertx)
+        customerGroupHandler = CustomerGroupHandler(vertx)
     }
 
     /**
@@ -254,7 +256,7 @@ class ConfigHandler(vertx: Vertx) {
     }
 
     fun deleteCustomer(message: Message<String>) {
-        customerHandler?.deleteCustomer(message)
+        customerHandler?.trashCustomer(message)
     }
 
     /**
@@ -301,6 +303,29 @@ class ConfigHandler(vertx: Vertx) {
 
     fun deleteOrder(message: Message<String>) {
         orderHandler?.deleteOrder(message)
+    }
+
+    /**
+     *  Customer Group
+     */
+    fun createCustomerGroup(message: Message<String>) {
+        customerGroupHandler?.createCustomerGroup(message)
+    }
+
+    fun updateCustomerGroup(message: Message<String>) {
+        customerGroupHandler?.updateCustomerGroup(message)
+    }
+
+    fun getCustomerGroupList(message: Message<String>) {
+        customerGroupHandler?.getCustomerGroupList(message)
+    }
+
+    fun getCustomerGroupById(message: Message<String>) {
+        customerGroupHandler?.getCustomerGroupById(message)
+    }
+
+    fun deleteCustomerGroup(message: Message<String>) {
+        customerGroupHandler?.deleteCustomerGroup(message)
     }
 
     /**

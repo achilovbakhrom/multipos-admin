@@ -11,7 +11,7 @@ fun HttpServerResponse.putBrowserHeaders() : HttpServerResponse {
     return this.putHeader("content-type", "application/json")
             .putHeader("Access-Control-Allow-Origin", "*")
             .putHeader("Access-Control-Allow-Methods","GET, POST, PUT, DELETE, OPTIONS")
-//            .putHeader("Access-Control-Allow-Credentials", "true")
+            .putHeader("Access-Control-Allow-Credentials", "true")
             .putHeader("Access-Control-Allow-Headers", "Content-type,Authorization,Accept,X-Access-Token,X-Key")
 }
 
@@ -33,6 +33,7 @@ fun CorsHandler.putCorsAccesses() : CorsHandler {
             .allowedMethod(HttpMethod.POST)
             .allowedMethod(HttpMethod.PUT)
             .allowedMethod(HttpMethod.PATCH)
+            .allowedMethod(HttpMethod.OPTIONS)
             .allowedHeader("Authorization")
             .allowedHeader("user-agent")
             .allowedHeader("Access-Control-Request-Method")

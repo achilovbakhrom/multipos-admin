@@ -25,4 +25,9 @@ class SignUpRouter (vertx: Vertx) : BaseRouter(vertx) {
         UploadHandler.uploadAvatar(vertx, routingContext)
     }
 
+    fun signUp(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, SignUpHandlerChannel.SIGN_UP.value())
+    }
+
+
 }

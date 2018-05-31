@@ -12,9 +12,10 @@ import de.braintags.io.vertx.pojomapper.annotation.field.Embedded
 import de.braintags.io.vertx.pojomapper.annotation.field.Id
 
 @Entity
-data class Customer(@Embedded @SerializedName("personal_identity_information") var personalIdentityInformation: PersonalIdentityInformation?) : MPUser() {
+data class Customer(@Embedded @SerializedName("personal_identity_information") var personalIdentityInformation: PersonalIdentityInformation?,
+                    @SerializedName("customerroup_list_ids") var customerGroupListIds: List<String>?) : MPUser() {
 
-    constructor() : this(null)
+    constructor() : this(null, listOf())
 
     override fun instance(): Instanceable {
         val result = Customer()
@@ -33,6 +34,7 @@ data class Customer(@Embedded @SerializedName("personal_identity_information") v
 
         //specifications
         result.personalIdentityInformation = personalIdentityInformation
+        result.customerGroupListIds = customerGroupListIds
 
         return result
     }

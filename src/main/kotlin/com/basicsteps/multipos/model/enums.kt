@@ -27,6 +27,12 @@ enum class OrderStatus(val type: Int) { // Account types
     fun value() : Int = type
 }
 
+enum class InvoiceType(val type: Int) { // Account types
+    RECEIVE(0),
+    RETURN(1);
+    fun value() : Int = type
+}
+
 enum class ContactType(val type: Int) {
     PHONE(0),
     EMAIL(1),

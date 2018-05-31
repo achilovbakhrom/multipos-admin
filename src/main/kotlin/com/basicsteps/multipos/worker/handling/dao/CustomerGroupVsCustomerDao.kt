@@ -7,22 +7,23 @@ import com.basicsteps.multipos.core.model.exceptions.DeleteDbFailedException
 import com.basicsteps.multipos.core.model.exceptions.ReadDbFailedException
 import com.basicsteps.multipos.core.model.exceptions.UpdateDbFailedException
 import com.basicsteps.multipos.core.model.exceptions.WriteDbFailedException
+import com.basicsteps.multipos.model.entities.CustomerVsCustomerGroup
 import com.basicsteps.multipos.model.entities.WarehouseVsEstablishment
 import de.braintags.io.vertx.pojomapper.mongo.MongoDataStore
 import io.reactivex.Observable
 
-class WarehouseVsEstablishmentDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDao<WarehouseVsEstablishment>(dbManager, dataStore, WarehouseVsEstablishment::class.java) {
+class CustomerGroupVsCustomerDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDao<CustomerVsCustomerGroup>(dbManager, dataStore, CustomerVsCustomerGroup::class.java) {
 
-    fun findStockIdsByEstablishmentId(establishmentId: String) : Observable<List<WarehouseVsEstablishment>> {
+    fun findCustomerIdsByCustomerGroupId(customerGroupId: String) : Observable<List<CustomerVsCustomerGroup>> {
         return Observable.create({
             if (dataStore != null) {
                 val findQuery = dataStore?.createQuery(clazz)
-                findQuery?.field("establishmentId")?.`is`(establishmentId)
+                findQuery?.field("customerGroupId")?.`is`(customerGroupId)
                 findQuery?.field("deleted")?.`is`(false)
                 findQuery?.execute({ result ->
                     if (result.succeeded()) {
                         val iterator = result.result().iterator()
-                        val res = mutableListOf<WarehouseVsEstablishment>()
+                        val res = mutableListOf<CustomerVsCustomerGroup>()
                         while (iterator.hasNext()) {
                             iterator.next { item ->
                                 if (item.succeeded()) {
@@ -46,11 +47,11 @@ class WarehouseVsEstablishmentDao(dbManager: DbManager, dataStore: MongoDataStor
         })
     }
 
-    fun updateWarehouseListForEstablishement(establishmentId: String, ids: List<String>, userId: String) : Observable<List<String>> {
+    fun updateCustomerListForCustomerGroup(customerGroupId: String, ids: List<String>, userId: String) : Observable<List<String>> {
         return Observable.create({event ->
             if (dataStore != null) {
                 val findQuery = dataStore?.createQuery(clazz)
-                findQuery?.field("establishmentId")?.`is`(establishmentId)
+                findQuery?.field("customerGroupId")?.`is`(customerGroupId)
                 findQuery?.field("deleted")?.`is`(false)
                 findQuery?.execute({ result ->
                     if (result.succeeded()) {
@@ -97,11 +98,11 @@ class WarehouseVsEstablishmentDao(dbManager: DbManager, dataStore: MongoDataStor
                                 .flatMap({
                                     counter++
                                     if (counter == count && !cameIds.isEmpty()) {
-                                        val savingList = mutableListOf<WarehouseVsEstablishment>()
+                                        val savingList = mutableListOf<CustomerVsCustomerGroup>()
                                         for (tempId in cameIds) {
-                                            val item = WarehouseVsEstablishment()
-                                            item.establishmentId = establishmentId
-                                            item.warehouseId = tempId
+                                            val item = CustomerVsCustomerGroup()
+                                            item.customerGroupId = customerGroupId
+                                            item.customerId = tempId
                                             savingList.add(item)
                                         }
                                         saveAll(savingList, userId)
@@ -129,11 +130,11 @@ class WarehouseVsEstablishmentDao(dbManager: DbManager, dataStore: MongoDataStor
         })
     }
 
-    fun updateEstablishmentListForWarehouse(warehouseId: String, ids: List<String>, userId: String) : Observable<List<String>> {
+    fun updateCustomerGroupListForCustomer(customerId: String, ids: List<String>, userId: String) : Observable<List<String>> {
         return Observable.create({event ->
             if (dataStore != null) {
                 val findQuery = dataStore?.createQuery(clazz)
-                findQuery?.field("warehouseId")?.`is`(warehouseId)
+                findQuery?.field("customerId")?.`is`(customerId)
                 findQuery?.field("deleted")?.`is`(false)
                 findQuery?.execute({ result ->
                     if (result.succeeded()) {
@@ -180,11 +181,11 @@ class WarehouseVsEstablishmentDao(dbManager: DbManager, dataStore: MongoDataStor
                                 .flatMap({
                                     counter++
                                     if (counter == count && !cameIds.isEmpty()) {
-                                        val savingList = mutableListOf<WarehouseVsEstablishment>()
+                                        val savingList = mutableListOf<CustomerVsCustomerGroup>()
                                         for (tempId in cameIds) {
-                                            val item = WarehouseVsEstablishment()
-                                            item.establishmentId = tempId
-                                            item.warehouseId = warehouseId
+                                            val item = CustomerVsCustomerGroup()
+                                            item.customerGroupId = tempId
+                                            item.customerId = customerId
                                             savingList.add(item)
                                         }
                                         saveAll(savingList, userId)

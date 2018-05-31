@@ -18,14 +18,12 @@ data class Invoice(@Embedded @SerializedName("list_of_products") var listOfProdu
                    @SerializedName("assigned_discount") var assignedDiscount: String?,
                    @SerializedName("employee") var employee: String?,
                    @SerializedName("vendor") var vendor: String?,
-                   @SerializedName("status") var status: String?,
-                   @Embedded @SerializedName("list_of_coin") var listOfCoin: List<Coin>?,
-                   @SerializedName("total_to_pay") var totalToPay: Double?,
-                   @Embedded @SerializedName("order_history") var orderHistory: List<OrderHistory>?) : BaseModel(), Serializable {
+                   @SerializedName("type") var type: Int?,
+                   @SerializedName("total_to_pay") var totalToPay: Double?) : BaseModel(), Serializable {
 
     //TODO Order History
 
-    constructor() : this(listOf(), listOf(), "","", "", "", listOf(), 0.0, listOf())
+    constructor() : this(listOf(), listOf(), "","", "", 0,0.0)
 
     override fun instance() : Instanceable {
         val result = Invoice()
@@ -50,10 +48,8 @@ data class Invoice(@Embedded @SerializedName("list_of_products") var listOfProdu
         result.assignedDiscount = assignedDiscount
         result.employee = employee
         result.vendor = vendor
-        result.status = status
-        result.listOfCoin = listOfCoin
+        result.type = type
         result.totalToPay = totalToPay
-        result.orderHistory = orderHistory
 
         return result
     }

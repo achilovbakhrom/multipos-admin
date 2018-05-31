@@ -66,6 +66,7 @@ class PostRoute {
                 routingContext
                         .response()
                         .setStatusCode(400)
+                        .putBrowserHeaders()
                         .end(MultiPosResponse(null, "Send correct json", StatusMessages.ERROR.value(), 400).toJson())
                 return
             }
@@ -82,6 +83,7 @@ class PostRoute {
             routingContext
                     .response()
                     .setStatusCode(400)
+                    .putBrowserHeaders()
                     .end(MultiPosResponse(null, "Nothing has received!", StatusMessages.ERROR.value(), 400).toJson())
             return
         }
@@ -94,8 +96,8 @@ class PostRoute {
                 val statusCode = jsonObject.getInteger("code")
                 routingContext
                         .response()
-                        .putBrowserHeaders()
                         .setStatusCode(statusCode)
+                        .putBrowserHeaders()
                         .end(body)
             } else{
                 routingContext.fail(InternalServerErrorException("Bus problems"))
@@ -138,8 +140,8 @@ class GetRoute {
                 val statusCode = jsonObject.getInteger("code")
                 routingContext
                         .response()
-                        .putBrowserHeaders()
                         .setStatusCode(statusCode)
+                        .putBrowserHeaders()
                         .end(body)
             } else{
                 routingContext.fail(InternalServerErrorException("Bus problems"))
@@ -174,6 +176,7 @@ class PutRoute {
                 routingContext
                         .response()
                         .setStatusCode(400)
+                        .putBrowserHeaders()
                         .end(MultiPosResponse(null, "Send correct json", StatusMessages.ERROR.value(), 400).toJson())
                 return
             }
@@ -189,6 +192,7 @@ class PutRoute {
             routingContext
                     .response()
                     .setStatusCode(400)
+                    .putBrowserHeaders()
                     .end(MultiPosResponse(null, "Nothing has received!", StatusMessages.ERROR.value(), 400).toJson())
             return
         }
@@ -200,8 +204,8 @@ class PutRoute {
                 val statusCode = jsonObject.getInteger("code")
                 routingContext
                         .response()
-                        .putBrowserHeaders()
                         .setStatusCode(statusCode)
+                        .putBrowserHeaders()
                         .end(body)
             } else{
                 routingContext.fail(InternalServerErrorException("Bus problems"))
@@ -247,6 +251,7 @@ class DeleteRoute {
                 routingContext
                         .response()
                         .setStatusCode(400)
+                        .putBrowserHeaders()
                         .end(MultiPosResponse(null, "Send correct json", StatusMessages.ERROR.value(), 400).toJson())
                 return
             }
@@ -263,6 +268,7 @@ class DeleteRoute {
             routingContext
                     .response()
                     .setStatusCode(400)
+                    .putBrowserHeaders()
                     .end(MultiPosResponse(null, "Nothing has received!", StatusMessages.ERROR.value(), 400).toJson())
             return
         }
@@ -274,8 +280,8 @@ class DeleteRoute {
                 val statusCode = jsonObject.getInteger("code")
                 routingContext
                         .response()
-                        .putBrowserHeaders()
                         .setStatusCode(statusCode)
+                        .putBrowserHeaders()
                         .end(body)
             } else{
                 routingContext.fail(InternalServerErrorException("Bus problems"))

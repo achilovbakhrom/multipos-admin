@@ -11,7 +11,7 @@ info:
     name: BasicSteps MIT (multipos-free:26091981)
 
 servers:
-  - url: http://localhost:8081
+  - url: http://0.0.0.0:8081
     description: main server address
   - url: http://localhost:8080
     description: keycloak server
@@ -3483,6 +3483,190 @@ paths:
         default:
           description: unexpected error
 
+  /api/v1/customer-group/create:
+    post:
+      summary: Creates Customer Group
+      operationId: customer-group-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the created customer group
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer-group/update:
+    put:
+      summary: Updates customer group
+      operationId: customer-group-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the updated customer group
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer-group/{id}:
+    get:
+      summary: Returns finding customer group by given id by the path
+      operationId: customer-group-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding customer group's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns found customer group
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer-group/delete/{id}:
+    delete:
+      summary: Deleting employee
+      operationId: customer-group-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting customer group's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted customer group
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/customer-group-list:
+    get:
+      summary: Get employee list
+      operationId: customer-group-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: query
+#          name: page
+#          description: Getting list page
+#          required: false
+#          schema:
+#            type: integer
+#        - in: query
+#          name: page_size
+#          description: Getting list page_size
+#          required: false
+#          schema:
+#            type: integer
+      responses:
+        '200':
+          description: Returns list of customer group
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    type: array
+#                    items:
+#                      $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
   /api/v1/order/create:
       post:
         summary: Creates Order
@@ -3850,7 +4034,7 @@ components:
       description: See https://developers.getbase.com/docs/rest/articles/oauth2/requests
       flows:
         password:
-          tokenUrl:  http://localhost:8081/api/v1/sign-in
+          tokenUrl:  http://0.0.0.0:8081/api/v1/sign-in
           scopes:
             simple: only for open endpoints
             system: can request to endpoints secured by OAuth2
