@@ -183,12 +183,19 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.EMPLOYEE_LIST.value(), { configHandler?.getOrderList(it)})
         registerHandler(ConfigHandlerChannel.EMPLOYEE_DELETE.value(), { configHandler?.deleteOrder(it)})
 
-        //Order
+        //Customer Group
         registerHandler(ConfigHandlerChannel.CUSTOMER_GROUP_CREATE.value(), { configHandler?.createCustomerGroup(it)})
         registerHandler(ConfigHandlerChannel.CUSTOMER_GROUP_UPDATE.value(), { configHandler?.updateCustomerGroup(it)})
         registerHandler(ConfigHandlerChannel.CUSTOMER_GROUP_GET.value(), { configHandler?.getCustomerGroupById(it)})
         registerHandler(ConfigHandlerChannel.CUSTOMER_GROUP_LIST.value(), { configHandler?.getCustomerGroupList(it)})
         registerHandler(ConfigHandlerChannel.CUSTOMER_GROUP_DELETE.value(), { configHandler?.deleteCustomerGroup(it)})
+
+        //Invoice
+        registerHandler(ConfigHandlerChannel.INVOICE_CREATE.value(), { configHandler?.createInvoice(it)})
+        registerHandler(ConfigHandlerChannel.INVOICE_UPDATE.value(), { configHandler?.updateInvoice(it)})
+        registerHandler(ConfigHandlerChannel.INVOICE_GET.value(), { configHandler?.getInvoiceById(it)})
+        registerHandler(ConfigHandlerChannel.INVOICE_LIST.value(), { configHandler?.getInvoiceList(it)})
+        registerHandler(ConfigHandlerChannel.INVOICE_DELETE.value(), { configHandler?.deleteInvoice(it)})
     }
 
     private fun registerHandler(channelName: String, handler: (Message<String>) -> Unit) {

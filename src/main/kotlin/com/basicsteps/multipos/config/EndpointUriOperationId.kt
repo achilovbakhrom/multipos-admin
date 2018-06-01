@@ -156,5 +156,12 @@ enum class EndpointUriOperationId(val endpoint: String) {
     CUSTOMER_GROUP_GET("customer-group-get"),
     CUSTOMER_GROUP_DELETE("customer-group-delete"),
 
+    //Invoice
+    INVOICE_CREATE("invoice-create"),
+    INVOICE_UPDATE("invoice-update"),
+    INVOICE_LIST("invoice-list"),
+    INVOICE_GET("invoice-get"),
+    INVOICE_DELETE("invoice-delete"),
+
 
 }

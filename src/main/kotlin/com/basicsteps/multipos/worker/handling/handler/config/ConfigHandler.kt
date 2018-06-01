@@ -49,6 +49,7 @@ class ConfigHandler(vertx: Vertx) {
     var employeeHandler: EmployeeHandler? = null
     var orderHandler: OrderHandler? = null
     var customerGroupHandler: CustomerGroupHandler? = null
+    var invoiceHandler: InvoiceHandler? = null
     /**
      *  init of all handlers
      */
@@ -74,6 +75,7 @@ class ConfigHandler(vertx: Vertx) {
         employeeHandler = EmployeeHandler(vertx)
         orderHandler = OrderHandler(vertx)
         customerGroupHandler = CustomerGroupHandler(vertx)
+        invoiceHandler = InvoiceHandler(vertx)
     }
 
     /**
@@ -303,6 +305,29 @@ class ConfigHandler(vertx: Vertx) {
 
     fun deleteOrder(message: Message<String>) {
         orderHandler?.deleteOrder(message)
+    }
+
+    /**
+     *  Invoice
+     */
+    fun createInvoice(message: Message<String>) {
+        invoiceHandler?.createInvoice(message)
+    }
+
+    fun updateInvoice(message: Message<String>) {
+        invoiceHandler?.updateInvoice(message)
+    }
+
+    fun getInvoiceList(message: Message<String>) {
+        invoiceHandler?.getInvoiceList(message)
+    }
+
+    fun getInvoiceById(message: Message<String>) {
+        invoiceHandler?.getInvoiceById(message)
+    }
+
+    fun deleteInvoice(message: Message<String>) {
+        invoiceHandler?.deleteInvoice(message)
     }
 
     /**

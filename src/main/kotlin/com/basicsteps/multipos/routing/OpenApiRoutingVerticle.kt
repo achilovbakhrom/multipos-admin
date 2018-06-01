@@ -231,6 +231,13 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GROUP_GET, { configRouter?.getCustomerGroupById(it) })
                 registerHandler(routerFactory, EndpointUriOperationId.CUSTOMER_GROUP_DELETE, { configRouter?.deleteCustomerGroup(it) })
 
+                //Invoice
+                registerHandler(routerFactory, EndpointUriOperationId.INVOICE_CREATE, { configRouter?.createInvoice(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.INVOICE_UPDATE, { configRouter?.updateInvoice(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.INVOICE_LIST, { configRouter?.getInvoiceList(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.INVOICE_GET, { configRouter?.getInvoiceById(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.INVOICE_DELETE, { configRouter?.deleteInvoice(it) })
+
                 //CORS accesses
                 val router = routerFactory.router
                 router.route().handler(CorsHandler.create("*").putCorsAccesses())

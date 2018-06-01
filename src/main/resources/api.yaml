@@ -3851,6 +3851,190 @@ paths:
           default:
             description: unexpected error
 
+  /api/v1/invoice/create:
+    post:
+      summary: Creates invoice
+      operationId: invoice-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the created invoice
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/invoice/update:
+    put:
+      summary: Updates invoice
+      operationId: invoice-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns the updated invoice
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/invoice/{id}:
+    get:
+      summary: Returns finding invoice by given id by the path
+      operationId: invoice-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Finding invoice's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns found invoice
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/invoice/delete/{id}:
+    delete:
+      summary: Deleting invoice
+      operationId: invoice-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Deleting invoice's id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted invoice
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/invoice-list:
+    get:
+      summary: Get invoice list
+      operationId: invoice-list
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      parameters:
+#        - in: query
+#          name: page
+#          description: Getting list page
+#          required: false
+#          schema:
+#            type: integer
+#        - in: query
+#          name: page_size
+#          description: Getting list page_size
+#          required: false
+#          schema:
+#            type: integer
+      responses:
+        '200':
+          description: Returns list of invoice
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    type: array
+#                    items:
+#                      $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
 
   /api/v1/product-list:
     get:

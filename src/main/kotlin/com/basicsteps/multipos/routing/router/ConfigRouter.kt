@@ -434,6 +434,29 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
         RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.CUSTOMER_GROUP_DELETE.value())
     }
 
+    /**
+     *  Invoice
+     */
+    fun createInvoice(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.INVOICE_CREATE.value())
+    }
+
+    fun updateInvoice(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.INVOICE_UPDATE.value())
+    }
+
+    fun getInvoiceList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.INVOICE_LIST.value())
+    }
+
+    fun getInvoiceById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.INVOICE_GET.value())
+    }
+
+    fun deleteInvoice(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.INVOICE_DELETE.value())
+    }
+
 
     // ---------------- Combo routes --------------------
     fun createComboProduct(routingContext: RoutingContext) {
