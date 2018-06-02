@@ -3,6 +3,7 @@ package com.basicsteps.multipos.model.entities
 import com.basicsteps.multipos.core.model.BaseModel
 import com.basicsteps.multipos.core.model.Instanceable
 import com.google.gson.annotations.SerializedName
+import com.sun.org.apache.xpath.internal.operations.Bool
 import de.braintags.io.vertx.pojomapper.annotation.Entity
 import de.braintags.io.vertx.pojomapper.annotation.field.Embedded
 import java.io.Serializable
@@ -17,9 +18,9 @@ data class IncomingProduct(@SerializedName("product_id") var productId: String?,
                            @SerializedName("quantity") var quantity: Double?,
                            @SerializedName("unit_id") var unitId: String?,
                            @SerializedName("cost") var cost: Double?,
-                           @SerializedName("invoice_id") var invoiceId: String?) : BaseModel(), Serializable {
+                           @SerializedName("purchased") var purchased: Boolean?) : BaseModel(), Serializable {
 
-    constructor() : this("",0.0, "", 0.0, "")
+    constructor() : this("",0.0, "", 0.0, false)
 
     override fun instance() : Instanceable {
         val result = IncomingProduct()
@@ -43,7 +44,7 @@ data class IncomingProduct(@SerializedName("product_id") var productId: String?,
         result.quantity = quantity
         result.unitId = unitId
         result.cost = cost
-        result.invoiceId = invoiceId
+        result.purchased = purchased
 
         return result
     }
