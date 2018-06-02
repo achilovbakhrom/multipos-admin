@@ -13,17 +13,19 @@ import java.io.Serializable
 //TODO refine parameters
 
 @Entity
-data class Invoice(@Embedded @SerializedName("list_of_products") var listOfProducts: List<ListItem>?,
+data class Invoice(@Embedded @SerializedName("list_of_products") var listOfProducts: List<IncomingProduct>?,
                    @Embedded @SerializedName("list_of_payments") var listOfPayments: List<Payment>?,
                    @SerializedName("assigned_discount") var assignedDiscount: String?,
                    @SerializedName("employee") var employee: String?,
                    @SerializedName("vendor") var vendor: String?,
                    @SerializedName("type") var type: Int?,
+                   @SerializedName("warehouse_id") var warehouseId: String?,
+                   @SerializedName("currency_id") var currencyId: String?,
                    @SerializedName("total_to_pay") var totalToPay: Double?) : BaseModel(), Serializable {
 
     //TODO Order History
 
-    constructor() : this(listOf(), listOf(), "","", "", 0,0.0)
+    constructor() : this(listOf(), listOf(), "","", "", 0, "", "",0.0)
 
     override fun instance() : Instanceable {
         val result = Invoice()
@@ -49,6 +51,8 @@ data class Invoice(@Embedded @SerializedName("list_of_products") var listOfProdu
         result.employee = employee
         result.vendor = vendor
         result.type = type
+        result.warehouseId = warehouseId
+        result.currencyId = currencyId
         result.totalToPay = totalToPay
 
         return result

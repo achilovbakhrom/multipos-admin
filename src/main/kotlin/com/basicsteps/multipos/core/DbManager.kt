@@ -49,6 +49,8 @@ class DbManager(vertx: Vertx) {
     var customerGroupDao: CustomerGroupDao? = null
     var customerGroupVsCustomerDao: CustomerGroupVsCustomerDao? = null
     var invoiceDao: InvoiceDao? = null
+    var incomingProductDao: IncomingProductDao? = null
+    var warehouseQueueDao: WarehouseQueueDao? = null
 
     private var vertx: Vertx? = vertx
 
@@ -99,6 +101,8 @@ class DbManager(vertx: Vertx) {
         customerGroupDao                = CustomerGroupDao(this, null)
         customerGroupVsCustomerDao      = CustomerGroupVsCustomerDao(this, null)
         invoiceDao                      = InvoiceDao(this, null)
+        incomingProductDao              = IncomingProductDao(this, null)
+        warehouseQueueDao               = WarehouseQueueDao(this, null)
         //UserDao
         if (keycloak != null) userDao = UserDao(this)
         setMongoClientByTenantId(DbConfig.model.commonDbName)
@@ -158,6 +162,8 @@ class DbManager(vertx: Vertx) {
             customerGroupDao?.dataStore             = temp
             customerGroupVsCustomerDao?.dataStore   = temp
             invoiceDao?.dataStore                   = temp
+            incomingProductDao?.dataStore           = temp
+            warehouseQueueDao?.dataStore            = temp
         }
     }
     fun close() { keycloak?.close() }
