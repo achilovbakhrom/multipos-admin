@@ -33,6 +33,16 @@ enum class InvoiceType(val type: Int) {
     fun value() : Int = type
 }
 
+enum class InventoryOperation(val type: Int) {
+    INVOICE(0),
+    RETURN_OF_SALE(1),
+    SURPLUS(2),
+    SALE(3),
+    RETURN_TO_VENDOR(4),
+    WASTE(5);
+    fun value() : Int = type
+}
+
 enum class ContactType(val type: Int) {
     PHONE(0),
     EMAIL(1),
