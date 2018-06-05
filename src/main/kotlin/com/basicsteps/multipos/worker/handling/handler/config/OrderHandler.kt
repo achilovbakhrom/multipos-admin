@@ -9,8 +9,9 @@ import com.basicsteps.multipos.core.model.exceptions.UpdateDbFailedException
 import com.basicsteps.multipos.core.model.exceptions.WriteDbFailedException
 import com.basicsteps.multipos.core.response.MultiPosResponse
 import com.basicsteps.multipos.core.response.MultiposRequest
+import com.basicsteps.multipos.model.DocumentType
 import com.basicsteps.multipos.model.StatusMessages
-import com.basicsteps.multipos.model.entities.UnitEntity
+import com.basicsteps.multipos.model.entities.*
 import com.basicsteps.multipos.utils.JsonUtils
 import com.basicsteps.multipos.worker.handling.dao.UnitEntityDao
 import io.netty.handler.codec.http.HttpResponseStatus
@@ -37,7 +38,36 @@ class OrderHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
             val tenantId = jsonObject.getString("tenantId")
             val dbManager = getDbManagerByTenantId(tenantId = tenantId)
 
-            save(message, dbManager.orderDao!!)
+
+            val order = JsonUtils.toPojo<Order>(json = jsonObject.getJsonObject("data").toString())
+            order.userId = jsonObject.getString("userId")
+            var ref = mutableListOf<ListItem>()
+            dbManager
+                    .orderDao
+                    ?.save(order)
+                    ?.map({
+                        it.listOfProducts
+                    })
+                    ?.flatMap ({
+                        ref = it.toMutableList()
+                        dbManager.productStateDao?.decreaseProductStateCount(it)
+                    })
+                    ?.flatMap({
+                        dbManager.inventoryDao?.addSaleOperation(ref, orderId = order.id!!)
+                    })
+                    ?. flatMap({
+                        dbManager.paymentDao?.saveAll(order.listOfPayments!!, order.userId!!)
+                    })
+                    ?.subscribe({
+                        message.reply(MultiPosResponse(order, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
+                    }, {
+                        when (it) {
+                            is DataStoreException -> { message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson()) }
+                            is WriteDbFailedException -> { message.reply(MultiPosResponse(null, it.message, StatusMessages.ERROR.value(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code()).toJson()) }
+                        }
+                    })
+
+//            save(message, dbManager.orderDao!!)
         }
     }
 

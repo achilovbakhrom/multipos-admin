@@ -15,6 +15,7 @@ import de.braintags.io.vertx.pojomapper.annotation.field.Embedded
 @Entity
 data class Payment(@SerializedName("document_type") var documentType: Int?,
                    @SerializedName("description") var description: String?,
+                   @SerializedName("source_id") var sourceId: String?,
                    @Embedded @SerializedName("payment_item_list") var paymentItemList: List<PaymentItem>?) : BaseModel() {
 
     override fun instance(): Instanceable {
@@ -37,10 +38,11 @@ data class Payment(@SerializedName("document_type") var documentType: Int?,
         result.documentType = documentType
         result.description = description
         result.paymentItemList = paymentItemList
+        result.sourceId = sourceId
         return result
     }
 
-    constructor() : this(DocumentType.SALE.value(), "", listOf())
+    constructor() : this(DocumentType.SALE.value(), "","", listOf())
 
 }
 @Entity

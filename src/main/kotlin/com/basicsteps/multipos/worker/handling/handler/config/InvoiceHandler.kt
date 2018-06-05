@@ -87,6 +87,9 @@ class InvoiceHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
                         }
                         dbManager.productCostDao?.saveAll(productCostList, invoice.userId!!)
                     })
+                    ?.flatMap({
+                        dbManager.paymentDao?.saveAll(invoice.listOfPayments!!, invoice.userId!!)
+                    })
                     ?.subscribe({
                         message.reply(MultiPosResponse(invoice, null, StatusMessages.SUCCESS.value(), HttpResponseStatus.OK.code()).toJson())
                     }, {
