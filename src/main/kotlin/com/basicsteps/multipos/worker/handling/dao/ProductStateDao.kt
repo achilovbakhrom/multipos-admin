@@ -25,8 +25,7 @@ class ProductStateDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDa
                         findById(it.productId!!)
                     })
                     .flatMap ({
-                        var quantity: Double by Delegates.notNull<Double>()
-                        quantity = it.quantity!!
+                        var quantity: Double = it.quantity!!
                         quantity -= listItem.quantity!!
                         it.quantity = quantity
                         update(it)
