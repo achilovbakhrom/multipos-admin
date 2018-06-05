@@ -177,11 +177,11 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.EMPLOYEE_DELETE.value(), { configHandler?.deleteEmployee(it)})
 
         //Order
-        registerHandler(ConfigHandlerChannel.EMPLOYEE_CREATE.value(), { configHandler?.createOrder(it)})
-        registerHandler(ConfigHandlerChannel.EMPLOYEE_UPDATE.value(), { configHandler?.updateOrder(it)})
-        registerHandler(ConfigHandlerChannel.EMPLOYEE_GET.value(), { configHandler?.getOrderById(it)})
-        registerHandler(ConfigHandlerChannel.EMPLOYEE_LIST.value(), { configHandler?.getOrderList(it)})
-        registerHandler(ConfigHandlerChannel.EMPLOYEE_DELETE.value(), { configHandler?.deleteOrder(it)})
+        registerHandler(ConfigHandlerChannel.ORDER_CREATE.value(), { configHandler?.createOrder(it)})
+        registerHandler(ConfigHandlerChannel.ORDER_UPDATE.value(), { configHandler?.updateOrder(it)})
+        registerHandler(ConfigHandlerChannel.ORDER_GET.value(), { configHandler?.getOrderById(it)})
+        registerHandler(ConfigHandlerChannel.ORDER_LIST.value(), { configHandler?.getOrderList(it)})
+        registerHandler(ConfigHandlerChannel.ORDER_DELETE.value(), { configHandler?.deleteOrder(it)})
 
         //Customer Group
         registerHandler(ConfigHandlerChannel.CUSTOMER_GROUP_CREATE.value(), { configHandler?.createCustomerGroup(it)})

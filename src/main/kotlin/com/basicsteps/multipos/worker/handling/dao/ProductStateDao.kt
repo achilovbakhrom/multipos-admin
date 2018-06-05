@@ -2,6 +2,9 @@ package com.basicsteps.multipos.worker.handling.dao
 
 import com.basicsteps.multipos.core.DbManager
 import com.basicsteps.multipos.core.dao.BaseDao
+import com.basicsteps.multipos.core.dao.DataStoreException
+import com.basicsteps.multipos.core.model.exceptions.NotExistsException
+import com.basicsteps.multipos.core.model.exceptions.ReadDbFailedException
 import com.basicsteps.multipos.model.entities.ListItem
 import com.basicsteps.multipos.model.entities.ProductState
 import de.braintags.io.vertx.pojomapper.mongo.MongoDataStore
@@ -22,13 +25,13 @@ class ProductStateDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDa
                     })
                     .flatMap({
                         listItem = it
-                        findById(it.productId!!)
+                        findByProductId(it.productId!!)
                     })
                     .flatMap ({
                         var quantity: Double = it.quantity!!
                         quantity -= listItem.quantity!!
                         it.quantity = quantity
-                        update(it)
+                        updateWithoutDuplicate(it)
                     })
                     .subscribe({
                         result.add(it)
@@ -40,6 +43,39 @@ class ProductStateDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDa
                         event.onError(it)
                     })
 
+        })
+    }
+
+
+    fun findByProductId(id: String): Observable<ProductState> {
+        return Observable.create({ event ->
+            if (dataStore != null) {
+                val findQuery = dataStore?.createQuery(clazz)
+                findQuery?.field("productId")?.`is`(id)
+                findQuery?.field("deleted")?.`is`(false)
+                findQuery?.execute({ result ->
+                    if (result.succeeded()) {
+                        val iterator = result.result().iterator()
+                        if (iterator.hasNext())
+                            iterator.next({handler ->
+                                if (handler.succeeded()) {
+                                    event.onNext(handler.result())
+                                } else {
+                                    event.onError(ReadDbFailedException())
+                                }
+                            })
+                        else {
+                            event.onError(NotExistsException("id", id))
+                        }
+                    }
+                    else {
+                        result.cause().printStackTrace()
+                        event.onError(ReadDbFailedException())
+                    }
+                })
+            } else {
+                event.onError(DataStoreException("${this::class.java.name}: DataStore is not set yet..."))
+            }
         })
     }
 }
