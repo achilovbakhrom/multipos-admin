@@ -19,11 +19,12 @@ data class Inventory(@SerializedName("operation") var operation: Int?,
                      @SerializedName("quantity") var quantity: Double?,
                      @SerializedName("unit_id") var unitId: String?,
                      @SerializedName("vendor_id") var vendorId: String?,
-                     @SerializedName("source_id") var sourceId: String?) : BaseModel(), Serializable {
+                     @SerializedName("source_id") var sourceId: String?,
+                     @SerializedName("warehouse_id") var warehouseId: String?) : BaseModel(), Serializable {
 
     //TODO Order History
 
-    constructor() : this(0, "", 0.0, "", "", "")
+    constructor() : this(0, "", 0.0, "", "", "", "")
 
     override fun instance() : Instanceable {
         val result = Inventory()
@@ -49,6 +50,7 @@ data class Inventory(@SerializedName("operation") var operation: Int?,
         result.unitId = unitId
         result.vendorId = vendorId
         result.sourceId = sourceId
+        result.warehouseId = warehouseId
 
         return result
     }

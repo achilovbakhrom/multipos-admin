@@ -50,6 +50,7 @@ class ConfigHandler(vertx: Vertx) {
     var orderHandler: OrderHandler? = null
     var customerGroupHandler: CustomerGroupHandler? = null
     var invoiceHandler: InvoiceHandler? = null
+    var inventoryHandler: InventoryHandler? = null
     /**
      *  init of all handlers
      */
@@ -76,6 +77,7 @@ class ConfigHandler(vertx: Vertx) {
         orderHandler = OrderHandler(vertx)
         customerGroupHandler = CustomerGroupHandler(vertx)
         invoiceHandler = InvoiceHandler(vertx)
+        inventoryHandler = InventoryHandler(vertx)
     }
 
     /**
@@ -328,6 +330,13 @@ class ConfigHandler(vertx: Vertx) {
 
     fun deleteInvoice(message: Message<String>) {
         invoiceHandler?.deleteInvoice(message)
+    }
+
+    /**
+     *  Inventory
+     */
+    fun changeProductCountInventory(message: Message<String>) {
+        inventoryHandler?.changeProductCountInventory(message)
     }
 
     /**

@@ -14,7 +14,7 @@ enum class ServiceFeeType(val type: Int) {
 @Entity
 data class ServiceFee(@SerializedName("name") var name: String,
                       @SerializedName("amount") var amount: Double,
-                      @SerializedName("amount_currency") var amountCurrency: String?,
+                      @SerializedName("currency_id") var currencyId: String?,
                       @SerializedName("type") var type: Int) : BaseModel() {
 
     constructor() : this("", 0.0, null, ServiceFeeType.AMOUNT.value())
@@ -38,7 +38,7 @@ data class ServiceFee(@SerializedName("name") var name: String,
         result.name = name
         result.amount = amount
         result.type = type
-        result.amountCurrency = amountCurrency
+        result.currencyId = currencyId
         return result
     }
 

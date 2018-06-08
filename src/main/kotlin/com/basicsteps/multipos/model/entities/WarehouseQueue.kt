@@ -18,9 +18,13 @@ data class WarehouseQueue(@SerializedName("incoming_product_id") var incomingPro
                           @SerializedName("warehouse_id") var warehouseId: String?,
                           @SerializedName("quantity_available") var quantityAvailable: Double?,
                           @SerializedName("quantity_sold") var quantitySold: Double?,
-                          @SerializedName("quantity_received") var quantityReceived: Double?) : BaseModel(), Serializable {
+                          @SerializedName("quantity_received") var quantityReceived: Double?,
+                          @SerializedName("source_id") var sourceId: String?,
+                          @SerializedName("operation") var operation: Int?,
+                          @SerializedName("expiry_date") var expiryDate: Long?,
+                          @SerializedName("production_date") var productionDate: Long?) : BaseModel(), Serializable {
 
-    constructor() : this("", "", 0.0, 0.0, 0.0)
+    constructor() : this("", "", 0.0, 0.0, 0.0, "", 0, 0, 0)
 
     override fun instance() : Instanceable {
         val result = WarehouseQueue()
@@ -45,6 +49,10 @@ data class WarehouseQueue(@SerializedName("incoming_product_id") var incomingPro
         result.quantityAvailable = quantityAvailable
         result.quantitySold = quantitySold
         result.quantityReceived = quantityReceived
+        result.sourceId = sourceId
+        result.operation = operation
+        result.expiryDate = expiryDate
+        result.productionDate = productionDate
 
         return result
     }

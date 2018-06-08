@@ -457,6 +457,13 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
         RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.INVOICE_DELETE.value())
     }
 
+    /**
+     *  Inventory
+     */
+    fun changeProductCountInventory(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.CHANGE_PRODUCT_COUNT_INVENTORY.value())
+    }
+
 
     // ---------------- Combo routes --------------------
     fun createComboProduct(routingContext: RoutingContext) {

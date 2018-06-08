@@ -1,19 +1,14 @@
 package com.basicsteps.multipos.worker.handling.handler.config
 
 import com.basicsteps.multipos.core.handler.BaseCRUDHandler
-import com.basicsteps.multipos.core.DbManager
 import com.basicsteps.multipos.core.dao.DataStoreException
 import com.basicsteps.multipos.core.model.exceptions.NotExistsException
-import com.basicsteps.multipos.core.model.exceptions.ReadDbFailedException
-import com.basicsteps.multipos.core.model.exceptions.UpdateDbFailedException
 import com.basicsteps.multipos.core.model.exceptions.WriteDbFailedException
 import com.basicsteps.multipos.core.response.MultiPosResponse
-import com.basicsteps.multipos.core.response.MultiposRequest
-import com.basicsteps.multipos.model.DocumentType
+import com.basicsteps.multipos.model.InventoryOperation
 import com.basicsteps.multipos.model.StatusMessages
 import com.basicsteps.multipos.model.entities.*
 import com.basicsteps.multipos.utils.JsonUtils
-import com.basicsteps.multipos.worker.handling.dao.UnitEntityDao
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.vertx.core.Vertx
 import io.vertx.core.eventbus.Message
@@ -50,10 +45,13 @@ class OrderHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
                     })
                     ?.flatMap ({
                         ref = it.toMutableList()
-                        dbManager.productStateDao?.decreaseProductStateCount(it)
+                        dbManager.productStateDao?.decreaseProductStateCountList(it)
                     })
                     ?.flatMap({
                         dbManager.inventoryDao?.addSaleOperation(ref, orderId = order.id!!)
+                    })
+                    ?.flatMap({
+                        dbManager.warehouseQueueDao?.decreaseWarehouseQueueList(ref)
                     })
                     ?. flatMap({
                         dbManager.paymentDao?.saveAll(order.listOfPayments!!, order.userId!!)

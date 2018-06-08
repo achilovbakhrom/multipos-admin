@@ -108,11 +108,14 @@ data class OrderHistory(@SerializedName("status") var status: String?,
 data class ListItem(@SerializedName("product_id") var productId: String?,
                     @SerializedName("quantity") var quantity: Double?,
                     @SerializedName("unit_id") var unitId: String?,
-                    @SerializedName("cost") var cost: Double?) : BaseModel(), Serializable {
+                    @SerializedName("cost") var cost: Double?,
+                    @SerializedName("queue_type") var queueType: Int?,
+                    @SerializedName("warehouse_id") var warehouseId: String?,
+                    @SerializedName("queue_id") var queueId: String?) : BaseModel(), Serializable {
 
     //TODO Order History
 
-    constructor() : this("", 0.0, "", 0.0)
+    constructor() : this("", 0.0, "", 0.0, 0, "", "")
 
     override fun instance() : Instanceable {
         val result = ListItem()
@@ -136,6 +139,9 @@ data class ListItem(@SerializedName("product_id") var productId: String?,
         result.quantity = quantity
         result.unitId = unitId
         result.cost = cost
+        result.queueType = queueType
+        result.warehouseId = warehouseId
+        result.queueId = queueId
 
         return result
     }

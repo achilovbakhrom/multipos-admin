@@ -18,9 +18,11 @@ data class IncomingProduct(@SerializedName("product_id") var productId: String?,
                            @SerializedName("quantity") var quantity: Double?,
                            @SerializedName("unit_id") var unitId: String?,
                            @SerializedName("cost") var cost: Double?,
-                           @SerializedName("purchased") var purchased: Boolean?) : BaseModel(), Serializable {
+                           @SerializedName("purchased") var purchased: Boolean?,
+                           @SerializedName("production_date") var productionDate: Long?,
+                           @SerializedName("expiry_date") var expiryDate: Long?) : BaseModel(), Serializable {
 
-    constructor() : this("",0.0, "", 0.0, false)
+    constructor() : this("",0.0, "", 0.0, false, 0, 0)
 
     override fun instance() : Instanceable {
         val result = IncomingProduct()
@@ -45,6 +47,8 @@ data class IncomingProduct(@SerializedName("product_id") var productId: String?,
         result.unitId = unitId
         result.cost = cost
         result.purchased = purchased
+        result.productionDate = productionDate
+        result.expiryDate = expiryDate
 
         return result
     }

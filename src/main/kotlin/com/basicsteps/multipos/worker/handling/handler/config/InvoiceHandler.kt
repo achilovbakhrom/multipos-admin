@@ -58,16 +58,16 @@ class InvoiceHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
                             productStateList.add(element)
                         }
 //                        dbManager.productDao?.saveAll(it, invoice.userId!!)
-                        dbManager.productStateDao?.saveAll(productStateList, invoice.userId!!)
+                        dbManager.productStateDao?.saveAllIfNotExists(productStateList)
                     })
                     ?.flatMap({
                         val inventoryList = mutableListOf<Inventory>()
-                        for (item in it){
+                        for (item in ref){
                             val element = Inventory()
                             element.unitId = item.unitId
                             element.quantity = item.quantity
                             element.productId = item.productId
-                            element.vendorId = item.vendorId
+                            element.vendorId = invoice.vendorId
                             element.sourceId = invoice.id
                             element.operation = InventoryOperation.INVOICE.value()
                             inventoryList.add(element)
@@ -86,6 +86,23 @@ class InvoiceHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
                             productCostList.add(element)
                         }
                         dbManager.productCostDao?.saveAll(productCostList, invoice.userId!!)
+                    })
+                    ?.flatMap({
+                        val warehouseQueue = mutableListOf<WarehouseQueue>()
+                        for (item in ref){
+                            val element = WarehouseQueue()
+                            element.productionDate = item.productionDate
+                            element.expiryDate = item.expiryDate
+                            element.operation = InventoryOperation.INVOICE.value()
+                            element.sourceId = invoice.id
+                            element.quantitySold = 0.0
+                            element.quantityReceived = item.quantity
+                            element.quantityAvailable = item.quantity
+                            element.warehouseId = invoice.warehouseId
+                            element.incomingProductId = item.productId
+                            warehouseQueue.add(element)
+                        }
+                        dbManager.warehouseQueueDao?.saveAll(warehouseQueue, invoice.userId!!)
                     })
                     ?.flatMap({
                         dbManager.paymentDao?.saveAll(invoice.listOfPayments!!, invoice.userId!!)

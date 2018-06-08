@@ -163,5 +163,8 @@ enum class EndpointUriOperationId(val endpoint: String) {
     INVOICE_GET("invoice-get"),
     INVOICE_DELETE("invoice-delete"),
 
+    //Inventory
+    CHANGE_PRODUCT_COUNT_INVENTORY("change-product-count-inventory"),
+
 
 }

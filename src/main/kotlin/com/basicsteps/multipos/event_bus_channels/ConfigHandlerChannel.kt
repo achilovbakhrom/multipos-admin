@@ -137,6 +137,9 @@ enum class ConfigHandlerChannel(val channel: String) {
     INVOICE_GET("INVOICE_GET"),
     INVOICE_DELETE("INVOICE_DELETE"),
 
+    //Inventory
+    CHANGE_PRODUCT_COUNT_INVENTORY("CHANGE_PRODUCT_COUNT_INVENTORY"),
+
     ;
 
 

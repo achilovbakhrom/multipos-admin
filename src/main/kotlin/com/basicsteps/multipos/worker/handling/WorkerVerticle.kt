@@ -196,6 +196,9 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.INVOICE_GET.value(), { configHandler?.getInvoiceById(it)})
         registerHandler(ConfigHandlerChannel.INVOICE_LIST.value(), { configHandler?.getInvoiceList(it)})
         registerHandler(ConfigHandlerChannel.INVOICE_DELETE.value(), { configHandler?.deleteInvoice(it)})
+
+        //Inventory
+        registerHandler(ConfigHandlerChannel.CHANGE_PRODUCT_COUNT_INVENTORY.value(), { configHandler?.changeProductCountInventory(it)})
     }
 
     private fun registerHandler(channelName: String, handler: (Message<String>) -> Unit) {

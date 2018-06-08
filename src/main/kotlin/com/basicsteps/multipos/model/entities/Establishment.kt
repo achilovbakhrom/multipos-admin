@@ -13,12 +13,13 @@ data class Establishment(@SerializedName("name") var name: String,
                          @SerializedName("pos_ids") var posIds: List<String>,
                          @SerializedName("warehouse_id") var warehouseId: List<String>,
                          @SerializedName("pos_list") var posList: List<POS>?,
-                         @SerializedName("image_url") var imageUrl: String?) : BaseModel() {
+                         @SerializedName("image_url") var imageUrl: String?,
+                         @SerializedName("main_warehouse") var mainWarehouse: String?) : BaseModel() {
 
 
 
 
-    constructor() : this("", "", "", listOf(), listOf(), listOf(), "")
+    constructor() : this("", "", "", listOf(), listOf(), listOf(), "", "")
 
     override fun instance(): Instanceable {
 
@@ -41,6 +42,7 @@ data class Establishment(@SerializedName("name") var name: String,
         result.imageUrl = imageUrl
         result.posList = posList
         result.warehouseId = warehouseId
+        result.mainWarehouse= mainWarehouse
 
         return result
     }

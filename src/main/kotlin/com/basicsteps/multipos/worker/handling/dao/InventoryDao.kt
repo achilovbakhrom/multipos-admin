@@ -8,7 +8,6 @@ import com.basicsteps.multipos.core.model.exceptions.ReadDbFailedException
 import com.basicsteps.multipos.model.InventoryOperation
 import com.basicsteps.multipos.model.entities.Inventory
 import com.basicsteps.multipos.model.entities.ListItem
-import com.basicsteps.multipos.model.entities.ProductState
 import de.braintags.io.vertx.pojomapper.mongo.MongoDataStore
 import io.reactivex.Observable
 
@@ -36,6 +35,7 @@ class InventoryDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDao<I
                         inventory.productId = it.productId
                         inventory.quantity = listItem.quantity
                         inventory.unitId = it.unitId
+                        inventory.warehouseId = listItem.warehouseId
 
                         save(inventory)
                     })

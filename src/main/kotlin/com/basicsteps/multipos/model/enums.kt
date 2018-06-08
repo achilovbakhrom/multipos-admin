@@ -43,6 +43,13 @@ enum class InventoryOperation(val type: Int) {
     fun value() : Int = type
 }
 
+enum class QueueType(val type: Int) {
+    FIFO(0),
+    LIFO(1),
+    FEFO(2);
+    fun value() : Int = type
+}
+
 enum class ContactType(val type: Int) {
     PHONE(0),
     EMAIL(1),
