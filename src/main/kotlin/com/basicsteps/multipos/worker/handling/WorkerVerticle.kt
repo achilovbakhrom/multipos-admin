@@ -199,6 +199,13 @@ class WorkerVerticle : AbstractVerticle() {
 
         //Inventory
         registerHandler(ConfigHandlerChannel.CHANGE_PRODUCT_COUNT_INVENTORY.value(), { configHandler?.changeProductCountInventory(it)})
+
+        //Exchange
+        registerHandler(ConfigHandlerChannel.ESTABLISHMENT_CREATE.value(), { configHandler?.createExchange(it) })
+        registerHandler(ConfigHandlerChannel.ESTABLISHMENT_UPDATE.value(), { configHandler?.updateExchange(it) })
+        registerHandler(ConfigHandlerChannel.ESTABLISHMENT_GET.value(), { configHandler?.getExchangeById(it) })
+        registerHandler(ConfigHandlerChannel.ESTABLISHMENT_LIST.value(), { configHandler?.getExchangeList(it) })
+        registerHandler(ConfigHandlerChannel.ESTABLISHMENT_DELETE.value(), { configHandler?.deleteExchange(it) })
     }
 
     private fun registerHandler(channelName: String, handler: (Message<String>) -> Unit) {

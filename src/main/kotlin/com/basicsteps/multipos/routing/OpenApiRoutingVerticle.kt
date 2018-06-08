@@ -242,6 +242,13 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 registerHandler(routerFactory, EndpointUriOperationId.CHANGE_PRODUCT_COUNT_INVENTORY, { configRouter?.changeProductCountInventory(it) })
 
 
+                //Exchange
+                registerHandler(routerFactory, EndpointUriOperationId.EXCHANGE_CREATE, { configRouter?.createExchange(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EXCHANGE_UPDATE, { configRouter?.updateExchange(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EXCHANGE_GET, { configRouter?.getExchangeById(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EXCHANGE_LIST, { configRouter?.getExchangeList(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.EXCHANGE_DELETE, { configRouter?.deleteExchange(it) })
+
                 //CORS accesses
                 val router = routerFactory.router
                 router.route().handler(CorsHandler.create("*").putCorsAccesses())

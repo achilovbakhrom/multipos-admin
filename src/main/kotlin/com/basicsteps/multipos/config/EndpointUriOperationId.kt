@@ -166,5 +166,11 @@ enum class EndpointUriOperationId(val endpoint: String) {
     //Inventory
     CHANGE_PRODUCT_COUNT_INVENTORY("change-product-count-inventory"),
 
+    //Exchange
+    EXCHANGE_CREATE("exchange-create"),
+    EXCHANGE_UPDATE("exchange-update"),
+    EXCHANGE_LIST("exchange-list"),
+    EXCHANGE_GET("exchange-get"),
+    EXCHANGE_DELETE("exchange-delete"),
 
 }
