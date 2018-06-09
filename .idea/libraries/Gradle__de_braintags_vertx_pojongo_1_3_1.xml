@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: de.braintags:vertx-pojongo:1.3.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.braintags/vertx-pojongo/1.3.1/c943f53e602e2f71a037a19cb66a882417f8ffe3/vertx-pojongo-1.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.braintags/vertx-pojongo/1.3.1/a534f378429432890370d6c9cdc403d8c1c36dc4/vertx-pojongo-1.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

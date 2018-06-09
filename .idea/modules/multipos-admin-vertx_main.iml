@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="multipos-admin-vertx:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.basicsteps.multipos" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module version="4">
+  <component name="ExternalSystem" externalSystem="GRADLE" externalSystemModuleGroup="com.basicsteps.multipos" externalSystemModuleType="sourceSet" externalSystemModuleVersion="1.0-SNAPSHOT" linkedProjectId="multipos-admin-vertx:main" linkedProjectPath="$MODULE_DIR$/../.." rootProjectPath="$MODULE_DIR$/../.." />
   <component name="FacetManager">
-    <facet type="web" name="Web Gradle : jcg-gradle-war-example-1.0-SNAPSHOT.war">
-      <configuration>
-        <webroots>
-          <root url="file://$MODULE_DIR$/../../WebContent" relative="/" />
-        </webroots>
-      </configuration>
-    </facet>
     <facet type="kotlin-language" name="Kotlin">
       <configuration version="3" platform="JVM 1.8" useProjectSettings="false">
         <compilerSettings />
@@ -28,6 +22,13 @@
             <array />
           </option>
         </compilerArguments>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web Gradle : jcg-gradle-war-example-1.0-SNAPSHOT.war">
+      <configuration>
+        <webroots>
+          <root url="file://C:\MyFolder\Multi-Pos\multipos-admin\WebContent" relative="/" />
+        </webroots>
       </configuration>
     </facet>
   </component>
