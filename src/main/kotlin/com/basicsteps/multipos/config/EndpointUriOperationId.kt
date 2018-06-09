@@ -170,5 +170,11 @@ enum class EndpointUriOperationId(val endpoint: String) {
     SURPLUS("surplus"),
     WASTE("waste"),
 
+    //Exchange
+    EXCHANGE_CREATE("exchange-create"),
+    EXCHANGE_UPDATE("exchange-update"),
+    EXCHANGE_LIST("exchange-list"),
+    EXCHANGE_GET("exchange-get"),
+    EXCHANGE_DELETE("exchange-delete"),
 
 }

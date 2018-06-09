@@ -4342,6 +4342,181 @@ paths:
         default:
           description: unexpected error
 
+  /api/v1/exchange/create:
+    post:
+      summary: Create an exchange object
+      operationId: exchange-create
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Exchange"
+      responses:
+        '200':
+          description: Returns create exchange object
+          content:
+            applicaitn/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Exchange"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+            description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/exchange/update:
+    put:
+      summary: Updates the exchange object
+      operationId: exchange-update
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Exchange"
+      responses:
+        '200':
+          description: Returns create exchange object
+          content:
+            applicaitn/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Exchange"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+            description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/exchange/delete/{id}:
+    delete:
+      summary: Deletes exchange object by id given by path
+      operationId: exchange-delete
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns create exchange object
+          content:
+            applicaitn/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Exchange"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+            description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/exchange/{id}:
+    get:
+      summary: Returns exchange object by given id
+      operationId: exchange-get
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns create exchange object
+          content:
+            applicaitn/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Exchange"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        '500':
+            description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/exchange-list:
+    get:
+      summary: Returns exchange list
+      operationId: exchange-list
+      parameters:
+        - name: page_size
+          in: query
+          description: product list pageSize
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Product list page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: returned product list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Exchange"
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  code:
+                    type: integer
+        default:
+          description: unexpected error
+
 components:
   securitySchemes:
     TenantSecurity:
@@ -4683,3 +4858,15 @@ components:
           type: string
         type:
           type: integer
+
+    Exchange:
+      type: object
+      properties:
+        id:
+          type: string
+        source_id:
+          type: string
+        exchanging_id:
+          type: string
+        rate:
+          type: number

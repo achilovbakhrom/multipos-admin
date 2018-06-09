@@ -144,7 +144,15 @@ enum class ConfigHandlerChannel(val channel: String) {
     SURPLUS("SURPLUS"),
     WASTE("WASTE"),
 
+    //Exchange
+    EXCHANGE_CREATE("EXCHANGE_CREATE"),
+    EXCHANGE_UPDATE("EXCHANGE_UPDATE"),
+    EXCHANGE_LIST("EXCHANGE_LIST"),
+    EXCHANGE_GET("EXCHANGE_GET"),
+    EXCHANGE_DELETE("EXCHANGE_DELETE")
     ;
+
+
 
 
 

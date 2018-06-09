@@ -477,6 +477,28 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
         RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.WASTE.value())
     }
 
+    /**
+     *  Exchange
+     */
+    fun createExchange(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.EXCHANGE_CREATE.value())
+    }
+
+    fun updateExchange(routingContext: RoutingContext) {
+        RouteBuilder().put().handle(vertx, routingContext, ConfigHandlerChannel.EXCHANGE_UPDATE.value())
+    }
+
+    fun getExchangeList(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.EXCHANGE_LIST.value())
+    }
+
+    fun getExchangeById(routingContext: RoutingContext) {
+        RouteBuilder().get().handle(vertx, routingContext, ConfigHandlerChannel.EXCHANGE_GET.value())
+    }
+
+    fun deleteExchange(routingContext: RoutingContext) {
+        RouteBuilder().delete().handle(vertx, routingContext, ConfigHandlerChannel.EXCHANGE_DELETE.value())
+    }
 
     // ---------------- Combo routes --------------------
     fun createComboProduct(routingContext: RoutingContext) {

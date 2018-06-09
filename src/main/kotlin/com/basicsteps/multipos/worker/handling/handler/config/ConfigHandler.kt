@@ -51,6 +51,7 @@ class ConfigHandler(vertx: Vertx) {
     var customerGroupHandler: CustomerGroupHandler? = null
     var invoiceHandler: InvoiceHandler? = null
     var inventoryHandler: InventoryHandler? = null
+    var exchangeHandler: ExchangeHandler? = null
     /**
      *  init of all handlers
      */
@@ -78,6 +79,7 @@ class ConfigHandler(vertx: Vertx) {
         customerGroupHandler = CustomerGroupHandler(vertx)
         invoiceHandler = InvoiceHandler(vertx)
         inventoryHandler = InventoryHandler(vertx)
+        exchangeHandler = ExchangeHandler(vertx)
     }
 
     /**
@@ -389,6 +391,30 @@ class ConfigHandler(vertx: Vertx) {
     }
     fun deleteProduct(message: Message<String>) {
         productHandler?.trashProductById(message)
+    }
+
+    /**
+     *  Exchange
+     */
+
+    fun createExchange(message: Message<String>) {
+        exchangeHandler?.createExchange(message)
+    }
+
+    fun updateExchange(message: Message<String>) {
+        exchangeHandler?.updateExchange(message)
+    }
+
+    fun getExchangeById(message: Message<String>) {
+        exchangeHandler?.getExchangeById(message)
+    }
+
+    fun getExchangeList(message: Message<String>) {
+        exchangeHandler?.getExchangeList(message)
+    }
+
+    fun deleteExchange(message: Message<String>) {
+        exchangeHandler?.deleteExchange(message)
     }
 
     /**

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/multipos-admin-vertx.iml" filepath="$PROJECT_DIR$/.idea/modules/multipos-admin-vertx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/multipos-admin-vertx_main.iml" filepath="$PROJECT_DIR$/.idea/modules/multipos-admin-vertx_main.iml" group="multipos-admin-vertx" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/multipos-admin-vertx_test.iml" filepath="$PROJECT_DIR$/.idea/modules/multipos-admin-vertx_test.iml" group="multipos-admin-vertx" />
+    </modules>
+  </component>
+</project>

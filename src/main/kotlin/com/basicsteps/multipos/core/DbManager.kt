@@ -58,6 +58,7 @@ class DbManager(vertx: Vertx) {
     var returnToVendorDao: ReturnToVendorDao? = null
     var surplusProductDao: SurplusProductDao? = null
     var wasteProductDao: WasteProductDao? = null
+    var exchangeDao: ExchangeDao? = null
 
     private var vertx: Vertx? = vertx
 
@@ -113,6 +114,7 @@ class DbManager(vertx: Vertx) {
         productCostDao                  = ProductCostDao(this, null)
         inventoryDao                    = InventoryDao(this, null)
         paymentDao                      = PaymentDao(this, null)
+        exchangeDao                     = ExchangeDao(this, null)
         returnFromCustomerDao           = ReturnFromCustomerDao(this, null)
         returnToVendorDao               = ReturnToVendorDao(this, null)
         surplusProductDao               = SurplusProductDao(this, null)
@@ -182,6 +184,7 @@ class DbManager(vertx: Vertx) {
             productCostDao?.dataStore               = temp
             inventoryDao?.dataStore                 = temp
             paymentDao?.dataStore                   = temp
+            exchangeDao?.dataStore                  = temp
             returnFromCustomerDao?.dataStore        = temp
             returnToVendorDao?.dataStore            = temp
             surplusProductDao?.dataStore            = temp
