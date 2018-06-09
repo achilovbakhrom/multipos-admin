@@ -12,7 +12,7 @@ import de.braintags.io.vertx.pojomapper.mongo.MongoDataStore
 import io.reactivex.Observable
 
 class InventoryDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDao<Inventory>(dbManager, dataStore, Inventory::class.java){
-    fun addSaleOperation(idList: List<ListItem>, orderId: String) : Observable<List<Inventory>> {
+    fun addOperation(idList: List<ListItem>, orderId: String, operationType: Int) : Observable<List<Inventory>> {
         return Observable.create({ event ->
             val count = idList.count()
             var counter = 0
@@ -30,7 +30,7 @@ class InventoryDao(dbManager: DbManager, dataStore: MongoDataStore?) : BaseDao<I
                     .flatMap ({
                         var inventory: Inventory = Inventory()
                         inventory.sourceId = orderId
-                        inventory.operation = InventoryOperation.SALE.value()
+                        inventory.operation = operationType
                         inventory.vendorId = it.vendorId
                         inventory.productId = it.productId
                         inventory.quantity = listItem.quantity

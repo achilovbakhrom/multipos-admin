@@ -139,6 +139,10 @@ enum class ConfigHandlerChannel(val channel: String) {
 
     //Inventory
     CHANGE_PRODUCT_COUNT_INVENTORY("CHANGE_PRODUCT_COUNT_INVENTORY"),
+    RETURN_FROM_CUSTOMER("RETURN_FROM_CUSTOMER"),
+    RETURN_TO_VENDOR("RETURN_TO_VENDOR"),
+    SURPLUS("SURPLUS"),
+    WASTE("WASTE"),
 
     ;
 

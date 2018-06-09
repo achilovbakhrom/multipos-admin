@@ -48,7 +48,7 @@ class OrderHandler(vertx: Vertx) : BaseCRUDHandler(vertx) {
                         dbManager.productStateDao?.decreaseProductStateCountList(it)
                     })
                     ?.flatMap({
-                        dbManager.inventoryDao?.addSaleOperation(ref, orderId = order.id!!)
+                        dbManager.inventoryDao?.addOperation(ref, orderId = order.id!!, operationType = InventoryOperation.SALE.value())
                     })
                     ?.flatMap({
                         dbManager.warehouseQueueDao?.decreaseWarehouseQueueList(ref)

@@ -239,7 +239,10 @@ class OpenApiRoutingVerticle : AbstractVerticle() {
                 registerHandler(routerFactory, EndpointUriOperationId.INVOICE_DELETE, { configRouter?.deleteInvoice(it) })
 
                 //Inventory
-                registerHandler(routerFactory, EndpointUriOperationId.CHANGE_PRODUCT_COUNT_INVENTORY, { configRouter?.changeProductCountInventory(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.RETURN_FROM_CUSTOMER, { configRouter?.returnFromCustomer(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.RETORN_TO_VENDOR, { configRouter?.returnToVendor(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.SURPLUS, { configRouter?.surplus(it) })
+                registerHandler(routerFactory, EndpointUriOperationId.WASTE, { configRouter?.waste(it) })
 
 
                 //CORS accesses

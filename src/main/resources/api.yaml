@@ -4206,10 +4206,10 @@ paths:
         default:
           description: unexpected error
 
-  /api/v1/inventory/change-product-count-inventory:
+  /api/v1/inventory/return-to-vendor:
     post:
-      summary: Changes product count in inventory
-      operationId: change-product-count-inventory
+      summary: Returns products to vendor
+      operationId: return-to-vendor
       security:
         - OAuth2: [read, write, profile]
         - TenantSecurity: []
@@ -4222,7 +4222,109 @@ paths:
 #              $ref: "#/components/schemas/ServiceFee"
       responses:
         '200':
-          description: Returns change operation result
+          description: Returns returned-to-vendor products
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/inventory/return-from-customer:
+    post:
+      summary: Returns products from customer
+      operationId: return-from-customer
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns returned-from-customer products
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/inventory/surplus:
+    post:
+      summary: Returns product surplus
+      operationId: surplus
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns surplus product
+#          content:
+#            applicaitn/json:
+#              schema:
+#                type: object
+#                properties:
+#                  data:
+#                    $ref: "#/components/schemas/ServiceFee"
+#                  status:
+#                    type: string
+#                    enum: [Success, Error]
+#                  code:
+#                    type: integer
+        '500':
+          description: Something went wrong on server side. Please contact with company.
+        default:
+          description: unexpected error
+
+  /api/v1/inventory/waste:
+    post:
+      summary: Returns product waste
+      operationId: waste
+      security:
+        - OAuth2: [read, write, profile]
+        - TenantSecurity: []
+      tags:
+        - config
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "#/components/schemas/ServiceFee"
+      responses:
+        '200':
+          description: Returns waste product
 #          content:
 #            applicaitn/json:
 #              schema:

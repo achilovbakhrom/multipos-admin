@@ -460,8 +460,21 @@ class ConfigRouter(vertx: Vertx): BaseRouter(vertx) {
     /**
      *  Inventory
      */
-    fun changeProductCountInventory(routingContext: RoutingContext) {
-        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.CHANGE_PRODUCT_COUNT_INVENTORY.value())
+
+    fun returnFromCustomer(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.RETURN_FROM_CUSTOMER.value())
+    }
+
+    fun returnToVendor(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.RETURN_TO_VENDOR.value())
+    }
+
+    fun surplus(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.SURPLUS.value())
+    }
+
+    fun waste(routingContext: RoutingContext) {
+        RouteBuilder().post().handle(vertx, routingContext, ConfigHandlerChannel.WASTE.value())
     }
 
 

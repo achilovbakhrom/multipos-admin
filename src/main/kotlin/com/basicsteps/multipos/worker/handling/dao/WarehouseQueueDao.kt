@@ -50,7 +50,6 @@ class WarehouseQueueDao(dbManager: DbManager, dataStore: MongoDataStore?) : Base
             var ascending = true
             if(queueType == QueueType.LIFO.value())
                 ascending = false
-            if(queueType == QueueType.FEFO.value())
             if (dataStore != null) {
                 //TODO query quantity available > 0
                 val findQuery = dataStore?.createQuery(clazz)

@@ -335,8 +335,20 @@ class ConfigHandler(vertx: Vertx) {
     /**
      *  Inventory
      */
-    fun changeProductCountInventory(message: Message<String>) {
-        inventoryHandler?.changeProductCountInventory(message)
+    fun returnFromCustomer(message: Message<String>) {
+        inventoryHandler?.returnFromCustomer(message)
+    }
+
+    fun returnToVendor(message: Message<String>) {
+        inventoryHandler?.returnToVendor(message)
+    }
+
+    fun surplus(message: Message<String>) {
+        inventoryHandler?.surplusProduct(message)
+    }
+
+    fun waste(message: Message<String>) {
+        inventoryHandler?.wasteProduct(message)
     }
 
     /**

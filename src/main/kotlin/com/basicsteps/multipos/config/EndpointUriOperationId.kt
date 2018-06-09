@@ -165,6 +165,10 @@ enum class EndpointUriOperationId(val endpoint: String) {
 
     //Inventory
     CHANGE_PRODUCT_COUNT_INVENTORY("change-product-count-inventory"),
+    RETURN_FROM_CUSTOMER("return-from-customer"),
+    RETORN_TO_VENDOR("return-to-vendor"),
+    SURPLUS("surplus"),
+    WASTE("waste"),
 
 
 }

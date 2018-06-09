@@ -54,6 +54,10 @@ class DbManager(vertx: Vertx) {
     var productCostDao: ProductCostDao? = null
     var inventoryDao: InventoryDao? = null
     var paymentDao: PaymentDao? = null
+    var returnFromCustomerDao: ReturnFromCustomerDao? = null
+    var returnToVendorDao: ReturnToVendorDao? = null
+    var surplusProductDao: SurplusProductDao? = null
+    var wasteProductDao: WasteProductDao? = null
 
     private var vertx: Vertx? = vertx
 
@@ -109,6 +113,11 @@ class DbManager(vertx: Vertx) {
         productCostDao                  = ProductCostDao(this, null)
         inventoryDao                    = InventoryDao(this, null)
         paymentDao                      = PaymentDao(this, null)
+        returnFromCustomerDao           = ReturnFromCustomerDao(this, null)
+        returnToVendorDao               = ReturnToVendorDao(this, null)
+        surplusProductDao               = SurplusProductDao(this, null)
+        wasteProductDao                 = WasteProductDao(this,null)
+
         //UserDao
         if (keycloak != null) userDao = UserDao(this)
         setMongoClientByTenantId(DbConfig.model.commonDbName)
@@ -173,6 +182,10 @@ class DbManager(vertx: Vertx) {
             productCostDao?.dataStore               = temp
             inventoryDao?.dataStore                 = temp
             paymentDao?.dataStore                   = temp
+            returnFromCustomerDao?.dataStore        = temp
+            returnToVendorDao?.dataStore            = temp
+            surplusProductDao?.dataStore            = temp
+            wasteProductDao?.dataStore              = temp
         }
     }
     fun close() { keycloak?.close() }

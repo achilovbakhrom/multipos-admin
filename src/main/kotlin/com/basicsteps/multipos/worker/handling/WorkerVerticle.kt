@@ -198,7 +198,10 @@ class WorkerVerticle : AbstractVerticle() {
         registerHandler(ConfigHandlerChannel.INVOICE_DELETE.value(), { configHandler?.deleteInvoice(it)})
 
         //Inventory
-        registerHandler(ConfigHandlerChannel.CHANGE_PRODUCT_COUNT_INVENTORY.value(), { configHandler?.changeProductCountInventory(it)})
+        registerHandler(ConfigHandlerChannel.RETURN_FROM_CUSTOMER.value(), { configHandler?.returnFromCustomer(it)})
+        registerHandler(ConfigHandlerChannel.RETURN_TO_VENDOR.value(), { configHandler?.returnToVendor(it)})
+        registerHandler(ConfigHandlerChannel.SURPLUS.value(), { configHandler?.surplus(it)})
+        registerHandler(ConfigHandlerChannel.WASTE.value(), { configHandler?.waste(it)})
     }
 
     private fun registerHandler(channelName: String, handler: (Message<String>) -> Unit) {
