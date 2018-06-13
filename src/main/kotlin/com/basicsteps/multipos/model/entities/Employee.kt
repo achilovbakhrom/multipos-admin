@@ -9,7 +9,6 @@ import com.basicsteps.multipos.model.common.MPUser
 import com.google.gson.annotations.SerializedName
 import de.braintags.io.vertx.pojomapper.annotation.Entity
 import de.braintags.io.vertx.pojomapper.annotation.field.Embedded
-import de.braintags.io.vertx.pojomapper.annotation.field.Id
 
 @Entity
 data class Employee(@Embedded @SerializedName("personal_identity_information") var personalIdentityInformation: PersonalIdentityInformation?,
